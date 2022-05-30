@@ -30,11 +30,8 @@ public class User {
 //    @OneToOne
 //    Exam exam;
 
-//    @ManyToMany
+//    @OneToMany
 //    List<UserFeedback> userFeedbackList;
-//
-//    @ManyToMany
-//    List<CompanyFeedback> companyFeedbackList;
 //
 //    @OneToMany
 //    List<Resume> resumeList;
@@ -42,7 +39,7 @@ public class User {
 //    @ManyToMany
 //    List<VacancyResponse> vacancyResponseList;
 //
-//    @ManyToMany
+//    @OneToMany
 //    List<Message> messageList;
 
 

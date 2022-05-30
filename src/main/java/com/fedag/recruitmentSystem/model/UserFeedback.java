@@ -27,8 +27,9 @@ public class UserFeedback {
     @Enumerated(EnumType.STRING)
     EntityFromType entityType;
 
-//    @OneToOne
-//    User user;
+    @ManyToOne
+    @JoinColumn(name = "user_to_id")
+    User user;
 
 
 
