@@ -4,12 +4,12 @@ import com.fedag.recruitmentSystem.dao.ResumeRepository;
 import com.fedag.recruitmentSystem.exceptions.NotFoundException;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.ResumeService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
     private final ResumeRepository resumeRepository;

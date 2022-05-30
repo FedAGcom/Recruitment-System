@@ -4,12 +4,12 @@ import com.fedag.recruitmentSystem.dao.ExperienceRepository;
 import com.fedag.recruitmentSystem.exceptions.NotFoundException;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.service.ExperienceService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExperienceServiceImpl implements ExperienceService {
 
     private final ExperienceRepository experienceRepository;
