@@ -20,6 +20,11 @@ public class SkillController {
     return skillService.index().toString();
   }
 
+  @GetMapping("/skills/{id}")
+  public String getById(@PathVariable Long id) {
+    return skillService.findById(id).toString();
+  }
+
   @PostMapping("/skills/delete/{id}")
   public void deleteVacancy(@PathVariable Long id) {
     skillService.deleteById(id);

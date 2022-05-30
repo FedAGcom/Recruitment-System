@@ -20,6 +20,11 @@ public class CompanyController {
     return companyService.index().toString();
   }
 
+  @GetMapping("/companies/{id}")
+  public String getById(@PathVariable Long id) {
+    return companyService.findById(id).toString();
+  }
+
   @PostMapping("/companies/delete/{id}")
   public void deleteVacancy(@PathVariable Long id) {
     companyService.deleteById(id);

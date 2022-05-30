@@ -20,6 +20,11 @@ public class VacancyController {
     return vacancyService.index().toString();
   }
 
+  @GetMapping("/vacancies/{id}")
+  public String getById(@PathVariable Long id) {
+    return vacancyService.findById(id).toString();
+  }
+
   @PostMapping("/vacancies/delete/{id}")
   public void deleteVacancy(@PathVariable Long id) {
     vacancyService.deleteById(id);
