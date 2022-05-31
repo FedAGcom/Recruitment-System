@@ -45,10 +45,7 @@ public class User {
 //    mappedBy = "user")
 //    private List<Resume> resumeList;
 //
-//    @ManyToMany(mappedBy = "user")
-//    @JoinTable(name = "vacancy_responses",
-//    joinColumns = @JoinColumn(name = "user_id"),
-//    inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+//    @OneToMany(mappedBy = "user")
 //    private List<VacancyResponse> vacancyResponseList;
 //
 //    @OneToMany(mappedBy = "user")

@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.Service.feedbackService;
+package com.fedag.recruitmentSystem.service.feedbackService;
 
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import org.springframework.data.domain.Page;

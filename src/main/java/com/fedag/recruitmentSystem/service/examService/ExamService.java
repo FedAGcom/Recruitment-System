@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.Service.examService;
+package com.fedag.recruitmentSystem.service.examService;
 
 import com.fedag.recruitmentSystem.model.Exam;
 import org.springframework.data.domain.Page;

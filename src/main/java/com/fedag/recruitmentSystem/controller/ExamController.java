@@ -1,6 +1,6 @@
-package com.fedag.recruitmentSystem.Controllers;
+package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.Service.examService.ExamService;
+import com.fedag.recruitmentSystem.service.examService.ExamService;
 import com.fedag.recruitmentSystem.model.Exam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

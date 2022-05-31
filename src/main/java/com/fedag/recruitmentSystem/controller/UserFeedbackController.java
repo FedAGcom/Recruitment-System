@@ -1,6 +1,6 @@
-package com.fedag.recruitmentSystem.Controllers;
+package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.Service.feedbackService.UserFeedbackService;
+import com.fedag.recruitmentSystem.service.feedbackService.UserFeedbackService;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

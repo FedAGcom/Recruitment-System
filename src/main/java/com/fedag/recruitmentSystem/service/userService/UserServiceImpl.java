@@ -1,6 +1,6 @@
-package com.fedag.recruitmentSystem.Service.userService;
+package com.fedag.recruitmentSystem.service.userService;
 
-import com.fedag.recruitmentSystem.Dao.UserRepository;
+import com.fedag.recruitmentSystem.dao.UserRepository;
 import com.fedag.recruitmentSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
