@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
 
+import lombok.Data;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Data

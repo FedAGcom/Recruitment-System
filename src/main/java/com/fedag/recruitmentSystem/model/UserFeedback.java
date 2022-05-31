@@ -1,8 +1,9 @@
 package com.fedag.recruitmentSystem.model;
 
 import com.fedag.recruitmentSystem.enums.EntityFromType;
-import jakarta.persistence.*;
 import lombok.Data;
+
+import javax.persistence.*;
 
 @Data
 @Entity
