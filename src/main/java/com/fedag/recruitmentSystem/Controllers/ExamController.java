@@ -2,35 +2,36 @@ package com.fedag.recruitmentSystem.Controllers;
 
 import com.fedag.recruitmentSystem.Service.examService.ExamService;
 import com.fedag.recruitmentSystem.model.Exam;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/")
+@RequiredArgsConstructor
+@RequestMapping("/api/exams")
 public class ExamController {
-    @Autowired
-    private ExamService examService;
 
-    @GetMapping("/exams")
-    public List<Exam> showAllExams(){
-        List<Exam> allExams = examService.findAllExams();
-        return allExams;
+    private final ExamService examService;
+
+    @GetMapping
+    public Page<Exam> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
+        return examService.findAllExams(pageable);
     }
 
-    @GetMapping("/exams/{id}")
+    @GetMapping("/{id}")
     public Exam getExam(@PathVariable Long id){
         Exam exam = examService.findExamById(id);
         return exam;
     }
 
-    @PostMapping("/exams")
+    @PostMapping("/")
     public void addNewExam(@RequestBody Exam exam){
        examService.saveExam(exam);
     }
 
-    @PutMapping("/exams")
+    @PutMapping("/")
     public void updateExam(@RequestBody Exam exam){
         examService.saveExam(exam);
     }

@@ -1,38 +1,39 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fedag.recruitmentSystem.enums.EntityFromType;
+
+import com.fedag.recruitmentSystem.enums.TypeEntityFromSendFeedbackToUser;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "user_feedback")
 public class UserFeedback {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "stars")
-    byte stars;
+    private byte stars;
 
     @Column(name = "comment")
-    String comment;
+    private String comment;
 
     @Column(name = "entity_from_id")
-    Long entityFromId;
+    private Long entityFromId;
 
     @Column(name = "entity_from_type")
     @Enumerated(EnumType.STRING)
-    EntityFromType entityType;
+    private TypeEntityFromSendFeedbackToUser entityType;
 
     @ManyToOne
     @JoinColumn(name = "user_to_id")
-    User user;
-
-
-
-
+    private User user;
 }

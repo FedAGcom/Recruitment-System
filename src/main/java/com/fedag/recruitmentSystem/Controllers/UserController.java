@@ -2,43 +2,43 @@ package com.fedag.recruitmentSystem.Controllers;
 
 import com.fedag.recruitmentSystem.Service.userService.UserService;
 import com.fedag.recruitmentSystem.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/")
+@RequiredArgsConstructor
+@RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @GetMapping("/users")
-    public List<User> showAllUsers(){
-        List<User> allUsers = userService.findAllUsers();
-        return allUsers;
+    @GetMapping
+    public Page<User> showAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+        return userService.findAllUsers(pageable);
     }
 
-    @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
         User user = userService.findUserById(id);
         return user;
     }
 
-    @PostMapping("/users")
-    public void addNewUser(@RequestBody User user){
+    @PostMapping("/")
+    public void addNewUser(@RequestBody User user) {
         userService.saveUser(user);
     }
 
-    @PutMapping("/users")
-    public void updateUser(@RequestBody User user){
-       userService.saveUser(user);
+    @PutMapping("/")
+    public void updateUser(@RequestBody User user) {
+        userService.saveUser(user);
     }
 
-    @DeleteMapping("/users/{id}")
-    public void deleteUser(@PathVariable Long id){
-      userService.deleteUserById(id);
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUserById(id);
     }
 
 

@@ -1,44 +1,43 @@
 package com.fedag.recruitmentSystem.Controllers;
 
 import com.fedag.recruitmentSystem.Service.feedbackService.UserFeedbackService;
-import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.model.UserFeedback;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/")
+@RequiredArgsConstructor
+@RequestMapping("/api/feedback")
 public class UserFeedbackController {
 
-    @Autowired
-    UserFeedbackService userFeedbackService;
+    private final UserFeedbackService userFeedbackService;
 
-    @GetMapping("/feedback")
-    public List<UserFeedback> showAllFeedback(){
-        List<UserFeedback> allUserFeedback = userFeedbackService.findAllUserFeedback();
-        return allUserFeedback;
+    @GetMapping
+    public Page<UserFeedback> showAllFeedback(@PageableDefault(size = 5) Pageable pageable) {
+        return userFeedbackService.findAllUserFeedback(pageable);
     }
 
-    @GetMapping("/feedback/{id}")
-    public UserFeedback getUserFeedback(@PathVariable Long id){
+    @GetMapping("/{id}")
+    public UserFeedback getUserFeedback(@PathVariable Long id) {
         UserFeedback userFeedback = userFeedbackService.findUserFeedbackById(id);
         return userFeedback;
     }
 
-    @PostMapping("/feedback")
-    public void addNewUserFeedback(@RequestBody UserFeedback userFeedback){
+    @PostMapping("/")
+    public void addNewUserFeedback(@RequestBody UserFeedback userFeedback) {
         userFeedbackService.saveUserFeedback(userFeedback);
     }
 
-    @PutMapping("/feedback")
-    public void updateUserFeedback(@RequestBody UserFeedback userFeedback){
+    @PutMapping("/")
+    public void updateUserFeedback(@RequestBody UserFeedback userFeedback) {
         userFeedbackService.saveUserFeedback(userFeedback);
     }
 
-    @DeleteMapping("/feedback/{id}")
-    public void deleteUserFeedback(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public void deleteUserFeedback(@PathVariable Long id) {
         userFeedbackService.deleteUserFeedbackById(id);
     }
 }

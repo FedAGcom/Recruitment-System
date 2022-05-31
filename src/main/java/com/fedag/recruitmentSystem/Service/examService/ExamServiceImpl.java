@@ -1,31 +1,36 @@
 package com.fedag.recruitmentSystem.Service.examService;
 
 import com.fedag.recruitmentSystem.Dao.ExamRepository;
-import com.fedag.recruitmentSystem.Dao.UserRepository;
 import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ExamServiceImpl implements ExamService {
 
-    @Autowired
-    ExamRepository examRepository;
-    
+    private final ExamRepository examRepository;
+
     @Override
     public List<Exam> findAllExams() {
         return examRepository.findAll();
+
+    }
+
+    public Page<Exam> findAllExams(Pageable pageable) {
+        return examRepository.findAll(pageable);
     }
 
     @Override
     public Exam findExamById(Long id) {
         Exam exam = null;
         Optional<Exam> examOptional = examRepository.findById(id);
-        if(examOptional.isPresent()){
+        if (examOptional.isPresent()) {
             exam = examOptional.get();
         }
         return exam;
@@ -35,8 +40,6 @@ public class ExamServiceImpl implements ExamService {
     public void saveExam(Exam exam) {
         examRepository.save(exam);
     }
-
-
 
     @Override
     public void deleteExamById(Long id) {

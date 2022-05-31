@@ -1,19 +1,20 @@
 package com.fedag.recruitmentSystem.Service.userService;
 
 import com.fedag.recruitmentSystem.Dao.UserRepository;
-import com.fedag.recruitmentSystem.Service.userService.UserService;
 import com.fedag.recruitmentSystem.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<User> findAllUsers() {
@@ -21,10 +22,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+    @Override
     public User findUserById(Long id) {
         User user = null;
         Optional<User> userOptional = userRepository.findById(id);
-        if(userOptional.isPresent()){
+        if (userOptional.isPresent()) {
             user = userOptional.get();
         }
         return user;

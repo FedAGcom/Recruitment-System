@@ -2,18 +2,19 @@ package com.fedag.recruitmentSystem.Service.feedbackService;
 
 import com.fedag.recruitmentSystem.Dao.UserFeedbackRepository;
 import com.fedag.recruitmentSystem.model.UserFeedback;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserFeedbackServiceImpl implements UserFeedbackService {
 
-    @Autowired
-    UserFeedbackRepository userFeedbackRepository;
-
+    private final UserFeedbackRepository userFeedbackRepository;
 
     @Override
     public List<UserFeedback> findAllUserFeedback() {
@@ -21,10 +22,15 @@ public class UserFeedbackServiceImpl implements UserFeedbackService {
     }
 
     @Override
+    public Page<UserFeedback> findAllUserFeedback(Pageable pageable) {
+        return userFeedbackRepository.findAll(pageable);
+    }
+
+    @Override
     public UserFeedback findUserFeedbackById(Long id) {
         UserFeedback userFeedback = null;
         Optional<UserFeedback> userFeedbackOptional = userFeedbackRepository.findById(id);
-        if(userFeedbackOptional.isPresent()){
+        if (userFeedbackOptional.isPresent()) {
             userFeedback = userFeedbackOptional.get();
         }
         return userFeedback;

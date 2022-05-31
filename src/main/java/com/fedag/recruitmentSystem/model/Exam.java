@@ -1,24 +1,28 @@
 package com.fedag.recruitmentSystem.model;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "entrance_exams")
 public class Exam {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "score")
-    int score;
+    private int score;
 
 //    @OneToOne
-//    User user;
+//    @JoinColumn(name = "user_id")
+//    private User user;
 }
