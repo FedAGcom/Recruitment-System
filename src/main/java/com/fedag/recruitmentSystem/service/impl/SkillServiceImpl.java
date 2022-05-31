@@ -1,32 +1,38 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Skill;
 import com.fedag.recruitmentSystem.repository.SkillRepository;
 import com.fedag.recruitmentSystem.service.SkillService;
 import java.util.List;
-import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SkillServiceImpl implements SkillService<Skill> {
 
   private final SkillRepository skillRepository;
 
   @Override
-  public Skill findById(Long id) {
-    Optional<Skill> skill = skillRepository.findById(id);
-    if (skill.isEmpty()) {
-      throw new IllegalArgumentException("Skill is null");
-    }
-    return skill.get();
+  public List<Skill> getAllSkills() {
+    return skillRepository.findAll();
   }
 
   @Override
-  public List<Skill> index() {
-    return skillRepository.findAll();
+  public Page<Skill> getAllSkills(Pageable pageable) {
+    return skillRepository.findAll(pageable);
+  }
+
+  @Override
+  public Skill findById(Long id) {
+    return skillRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new ObjectNotFoundException("Skill with id: " + id + " not found")
+        );
   }
 
   @Override

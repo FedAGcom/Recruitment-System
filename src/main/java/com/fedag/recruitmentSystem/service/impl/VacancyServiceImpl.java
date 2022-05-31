@@ -1,32 +1,38 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.model.Skill;
+import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
 import com.fedag.recruitmentSystem.service.VacancyService;
 import java.util.List;
-import java.util.Optional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService<Vacancy> {
 
   private final VacancyRepository vacancyRepository;
 
   @Override
-  public Vacancy findById(Long id) {
-    Optional<Vacancy> vacancy = vacancyRepository.findById(id);
-    if (vacancy.isEmpty()) {
-      throw new IllegalArgumentException("Vacancy is null");
-    }
-    return vacancy.get();
+  public List<Vacancy> getAllVacancies() {
+    return vacancyRepository.findAll();
   }
 
   @Override
-  public List<Vacancy> index() {
-    return vacancyRepository.findAll();
+  public Page<Vacancy> getAllVacancies(Pageable pageable) {
+    return vacancyRepository.findAll(pageable);
+  }
+
+  @Override
+  public Vacancy findById(Long id) {
+    return vacancyRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new ObjectNotFoundException("Vacancy with id: " + id + " not found")
+        );
   }
 
   @Override
