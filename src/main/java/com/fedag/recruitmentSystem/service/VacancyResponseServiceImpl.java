@@ -1,30 +1,26 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.dao.VacancyResponseDao;
+import com.fedag.recruitmentSystem.dao.VacancyResponseRepository;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
+@RequiredArgsConstructor
 public class VacancyResponseServiceImpl implements VacancyResponseService {
 
-    private VacancyResponseDao vacancyResponseDao;
-
-    public VacancyResponseServiceImpl(VacancyResponseDao vacancyResponseDao) {
-        this.vacancyResponseDao = vacancyResponseDao;
-    }
+    private final VacancyResponseRepository vacancyResponseRepository;
 
     @Transactional
     @Override
     public VacancyResponse getVacancyResponse(Long id) {
-        return vacancyResponseDao.getReferenceById(id);
+        return vacancyResponseRepository.getById(id);
     }
 
     @Transactional
     @Override
     public VacancyResponse updateVacancyResponse(VacancyResponse vacancyResponse) {
-        return vacancyResponseDao.save(vacancyResponse);
+        return vacancyResponseRepository.save(vacancyResponse);
     }
 }

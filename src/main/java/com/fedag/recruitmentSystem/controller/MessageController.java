@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dao.MessageDao;
 import com.fedag.recruitmentSystem.model.Message;
 import com.fedag.recruitmentSystem.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;

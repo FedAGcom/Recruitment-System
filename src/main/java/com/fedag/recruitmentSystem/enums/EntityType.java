@@ -1,5 +1,5 @@
 package com.fedag.recruitmentSystem.enums;
 
-public enum UserCompany {
+public enum EntityType {
     USER, COMPANY;
 }

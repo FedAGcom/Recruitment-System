@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import com.fedag.recruitmentSystem.model.Message;
 
 import java.util.List;

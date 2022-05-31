@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +25,7 @@ public class VacancyResponse {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "status")
+    @Column(name = "enum_vacancy_responses_status")
     private String status;
 
     /* @ManyToOne

@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,11 +27,11 @@ public class Message {
     @Column(name = "from_entity_message")
     private String fromEntityMessage;
 
-    @Column(name = "data_created")
-    private Timestamp dataCreated;
+    @Column(name = "date_created")
+    private Timestamp dateCreated;
 
-    @Column(name = "is_read")
-    private String isRead;
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "message")
     private String message;

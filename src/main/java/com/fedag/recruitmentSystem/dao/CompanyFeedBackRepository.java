@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompanyFeedBackDao extends JpaRepository<CompanyFeedBack, Long> {
+public interface CompanyFeedBackRepository extends JpaRepository<CompanyFeedBack, Long> {
 }

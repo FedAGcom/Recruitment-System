@@ -1,5 +1,5 @@
 package com.fedag.recruitmentSystem.enums;
 
-public enum MessagesIsRead {
+public enum MessageStatus {
     READ, NO_READ;
 }
