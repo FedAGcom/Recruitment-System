@@ -1,16 +1,13 @@
 package com.fedag.recruitmentSystem.model;
 
-import jakarta.persistence.*;
 import lombok.*;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "experience")
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Experience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,11 +23,12 @@ public class Experience {
     @Column(name = "end_date")
     private LocalDateTime EndDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "resume_id",
             referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "resume_experience_fk")
+            foreignKey = @ForeignKey(name = "experience_resume_id_fkey")
     )
+    @Transient
     private Resume resume;
 }

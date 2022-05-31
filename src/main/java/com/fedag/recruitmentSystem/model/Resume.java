@@ -1,18 +1,15 @@
 package com.fedag.recruitmentSystem.model;
 
 import com.fedag.recruitmentSystem.enums.Status;
-import jakarta.persistence.*;
 import lombok.*;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "resume")
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Resume {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +19,8 @@ public class Resume {
     @Column(name = "resume_name")
     private String resumeName;
 
-    @Column(name = "enum_resume_vacancy_status")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     private Status status;
 
     @OneToMany(
@@ -31,6 +29,7 @@ public class Resume {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.LAZY
     )
+    @Transient
     private List<Experience> experiences = new ArrayList<>();
 
 //    @OneToMany

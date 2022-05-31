@@ -5,6 +5,8 @@ import com.fedag.recruitmentSystem.exceptions.NotFoundException;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.ResumeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -20,9 +22,14 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public Page<Resume> findAllResumes(Pageable pageable) {
+        return resumeRepository.findAll(pageable);
+    }
+
+    @Override
     public Resume findResume(Long id) {
         return resumeRepository.findById(id)
-          .orElseThrow(()-> new NotFoundException("Resume record with id: " + id + " not available"));
+          .orElseThrow(()-> new NotFoundException("Resume record with id: " + id + " not found"));
     }
 
     @Override
@@ -32,6 +39,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void deleteResume(Long id) {
+        resumeRepository.findById(id)
+           .orElseThrow(()-> new NotFoundException("Resume record with id: " + id + " not found"));
         resumeRepository.deleteById(id);
     }
 }
