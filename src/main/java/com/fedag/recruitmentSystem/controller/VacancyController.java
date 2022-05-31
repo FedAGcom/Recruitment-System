@@ -3,8 +3,9 @@ package com.fedag.recruitmentSystem.controller;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,11 +23,8 @@ public class VacancyController {
   private final VacancyServiceImpl vacancyService;
 
   @GetMapping
-  public String getAllVacancies(
-      @RequestParam(defaultValue = "0") Integer pageNum,
-      @RequestParam(defaultValue = "5") Integer pageSize) {
-    Pageable paging = PageRequest.of(pageNum, pageSize);
-    return vacancyService.getAllVacancies(paging).getContent().toString();
+  public Page<Vacancy> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
+    return vacancyService.getAllVacancies(pageable);
   }
 
   @GetMapping("/{id}")
