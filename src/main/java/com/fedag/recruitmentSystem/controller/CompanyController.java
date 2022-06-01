@@ -8,8 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,18 +32,18 @@ public class CompanyController {
     return companyService.findById(id).toString();
   }
 
-  @DeleteMapping("/{id}")
-  public void deleteVacancy(@PathVariable Long id) {
-    companyService.deleteById(id);
-  }
-
-  @PutMapping("/add")
+  @PostMapping
   public void addVacancy(@RequestBody Company company) {
     companyService.save(company);
   }
 
-  @PatchMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody Company company) {
+  @PutMapping
+  public void updateVacancy(@RequestBody Company company) {
     companyService.save(company);
+  }
+
+  @DeleteMapping("/{id}")
+  public void deleteVacancy(@PathVariable Long id) {
+    companyService.deleteById(id);
   }
 }
