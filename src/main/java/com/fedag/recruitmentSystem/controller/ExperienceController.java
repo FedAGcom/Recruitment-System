@@ -24,11 +24,6 @@ public class ExperienceController {
         return experienceService.findExperience(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        experienceService.deleteExperience(id);
-    }
-
     @PostMapping
     public Experience addVacancy(@RequestBody Experience experience) {
         return experienceService.saveExperience(experience);
@@ -37,5 +32,10 @@ public class ExperienceController {
     @PutMapping
     public Experience updateVacancy(@RequestBody Experience experience) {
         return experienceService.saveExperience(experience);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        experienceService.deleteExperience(id);
     }
 }

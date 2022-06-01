@@ -24,11 +24,6 @@ public class ResumeController {
         return resumeService.findResume(id);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        resumeService.deleteResume(id);
-    }
-
     @PostMapping
     public Resume addVacancy(@RequestBody Resume resume) {
         return resumeService.saveResume(resume);
@@ -37,5 +32,10 @@ public class ResumeController {
     @PutMapping
     public Resume updateVacancy(@RequestBody Resume resume) {
         return resumeService.saveResume(resume);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Long id) {
+        resumeService.deleteResume(id);
     }
 }
