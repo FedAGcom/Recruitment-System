@@ -28,7 +28,7 @@ public class CompanyFeedBackServiceImpl implements CompanyFeedBackService {
 
     @Transactional
     @Override
-    public void removeCompanyFeedBack(CompanyFeedBack companyFeedBack) {
-        companyFeedBackRepository.delete(companyFeedBack);
+    public void removeCompanyFeedBack(Long id) {
+        companyFeedBackRepository.deleteById(id);
     }
 }

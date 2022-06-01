@@ -2,32 +2,29 @@ package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.Message;
 import com.fedag.recruitmentSystem.service.MessageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/api/message")
 public class MessageController {
 
-    private MessageService messageService;
+    private final MessageService messageService;
 
-    @Autowired
-    public MessageController(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    @GetMapping("/message")
+    @GetMapping
     public List<Message> getAllMessage() {
         return messageService.getAllMessage();
     }
 
-    @PostMapping("/message/add")
+    @PostMapping("/add")
     public Message addMessage(@RequestBody Message message) {
         return messageService.addMessage(message);
     }
 
-    @DeleteMapping("message/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteMessage(@PathVariable Long id) {
         messageService.removeMessage(id);
     }

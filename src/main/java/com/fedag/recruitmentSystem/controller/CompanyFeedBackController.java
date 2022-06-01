@@ -2,34 +2,31 @@ package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import com.fedag.recruitmentSystem.service.CompanyFeedBackService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/api/companies/feedback")
 public class CompanyFeedBackController {
 
-    private CompanyFeedBackService companyFeedBackService;
+    private final CompanyFeedBackService companyFeedBackService;
 
-    @Autowired
-    public CompanyFeedBackController(CompanyFeedBackService companyFeedBackService) {
-        this.companyFeedBackService = companyFeedBackService;
-    }
-
-    @GetMapping("/companies/feedback")  // Нужно добавить ID компании?
+    @GetMapping
     public List<CompanyFeedBack> getAllCompanyFeedBack() {
         return companyFeedBackService.getAllCompanyFeedBack();
     }
 
-    @PostMapping("/companies/feedback/save")
+    @PostMapping("/save")
     public CompanyFeedBack addCompanyFeedBack(@RequestBody CompanyFeedBack companyFeedBack) {
         return companyFeedBackService.addCompanyFeedBack(companyFeedBack);
     }
 
-    @DeleteMapping("/companies/feedback/delete/{id}")
-    public void deleteCompanyFeedBack(CompanyFeedBack companyFeedBack) {
-        companyFeedBackService.removeCompanyFeedBack(companyFeedBack);
+    @DeleteMapping("/{id}")
+    public void deleteCompanyFeedBack(@PathVariable Long id) {
+        companyFeedBackService.removeCompanyFeedBack(id);
     }
 
 }

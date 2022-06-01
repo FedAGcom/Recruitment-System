@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VacancyResponseServiceImpl implements VacancyResponseService {
@@ -14,13 +16,19 @@ public class VacancyResponseServiceImpl implements VacancyResponseService {
 
     @Transactional
     @Override
-    public VacancyResponse getVacancyResponse(Long id) {
-        return vacancyResponseRepository.getById(id);
+    public List<VacancyResponse> getVacancyResponse() {
+        return vacancyResponseRepository.findAll();
     }
 
     @Transactional
     @Override
-    public VacancyResponse updateVacancyResponse(VacancyResponse vacancyResponse) {
+    public VacancyResponse addVacancyResponse(VacancyResponse vacancyResponse) {
         return vacancyResponseRepository.save(vacancyResponse);
+    }
+
+    @Transactional
+    @Override
+    public void removeVacancyResponse(Long id) {
+        vacancyResponseRepository.deleteById(id);
     }
 }

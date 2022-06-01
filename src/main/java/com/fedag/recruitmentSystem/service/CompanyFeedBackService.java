@@ -9,5 +9,5 @@ public interface CompanyFeedBackService {
 
     public CompanyFeedBack addCompanyFeedBack(CompanyFeedBack companyFeedBack);
 
-    public void removeCompanyFeedBack(CompanyFeedBack companyFeedBack);
+    public void removeCompanyFeedBack(Long id);
 }
