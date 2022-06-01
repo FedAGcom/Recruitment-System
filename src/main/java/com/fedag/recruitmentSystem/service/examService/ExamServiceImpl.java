@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.service.examService;
 
-import com.fedag.recruitmentSystem.dao.ExamRepository;
+import com.fedag.recruitmentSystem.repository.ExamRepository;
 import com.fedag.recruitmentSystem.model.Exam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

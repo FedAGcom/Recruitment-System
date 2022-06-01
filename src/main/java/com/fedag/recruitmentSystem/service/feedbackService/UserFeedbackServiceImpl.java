@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.service.feedbackService;
 
-import com.fedag.recruitmentSystem.dao.UserFeedbackRepository;
+import com.fedag.recruitmentSystem.repository.UserFeedbackRepository;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
