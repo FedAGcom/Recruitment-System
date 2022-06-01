@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
-import com.fedag.recruitmentSystem.service.CompanyFeedBackService;
+import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,32 +19,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/companies/feedback")
 public class CompanyFeedbackController {
 
-  private final CompanyFeedBackService companyFeedBackService;
+  private final CompanyFeedbackServiceImpl companyFeedBackService;
 
   @GetMapping
   public Page<CompanyFeedBack> getAllCompanyFeedBack(Pageable pageable) {
-    return companyFeedBackService.getAllCompanyFeedBack(pageable);
+    return companyFeedBackService.getAllCompanyFeedbacks(pageable);
   }
 
   @GetMapping("/{id}")
   public CompanyFeedBack getCompanyFeedBackById(@PathVariable Long id) {
-    return companyFeedBackService.getCompanyFeedBackById(id);
+    return companyFeedBackService.findById(id);
   }
 
-  //TODO метод ниже void
   @PostMapping
-  public CompanyFeedBack addCompanyFeedBack(@RequestBody CompanyFeedBack companyFeedBack) {
-    return companyFeedBackService.addCompanyFeedBack(companyFeedBack);
+  public void addCompanyFeedBack(@RequestBody CompanyFeedBack companyFeedBack) {
+    companyFeedBackService.save(companyFeedBack);
   }
 
   @PutMapping
   public void updateVacancy(@RequestBody CompanyFeedBack companyFeedBack) {
-    companyFeedBackService.addCompanyFeedBack(companyFeedBack);
+    companyFeedBackService.save(companyFeedBack);
   }
 
   @DeleteMapping("/{id}")
   public void deleteCompanyFeedBack(@PathVariable Long id) {
-    companyFeedBackService.removeCompanyFeedBack(id);
+    companyFeedBackService.deleteById(id);
   }
 
 }

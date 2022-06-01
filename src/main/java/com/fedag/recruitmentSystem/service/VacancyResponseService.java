@@ -1,16 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.model.VacancyResponse;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface VacancyResponseService {
+public interface VacancyResponseService<T> extends AbstractServiceInterface<T> {
 
-    public Page<VacancyResponse> getAllVacancyResponse(Pageable pageable);
+  List<T> getAllVacanciesResponses();
 
-    public VacancyResponse getVacancyResponseById(Long id);
-
-    public VacancyResponse addVacancyResponse(VacancyResponse vacancyResponse);
-
-    public void removeVacancyResponse(Long id);
+  Page<T> getAllVacanciesResponses(Pageable pageable);
 }

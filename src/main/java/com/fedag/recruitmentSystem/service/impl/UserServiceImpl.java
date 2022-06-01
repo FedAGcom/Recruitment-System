@@ -1,49 +1,47 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService<User> {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    @Override
-    public List<User> findAllUsers() {
-        return userRepository.findAll();
-    }
+  @Override
+  public List<User> getAllUsers() {
+    return userRepository.findAll();
+  }
 
-    @Override
-    public Page<User> findAllUsers(Pageable pageable) {
-        return userRepository.findAll(pageable);
-    }
+  @Override
+  public Page<User> getAllUsers(Pageable pageable) {
+    return userRepository.findAll(pageable);
+  }
 
-    @Override
-    public User findUserById(Long id) {
-        User user = null;
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            user = userOptional.get();
-        }
-        return user;
-    }
+  @Override
+  public User findById(Long id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new ObjectNotFoundException("User with id: " + id + " not found")
+        );
+  }
 
-    @Override
-    public void saveUser(User user) {
-        userRepository.save(user);
-    }
+  @Override
+  public void save(User element) {
+    userRepository.save(element);
+  }
 
-    @Override
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
-    }
+  @Override
+  public void deleteById(Long id) {
+    userRepository.deleteById(id);
+  }
 }

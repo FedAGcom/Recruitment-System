@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.VacancyResponse;
-import com.fedag.recruitmentSystem.service.VacancyResponseService;
+import com.fedag.recruitmentSystem.service.impl.VacancyResponseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,30 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/vacancies/responses")
 public class VacancyResponseController {
 
-  private final VacancyResponseService vacancyResponseService;
+  private final VacancyResponseServiceImpl vacancyResponseService;
 
   @GetMapping
   public Page<VacancyResponse> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
-    return vacancyResponseService.getAllVacancyResponse(pageable);
+    return vacancyResponseService.getAllVacanciesResponses(pageable);
   }
 
   @GetMapping("/{id}")
   public VacancyResponse getVacancyResponseById(@PathVariable Long id) {
-    return vacancyResponseService.getVacancyResponseById(id);
+    return vacancyResponseService.findById(id);
   }
 
   @PostMapping
-  public VacancyResponse addVacancyResponse(@RequestBody VacancyResponse vacancyResponse) {
-    return vacancyResponseService.addVacancyResponse(vacancyResponse);
+  public void addVacancyResponse(@RequestBody VacancyResponse vacancyResponse) {
+    vacancyResponseService.save(vacancyResponse);
   }
 
   @PutMapping
-  public VacancyResponse updateVacancyResponse(@RequestBody VacancyResponse vacancyResponse) {
-    return vacancyResponseService.addVacancyResponse(vacancyResponse);
+  public void updateVacancyResponse(@RequestBody VacancyResponse vacancyResponse) {
+    vacancyResponseService.save(vacancyResponse);
   }
 
   @DeleteMapping("/{id}")
   public void addVacancyResponse(@PathVariable Long id) {
-    vacancyResponseService.removeVacancyResponse(id);
+    vacancyResponseService.deleteById(id);
   }
 }

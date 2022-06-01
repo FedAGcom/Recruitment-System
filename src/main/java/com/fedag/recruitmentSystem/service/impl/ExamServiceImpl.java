@@ -1,49 +1,48 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 
+import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.repository.ExamRepository;
 import com.fedag.recruitmentSystem.service.ExamService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ExamServiceImpl implements ExamService {
+public class ExamServiceImpl implements ExamService<Exam> {
 
-    private final ExamRepository examRepository;
+  private final ExamRepository examRepository;
 
-    @Override
-    public List<Exam> findAllExams() {
-        return examRepository.findAll();
+  @Override
+  public List<Exam> getAllExams() {
+    return examRepository.findAll();
+  }
 
-    }
+  @Override
+  public Page<Exam> getAllExams(Pageable pageable) {
+    return examRepository.findAll(pageable);
+  }
 
-    public Page<Exam> findAllExams(Pageable pageable) {
-        return examRepository.findAll(pageable);
-    }
+  @Override
+  public Exam findById(Long id) {
+    return examRepository
+        .findById(id)
+        .orElseThrow(
+            () -> new ObjectNotFoundException("Exam with id: " + id + " not found")
+        );
+  }
 
-    @Override
-    public Exam findExamById(Long id) {
-        Exam exam = null;
-        Optional<Exam> examOptional = examRepository.findById(id);
-        if (examOptional.isPresent()) {
-            exam = examOptional.get();
-        }
-        return exam;
-    }
+  @Override
+  public void save(Exam element) {
+    examRepository.save(element);
+  }
 
-    @Override
-    public void saveExam(Exam exam) {
-        examRepository.save(exam);
-    }
-
-    @Override
-    public void deleteExamById(Long id) {
-        examRepository.deleteById(id);
-    }
+  @Override
+  public void deleteById(Long id) {
+    examRepository.deleteById(id);
+  }
 }

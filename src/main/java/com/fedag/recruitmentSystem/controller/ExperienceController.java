@@ -6,36 +6,44 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/experiences")
 public class ExperienceController {
-    private final ExperienceServiceImpl experienceService;
 
-    @GetMapping
-    public Page<Experience> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
-        return experienceService.findAllExperiences(pageable);
-    }
+  private final ExperienceServiceImpl experienceService;
 
-    @GetMapping("/{id}")
-    public Experience getById(@PathVariable Long id) {
-        return experienceService.findExperience(id);
-    }
+  @GetMapping
+  public Page<Experience> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
+    return experienceService.getAllExperience(pageable);
+  }
 
-    @PostMapping
-    public Experience addVacancy(@RequestBody Experience experience) {
-        return experienceService.saveExperience(experience);
-    }
+  @GetMapping("/{id}")
+  public Experience getById(@PathVariable Long id) {
+    return experienceService.findById(id);
+  }
 
-    @PutMapping
-    public Experience updateVacancy(@RequestBody Experience experience) {
-        return experienceService.saveExperience(experience);
-    }
+  @PostMapping
+  public void addVacancy(@RequestBody Experience experience) {
+    experienceService.save(experience);
+  }
 
-    @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Long id) {
-        experienceService.deleteExperience(id);
-    }
+  @PutMapping
+  public void updateVacancy(@RequestBody Experience experience) {
+    experienceService.save(experience);
+  }
+
+  @DeleteMapping("/{id}")
+  public void deleteById(@PathVariable Long id) {
+    experienceService.deleteById(id);
+  }
 }

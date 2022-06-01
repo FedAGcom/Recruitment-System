@@ -1,17 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.model.Message;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface MessageService {
+public interface MessageService<T> extends AbstractServiceInterface<T> {
 
-    public Page<Message> getAllMessage(Pageable pageable);
+  List<T> getAllMessages();
 
-    public Message getMessageById(Long id);
-
-    public Message addMessage(Message message);
-
-    public void removeMessage(Long id);
-
+  Page<T> getAllMessages(Pageable pageable);
 }

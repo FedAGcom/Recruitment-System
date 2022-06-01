@@ -1,8 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.UserFeedback;
-import com.fedag.recruitmentSystem.service.CompanyService;
-import com.fedag.recruitmentSystem.service.UserFeedbackService;
+import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,30 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users/feedbacks")
 public class UserFeedbackController {
 
-  private final UserFeedbackService userFeedbackService;
+  private final UserFeedbackServiceImpl userFeedbackService;
 
   @GetMapping
   public Page<UserFeedback> showAllFeedback(@PageableDefault(size = 5) Pageable pageable) {
-    return userFeedbackService.findAllUserFeedback(pageable);
+    return userFeedbackService.getAllUserFeedbacks(pageable);
   }
 
   @GetMapping("/{id}")
   public UserFeedback getUserFeedback(@PathVariable Long id) {
-    return userFeedbackService.findUserFeedbackById(id);
+    return userFeedbackService.findById(id);
   }
 
   @PostMapping
   public void addNewUserFeedback(@RequestBody UserFeedback userFeedback) {
-    userFeedbackService.saveUserFeedback(userFeedback);
+    userFeedbackService.save(userFeedback);
   }
 
   @PutMapping
   public void updateUserFeedback(@RequestBody UserFeedback userFeedback) {
-    userFeedbackService.saveUserFeedback(userFeedback);
+    userFeedbackService.save(userFeedback);
   }
 
   @DeleteMapping("/{id}")
   public void deleteUserFeedback(@PathVariable Long id) {
-    userFeedbackService.deleteUserFeedbackById(id);
+    userFeedbackService.deleteById(id);
   }
 }

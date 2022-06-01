@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.Message;
-import com.fedag.recruitmentSystem.service.MessageService;
+import com.fedag.recruitmentSystem.service.impl.MessageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,32 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/messages")
 public class MessageController {
 
-  private final MessageService messageService;
+  private final MessageServiceImpl messageService;
 
   @GetMapping
   public Page<Message> getAllMessage(@PageableDefault(size = 5) Pageable pageable) {
-    return messageService.getAllMessage(pageable);
+    return messageService.getAllMessages(pageable);
   }
 
   @GetMapping("/{id}")
   public Message getMessageById(@PathVariable Long id) {
-    return messageService.getMessageById(id);
+    return messageService.findById(id);
   }
 
-  //TODO void method
   @PostMapping
-  public Message addMessage(@RequestBody Message message) {
-    return messageService.addMessage(message);
+  public void addMessage(@RequestBody Message message) {
+    messageService.save(message);
   }
 
-  //TODO void method
   @PutMapping
-  public Message updateMessage(@RequestBody Message message) {
-    return messageService.addMessage(message);
+  public void updateMessage(@RequestBody Message message) {
+    messageService.save(message);
   }
 
   @DeleteMapping("/{id}")
   public void deleteMessage(@PathVariable Long id) {
-    messageService.removeMessage(id);
+    messageService.deleteById(id);
   }
 }

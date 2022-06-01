@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface SkillService<T> extends GenericServiceInterface<T> {
+public interface SkillService<T> extends AbstractServiceInterface<T> {
 
   List<T> getAllSkills();
 

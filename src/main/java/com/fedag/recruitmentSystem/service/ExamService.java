@@ -1,20 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.model.Exam;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+public interface ExamService<T> extends AbstractServiceInterface<T> {
 
-public interface ExamService {
+  List<T> getAllExams();
 
-    List<Exam> findAllExams();
-
-    Page<Exam> findAllExams(Pageable pageable);
-
-    Exam findExamById(Long id);
-
-    void saveExam(Exam exam);
-
-    void deleteExamById(Long id);
+  Page<T> getAllExams(Pageable pageable);
 }

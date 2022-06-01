@@ -1,14 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
+public interface CompanyService<T> extends AbstractServiceInterface<T> {
 
-public interface CompanyService<T> extends GenericServiceInterface<T> {
+  List<T> getAllCompanies();
 
-    List<T> getAllCompanies();
-
-    Page<T> getAllCompanies(Pageable pageable);
-
+  Page<T> getAllCompanies(Pageable pageable);
 }

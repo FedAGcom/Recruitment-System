@@ -1,8 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.service.ExamService;
-import com.fedag.recruitmentSystem.service.impl.CompanyFeedBackServiceImpl;
+import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,31 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/exams")
 public class ExamController {
 
-  private final ExamService examService;
+  private final ExamServiceImpl examService;
 
   @GetMapping
   public Page<Exam> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
-    return examService.findAllExams(pageable);
+    return examService.getAllExams(pageable);
   }
 
   @GetMapping("/{id}")
   public Exam getExam(@PathVariable Long id) {
-    Exam exam = examService.findExamById(id);
-    return exam;
+    return examService.findById(id);
   }
 
   @PostMapping
   public void addNewExam(@RequestBody Exam exam) {
-    examService.saveExam(exam);
+    examService.save(exam);
   }
 
   @PutMapping
   public void updateExam(@RequestBody Exam exam) {
-    examService.saveExam(exam);
+    examService.save(exam);
   }
 
   @DeleteMapping("/{id}")
   public void deleteExam(@PathVariable Long id) {
-    examService.deleteExamById(id);
+    examService.deleteById(id);
   }
 }

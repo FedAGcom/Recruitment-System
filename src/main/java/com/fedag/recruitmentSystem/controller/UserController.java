@@ -1,8 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.User;
-import com.fedag.recruitmentSystem.service.CompanyFeedBackService;
-import com.fedag.recruitmentSystem.service.UserService;
+import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,30 +20,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
 
-  private final UserService userService;
+  private final UserServiceImpl userService;
 
   @GetMapping
   public Page<User> showAllUsers(@PageableDefault(size = 5) Pageable pageable) {
-    return userService.findAllUsers(pageable);
+    return userService.getAllUsers(pageable);
   }
 
   @GetMapping("/{id}")
   public User getUser(@PathVariable Long id) {
-    return userService.findUserById(id);
+    return userService.findById(id);
   }
 
   @PostMapping
   public void addNewUser(@RequestBody User user) {
-    userService.saveUser(user);
+    userService.save(user);
   }
 
   @PutMapping
   public void updateUser(@RequestBody User user) {
-    userService.saveUser(user);
+    userService.save(user);
   }
 
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable Long id) {
-    userService.deleteUserById(id);
+    userService.deleteById(id);
   }
 }
