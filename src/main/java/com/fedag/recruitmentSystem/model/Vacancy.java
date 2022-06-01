@@ -2,10 +2,14 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -35,7 +39,14 @@ public class Vacancy {
   @Enumerated(EnumType.STRING)
   private ResumeStatus status;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "company_id")
   private Company company;
+
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinTable(name = "vacancies_skill_link"
+          ,joinColumns = @JoinColumn(name = "vacancy_id")
+          ,inverseJoinColumns = @JoinColumn(name = "skill_id"))
+  @JsonBackReference
+  private List<Skill> skillList;
 }

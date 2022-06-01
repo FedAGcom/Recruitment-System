@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.VacancyResponsesStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,11 +26,12 @@ public class VacancyResponse {
     @Enumerated(EnumType.STRING)
     private VacancyResponsesStatus status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vacancy_id")
     private Vacancy vacancy;
 }

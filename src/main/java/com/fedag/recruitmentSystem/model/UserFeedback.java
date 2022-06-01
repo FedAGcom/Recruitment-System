@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +34,9 @@ public class UserFeedback {
     @Enumerated(EnumType.STRING)
     private FeedbackSentFromEntity entityType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY
+            ,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_to_id")
+    @JsonBackReference
     private User user;
 }

@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,19 +36,26 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL,
     mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Exam exam;
 
     @OneToMany(cascade = CascadeType.ALL,
     mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<UserFeedback> userFeedbackList;
 
     @OneToMany(cascade = CascadeType.ALL,
-    mappedBy = "user")
+    mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Resume> resumeList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL
+            ,fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<VacancyResponse> vacancyResponseList;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL
+            ,fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Message> messageList;
 }

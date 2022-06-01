@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -23,12 +24,8 @@ public class Experience {
     @Column(name = "end_date")
     private LocalDateTime EndDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "resume_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "experience_resume_id_fkey")
-    )
-    @Transient
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "resume_id")
+    @JsonBackReference
     private Resume resume;
 }

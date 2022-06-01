@@ -281,7 +281,7 @@ CREATE TABLE vacancies_skill_link
 
 -- ENUM в таблицу vacancy_responses в столбец status
 CREATE TYPE enum_vacancy_responses_status_type AS ENUM
-    ('INVITE', 'REFUSAL', 'VIEWED','NOT VIEWED');
+    ('INVITE', 'REFUSAL', 'VIEWED','NOT_VIEWED');
 
 CREATE TABLE vacancy_responses
 (
@@ -296,7 +296,7 @@ CREATE TABLE vacancy_responses
 );
 
 -- ENUM в таблицу messages в столбец is_read
-CREATE TYPE enum_messages_is_read_type  AS ENUM ('READ','NO READ');
+CREATE TYPE enum_messages_is_read_type  AS ENUM ('READ','NO_READ');
 
 CREATE TABLE messages
 (

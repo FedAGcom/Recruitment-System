@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.MessageStatus;
 import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
 import lombok.AllArgsConstructor;
@@ -35,11 +36,13 @@ public class Message {
     @Column(name = "message")
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
+    @JsonBackReference
     private Company company;
 }

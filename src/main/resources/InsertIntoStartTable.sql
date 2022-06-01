@@ -63,12 +63,12 @@ VALUES(1,1), (1,2),
 
     INSERT INTO vacancy_responses(vacancy_id, user_id, message, status)
 VALUES(1,1,'Ждем вас на Восстания в 17-00', 'INVITE'),
-    (1,2,NULL, 'NOT VIEWED'),
+    (1,2,NULL, 'NOT_VIEWED'),
     (2,3,'Вы нам не подходите', 'REFUSAL'),
     (3,2,NULL, 'VIEWED');
 
     INSERT INTO messages(user_id, company_id, from_entity_message, date_created, is_read, message)
-VALUES(1,1,'USER', '2022-05-28 04:05:06','read','Что по дресс коду?'),
-    (1,1,'COMPANY', '2022-05-28 04:05:20','read','Свободный'),
-    (2,1,'USER', '2022-05-27 06:15:20','no read','Есть у вас перспективы трудоустройства?'),
-    (3,2,'COMPANY', '2022-05-20 14:25:20','read','Не хотели бы вы рассмотреть наши вакансии?');
+VALUES(1,1,'USER', '2022-05-28 04:05:06','READ','Что по дресс коду?'),
+    (1,1,'COMPANY', '2022-05-28 04:05:20','READ','Свободный'),
+    (2,1,'USER', '2022-05-27 06:15:20','NO_READ','Есть у вас перспективы трудоустройства?'),
+    (3,2,'COMPANY', '2022-05-20 14:25:20','READ','Не хотели бы вы рассмотреть наши вакансии?');

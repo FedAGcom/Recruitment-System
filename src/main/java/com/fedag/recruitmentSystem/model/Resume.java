@@ -1,5 +1,7 @@
 package com.fedag.recruitmentSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.*;
 import javax.persistence.*;
@@ -23,23 +25,19 @@ public class Resume {
     @Column(name = "status")
     private ResumeStatus status;
 
-    @OneToMany(
-            mappedBy = "resume",
-            orphanRemoval = true,
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            fetch = FetchType.LAZY
-    )
-    @Transient
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Experience> experiences = new ArrayList<>();
 
-//    @OneToMany
-//    private List<Skill> skills = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "resume_skill_link"
+            ,joinColumns = @JoinColumn(name = "resume_id")
+            ,inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    @JsonBackReference
+    private List<Skill> skills;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(
-            name = "user_id",
-            referencedColumnName = "id",
-            foreignKey = @ForeignKey(name = "user_resume_fk")
-    )
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 }
