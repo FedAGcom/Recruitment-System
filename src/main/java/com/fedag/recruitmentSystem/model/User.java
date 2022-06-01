@@ -33,21 +33,21 @@ public class User {
     @Column(name = "birthday")
     private Date birthday;
 
-//    @OneToOne(cascade = CascadeType.ALL,
-//    mappedBy = "user")
-//    private Exam exam;
+    @OneToOne(cascade = CascadeType.ALL,
+    mappedBy = "user",fetch = FetchType.LAZY)
+    private Exam exam;
 
-//    @OneToMany(cascade = CascadeType.ALL,
-//    mappedBy = "user")
-//    private List<UserFeedback> userFeedbackList;
+    @OneToMany(cascade = CascadeType.ALL,
+    mappedBy = "user",fetch = FetchType.LAZY)
+    private List<UserFeedback> userFeedbackList;
 
-//    @OneToMany(cascade = CascadeType.ALL,
-//    mappedBy = "user")
-//    private List<Resume> resumeList;
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<VacancyResponse> vacancyResponseList;
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<Message> messageList;
+    @OneToMany(cascade = CascadeType.ALL,
+    mappedBy = "user")
+    private List<Resume> resumeList;
+
+    @OneToMany(mappedBy = "user")
+    private List<VacancyResponse> vacancyResponseList;
+
+    @OneToMany(mappedBy = "user")
+    private List<Message> messageList;
 }

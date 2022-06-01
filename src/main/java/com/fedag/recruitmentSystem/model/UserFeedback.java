@@ -33,7 +33,7 @@ public class UserFeedback {
     @Enumerated(EnumType.STRING)
     private TypeEntityFromSendFeedbackToUser entityType;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_to_id")
     private User user;
 }

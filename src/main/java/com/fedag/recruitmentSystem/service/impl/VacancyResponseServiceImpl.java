@@ -1,7 +1,8 @@
-package com.fedag.recruitmentSystem.service;
+package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.repository.VacancyResponseRepository;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
+import com.fedag.recruitmentSystem.service.VacancyResponseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

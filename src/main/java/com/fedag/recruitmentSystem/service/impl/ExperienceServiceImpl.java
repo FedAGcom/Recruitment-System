@@ -1,9 +1,8 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dao.ExperienceRepository;
-import com.fedag.recruitmentSystem.exceptions.NotFoundException;
+import com.fedag.recruitmentSystem.exception.NotFoundException;
 import com.fedag.recruitmentSystem.model.Experience;
-import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.ExperienceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

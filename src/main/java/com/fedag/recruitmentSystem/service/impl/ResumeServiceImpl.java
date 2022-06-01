@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dao.ResumeRepository;
-import com.fedag.recruitmentSystem.exceptions.NotFoundException;
+import com.fedag.recruitmentSystem.exception.NotFoundException;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.ResumeService;
 import lombok.RequiredArgsConstructor;

@@ -22,7 +22,7 @@ public class Exam {
     @Column(name = "score")
     private int score;
 
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

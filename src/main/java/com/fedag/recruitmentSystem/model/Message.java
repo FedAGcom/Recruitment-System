@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -21,31 +22,25 @@ public class Message {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "company_id")
-    private Long companyId;
-
     @Column(name = "from_entity_message")
     @Enumerated(EnumType.STRING)
     private TypeEntityFromSendFeedbackToUser entityType;
 
     @Column(name = "date_created")
-    private Timestamp dateCreated;
+    private LocalDateTime dateCreated;
 
-    @Column(name = "enum_messages_is_read")
+    @Column(name = "is_read")
     @Enumerated(EnumType.STRING)
     private MessageStatus status;
 
     @Column(name = "message")
     private String message;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     private Company company;
 }

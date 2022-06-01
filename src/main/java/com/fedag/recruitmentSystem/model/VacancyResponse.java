@@ -11,31 +11,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "vacancy_response")
+@Table(name = "vacancy_responses")
 public class VacancyResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "vacancy_id")
-    private Long vacancyId;
-
-    @Column(name = "user_id")
-    private Long userId;
-
     @Column(name = "message")
     private String message;
 
-    @Column(name = "enum_vacancy_responses_status")
+    @Column(name = "enum_vacancy_responses_status_type")
     @Enumerated(EnumType.STRING)
     private VacancyResponsesStatus status;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vacancy_id")
     private Vacancy vacancy;
 }

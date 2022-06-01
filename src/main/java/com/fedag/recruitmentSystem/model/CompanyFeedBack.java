@@ -17,23 +17,17 @@ public class CompanyFeedBack {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "company_to_id")
-    private Long companyToId;
-
-    @Column(name = "user_from_id")
-    private Long userFromId;
-
     @Column(name = "stars")
     private short stars;
 
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_from_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_to_id")
     private Company company;
 }

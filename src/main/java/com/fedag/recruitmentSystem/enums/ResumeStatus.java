@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.enums;
 
-public enum Status {
+public enum ResumeStatus {
     ACTIVE,
     INACTIVE
 }

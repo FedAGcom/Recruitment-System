@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.service.userService.UserService;
+import com.fedag.recruitmentSystem.service.CompanyFeedBackService;
 import com.fedag.recruitmentSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    private final UserService userService;
+    private final CompanyFeedBackService.UserService userService;
 
     @GetMapping
     public Page<User> showAllUsers(@PageableDefault(size = 5) Pageable pageable) {

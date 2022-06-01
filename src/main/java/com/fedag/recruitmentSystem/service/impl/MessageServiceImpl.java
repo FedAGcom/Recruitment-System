@@ -1,7 +1,8 @@
-package com.fedag.recruitmentSystem.service;
+package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.repository.MessageRepository;
 import com.fedag.recruitmentSystem.model.Message;
+import com.fedag.recruitmentSystem.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

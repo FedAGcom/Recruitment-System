@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fedag.recruitmentSystem.enums.Status;
+import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Resume {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status;
+    private ResumeStatus status;
 
     @OneToMany(
             mappedBy = "resume",
@@ -35,11 +35,11 @@ public class Resume {
 //    @OneToMany
 //    private List<Skill> skills = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(
-//            name = "user_id",
-//            referencedColumnName = "id",
-//            foreignKey = @ForeignKey(name = "user_resume_fk")
-//    )
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "user_resume_fk")
+    )
+    private User user;
 }
