@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.model.Exam;
+import com.fedag.recruitmentSystem.service.ExamService;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedBackServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/exams")
 public class ExamController {
 
-  private final CompanyFeedBackServiceImpl.ExamService examService;
+  private final ExamService examService;
 
   @GetMapping
   public Page<Exam> showAllExams(@PageableDefault(size = 5) Pageable pageable) {

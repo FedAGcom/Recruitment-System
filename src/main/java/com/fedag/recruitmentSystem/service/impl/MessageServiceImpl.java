@@ -15,25 +15,21 @@ public class MessageServiceImpl implements MessageService {
 
     private final MessageRepository messageRepository;
 
-    @Transactional
     @Override
     public Page<Message> getAllMessage(Pageable pageable) {
         return messageRepository.findAll(pageable);
     }
 
-    @Transactional
     @Override
     public Message getMessageById(Long id) {
         return messageRepository.getById(id);
     }
 
-    @Transactional
     @Override
     public Message addMessage(Message message) {
         return messageRepository.save(message);
     }
 
-    @Transactional
     @Override
     public void removeMessage(Long id) {
         messageRepository.deleteById(id);
