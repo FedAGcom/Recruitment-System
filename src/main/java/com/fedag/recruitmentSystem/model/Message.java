@@ -3,12 +3,11 @@ package com.fedag.recruitmentSystem.model;
 import javax.persistence.*;
 
 import com.fedag.recruitmentSystem.enums.MessageStatus;
-import com.fedag.recruitmentSystem.enums.TypeEntityFromSendFeedbackToUser;
+import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,7 +23,7 @@ public class Message {
 
     @Column(name = "from_entity_message")
     @Enumerated(EnumType.STRING)
-    private TypeEntityFromSendFeedbackToUser entityType;
+    private FeedbackSentFromEntity entityType;
 
     @Column(name = "date_created")
     private LocalDateTime dateCreated;

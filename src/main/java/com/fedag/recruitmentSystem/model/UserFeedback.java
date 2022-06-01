@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.model;
 
 
-import com.fedag.recruitmentSystem.enums.TypeEntityFromSendFeedbackToUser;
+import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ public class UserFeedback {
 
     @Column(name = "entity_from_type")
     @Enumerated(EnumType.STRING)
-    private TypeEntityFromSendFeedbackToUser entityType;
+    private FeedbackSentFromEntity entityType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_to_id")

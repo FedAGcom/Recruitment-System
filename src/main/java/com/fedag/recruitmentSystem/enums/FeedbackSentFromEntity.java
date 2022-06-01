@@ -1,5 +1,5 @@
 package com.fedag.recruitmentSystem.enums;
 
-public enum TypeEntityFromSendFeedbackToUser {
+public enum FeedbackSentFromEntity {
     USER, COMPANY
 }

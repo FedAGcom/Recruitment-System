@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
 import com.fedag.recruitmentSystem.service.VacancyResponseService;
 import lombok.RequiredArgsConstructor;
