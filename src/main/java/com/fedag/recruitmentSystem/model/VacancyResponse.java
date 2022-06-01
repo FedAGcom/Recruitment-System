@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 
+import com.fedag.recruitmentSystem.enums.VacancyResponsesStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,11 +28,14 @@ public class VacancyResponse {
     private String message;
 
     @Column(name = "enum_vacancy_responses_status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private VacancyResponsesStatus status;
 
-    /* @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    private Vacancy vacancy; */
+    @JoinColumn(name = "vacancy_id")
+    private Vacancy vacancy;
 }

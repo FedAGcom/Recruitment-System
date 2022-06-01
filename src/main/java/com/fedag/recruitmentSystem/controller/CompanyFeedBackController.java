@@ -3,9 +3,9 @@ package com.fedag.recruitmentSystem.controller;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import com.fedag.recruitmentSystem.service.CompanyFeedBackService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +15,13 @@ public class CompanyFeedBackController {
     private final CompanyFeedBackService companyFeedBackService;
 
     @GetMapping
-    public List<CompanyFeedBack> getAllCompanyFeedBack() {
-        return companyFeedBackService.getAllCompanyFeedBack();
+    public Page<CompanyFeedBack> getAllCompanyFeedBack(Pageable pageable) {
+        return companyFeedBackService.getAllCompanyFeedBack(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public CompanyFeedBack getCompanyFeedBackById(@PathVariable Long id) {
+        return companyFeedBackService.getCompanyFeedBackById(id);
     }
 
     @PostMapping("/save")

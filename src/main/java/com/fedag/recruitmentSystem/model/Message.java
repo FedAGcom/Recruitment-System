@@ -2,6 +2,8 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 
+import com.fedag.recruitmentSystem.enums.MessageStatus;
+import com.fedag.recruitmentSystem.enums.TypeEntityFromSendFeedbackToUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,20 +28,24 @@ public class Message {
     private Long companyId;
 
     @Column(name = "from_entity_message")
-    private String fromEntityMessage;
+    @Enumerated(EnumType.STRING)
+    private TypeEntityFromSendFeedbackToUser entityType;
 
     @Column(name = "date_created")
     private Timestamp dateCreated;
 
-    @Column(name = "status")
-    private String status;
+    @Column(name = "enum_messages_is_read")
+    @Enumerated(EnumType.STRING)
+    private MessageStatus status;
 
     @Column(name = "message")
     private String message;
 
-    /* @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne
-    private Company company; */
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

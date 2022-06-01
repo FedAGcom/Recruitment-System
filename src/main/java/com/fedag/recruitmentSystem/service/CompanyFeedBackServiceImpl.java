@@ -1,12 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.dao.CompanyFeedBackRepository;
+import com.fedag.recruitmentSystem.repository.CompanyFeedBackRepository;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +16,14 @@ public class CompanyFeedBackServiceImpl implements CompanyFeedBackService {
 
     @Transactional
     @Override
-    public List<CompanyFeedBack> getAllCompanyFeedBack() {
-        return companyFeedBackRepository.findAll();
+    public Page<CompanyFeedBack> getAllCompanyFeedBack(Pageable pageable) {
+        return companyFeedBackRepository.findAll(pageable);
+    }
+
+    @Transactional
+    @Override
+    public CompanyFeedBack getCompanyFeedBackById(Long id) {
+        return companyFeedBackRepository.getById(id);
     }
 
     @Transactional

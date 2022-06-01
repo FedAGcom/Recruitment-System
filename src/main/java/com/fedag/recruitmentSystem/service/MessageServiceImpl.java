@@ -1,12 +1,12 @@
 package com.fedag.recruitmentSystem.service;
 
-import com.fedag.recruitmentSystem.dao.MessageRepository;
+import com.fedag.recruitmentSystem.repository.MessageRepository;
 import com.fedag.recruitmentSystem.model.Message;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +16,14 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public List<Message> getAllMessage() {
-        return messageRepository.findAll();
+    public Page<Message> getAllMessage(Pageable pageable) {
+        return messageRepository.findAll(pageable);
+    }
+
+    @Transactional
+    @Override
+    public Message getMessageById(Long id) {
+        return messageRepository.getById(id);
     }
 
     @Transactional

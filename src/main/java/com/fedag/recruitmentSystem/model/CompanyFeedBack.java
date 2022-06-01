@@ -29,9 +29,11 @@ public class CompanyFeedBack {
     @Column(name = "comment")
     private String comment;
 
-    /* @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "user_from_id")
     private User user;
 
     @ManyToOne
-    private Company company; */
+    @JoinColumn(name = "company_to_id")
+    private Company company;
 }

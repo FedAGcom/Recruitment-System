@@ -3,9 +3,10 @@ package com.fedag.recruitmentSystem.controller;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
 import com.fedag.recruitmentSystem.service.VacancyResponseService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +16,13 @@ public class VacancyResponseController {
     private final VacancyResponseService vacancyResponseService;
 
     @GetMapping
-    public List<VacancyResponse> getAllVacancyResponse() {
-        return vacancyResponseService.getVacancyResponse();
+    public Page<VacancyResponse> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
+        return vacancyResponseService.getAllVacancyResponse(pageable);
+    }
+
+    @GetMapping("/{id}")
+    public VacancyResponse getVacancyResponseById(@PathVariable Long id) {
+        return vacancyResponseService.getVacancyResponseById(id);
     }
 
     @PostMapping("/add")
