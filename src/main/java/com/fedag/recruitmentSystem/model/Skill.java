@@ -26,16 +26,18 @@ public class Skill {
   private String name;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "resume_skill_link"
-          ,joinColumns = @JoinColumn(name = "skill_id")
-          ,inverseJoinColumns = @JoinColumn(name = "resume_id"))
+  @JoinTable(
+      name = "resume_skill_link",
+      joinColumns = @JoinColumn(name = "skill_id"),
+      inverseJoinColumns = @JoinColumn(name = "resume_id"))
   @JsonManagedReference
   private List<Resume> resumeList;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "vacancies_skill_link"
-          ,joinColumns = @JoinColumn(name = "skill_id")
-          ,inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
+  @JoinTable(
+      name = "vacancies_skill_link",
+      joinColumns = @JoinColumn(name = "skill_id"),
+      inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
   @JsonManagedReference
   private List<Vacancy> vacancyList;
 

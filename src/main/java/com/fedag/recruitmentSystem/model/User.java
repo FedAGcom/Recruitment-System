@@ -34,28 +34,38 @@ public class User {
     @Column(name = "birthday")
     private Date birthday;
 
-    @OneToOne(cascade = CascadeType.ALL,
-    mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToOne(
+        cascade = CascadeType.ALL,
+        mappedBy = "user",
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private Exam exam;
 
-    @OneToMany(cascade = CascadeType.ALL,
-    mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        mappedBy = "user",
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<UserFeedback> userFeedbackList;
 
-    @OneToMany(cascade = CascadeType.ALL,
-    mappedBy = "user",fetch = FetchType.LAZY)
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        mappedBy = "user",
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Resume> resumeList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL
-            ,fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<VacancyResponse> vacancyResponseList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL
-            ,fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "user",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Message> messageList;
 }

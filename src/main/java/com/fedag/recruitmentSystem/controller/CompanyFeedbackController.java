@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/companies/feedback")
+@RequestMapping(value = "/api/companies/feedbacks")
 public class CompanyFeedbackController {
 
   private final CompanyFeedbackServiceImpl companyFeedBackService;

@@ -30,18 +30,23 @@ public class Company {
     @Column(name = "location")
     private String location;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "company", fetch = FetchType.LAZY)
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        mappedBy = "company",
+        fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CompanyFeedBack> companyFeedBackList;
 
-    @OneToMany(cascade = CascadeType.ALL,
-            mappedBy = "company")
+    @OneToMany(
+        cascade = CascadeType.ALL,
+        mappedBy = "company")
     @JsonBackReference
     private List<Vacancy> vacancyList;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "company",
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY)
     private List<Message> messageList;
 
 }

@@ -34,8 +34,9 @@ public class UserFeedback {
     @Enumerated(EnumType.STRING)
     private FeedbackSentFromEntity entityType;
 
-    @ManyToOne(fetch = FetchType.LAZY
-            ,cascade = CascadeType.ALL)
+    @ManyToOne(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL)
     @JoinColumn(name = "user_to_id")
     @JsonBackReference
     private User user;

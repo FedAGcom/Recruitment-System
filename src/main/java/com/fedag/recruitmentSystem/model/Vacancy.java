@@ -44,9 +44,10 @@ public class Vacancy {
   private Company company;
 
   @ManyToMany(cascade = CascadeType.ALL)
-  @JoinTable(name = "vacancies_skill_link"
-          ,joinColumns = @JoinColumn(name = "vacancy_id")
-          ,inverseJoinColumns = @JoinColumn(name = "skill_id"))
+  @JoinTable(
+      name = "vacancies_skill_link",
+      joinColumns = @JoinColumn(name = "vacancy_id"),
+      inverseJoinColumns = @JoinColumn(name = "skill_id"))
   @JsonBackReference
   private List<Skill> skillList;
 }

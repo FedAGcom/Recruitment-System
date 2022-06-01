@@ -36,12 +36,16 @@ public class Message {
     @Column(name = "message")
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL)
     @JoinColumn(name = "company_id")
     @JsonBackReference
     private Company company;

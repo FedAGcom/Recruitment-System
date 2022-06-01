@@ -24,7 +24,9 @@ public class Experience {
     @Column(name = "end_date")
     private LocalDateTime EndDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.ALL)
     @JoinColumn(name = "resume_id")
     @JsonBackReference
     private Resume resume;
