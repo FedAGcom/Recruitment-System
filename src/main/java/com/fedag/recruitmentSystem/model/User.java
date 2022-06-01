@@ -36,36 +36,27 @@ public class User {
 
     @OneToOne(
         cascade = CascadeType.ALL,
-        mappedBy = "user",
-        fetch = FetchType.LAZY)
+        mappedBy = "user")
     @JsonManagedReference
     private Exam exam;
 
     @OneToMany(
         cascade = CascadeType.ALL,
-        mappedBy = "user",
-        fetch = FetchType.LAZY)
+        mappedBy = "user")
     @JsonManagedReference
     private List<UserFeedback> userFeedbackList;
 
     @OneToMany(
         cascade = CascadeType.ALL,
-        mappedBy = "user",
-        fetch = FetchType.LAZY)
+        mappedBy = "user")
     @JsonManagedReference
     private List<Resume> resumeList;
 
-    @OneToMany(
-        mappedBy = "user",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<VacancyResponse> vacancyResponseList;
 
-    @OneToMany(
-        mappedBy = "user",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Message> messageList;
 }

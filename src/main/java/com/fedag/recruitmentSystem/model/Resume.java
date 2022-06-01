@@ -26,12 +26,12 @@ public class Resume {
     private ResumeStatus status;
 
     @OneToMany(
-        mappedBy = "resume",
-        cascade = CascadeType.ALL)
+            mappedBy = "resume",
+            cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Experience> experiences = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
         name = "resume_skill_link",
         joinColumns = @JoinColumn(name = "resume_id"),
@@ -39,9 +39,7 @@ public class Resume {
     @JsonBackReference
     private List<Skill> skills;
 
-    @ManyToOne(
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;

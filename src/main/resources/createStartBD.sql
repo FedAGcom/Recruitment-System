@@ -264,7 +264,7 @@ CREATE TABLE vacancies
     company_id bigint NOT NULL,
     header varchar (256) NOT NULL,
     description text NOT NULL,
-    salary int,
+    salary int DEFAULT 0 NOT NULL,
     experience varchar(256),
     status enum_resume_vacancy_status_type NOT NULL,
     FOREIGN KEY (company_id) REFERENCES companies(id)

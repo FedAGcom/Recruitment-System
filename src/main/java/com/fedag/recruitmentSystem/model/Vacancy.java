@@ -39,11 +39,11 @@ public class Vacancy {
   @Enumerated(EnumType.STRING)
   private ResumeStatus status;
 
-  @ManyToOne(cascade = CascadeType.ALL)
+  @ManyToOne
   @JoinColumn(name = "company_id")
   private Company company;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "vacancies_skill_link",
       joinColumns = @JoinColumn(name = "vacancy_id"),

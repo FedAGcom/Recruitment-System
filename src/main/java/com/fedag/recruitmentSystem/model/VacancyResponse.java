@@ -26,12 +26,12 @@ public class VacancyResponse {
     @Enumerated(EnumType.STRING)
     private VacancyResponsesStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "vacancy_id")
     private Vacancy vacancy;
 }

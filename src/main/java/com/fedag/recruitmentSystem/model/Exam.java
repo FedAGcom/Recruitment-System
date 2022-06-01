@@ -24,9 +24,7 @@ public class Exam {
     @Column(name = "score")
     private int score;
 
-    @OneToOne(
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL)
+    @OneToOne
     @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;

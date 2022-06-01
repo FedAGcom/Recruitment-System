@@ -32,8 +32,7 @@ public class Company {
 
     @OneToMany(
         cascade = CascadeType.ALL,
-        mappedBy = "company",
-        fetch = FetchType.LAZY)
+        mappedBy = "company")
     @JsonManagedReference
     private List<CompanyFeedBack> companyFeedBackList;
 
@@ -43,10 +42,7 @@ public class Company {
     @JsonBackReference
     private List<Vacancy> vacancyList;
 
-    @OneToMany(
-        mappedBy = "company",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "company")
     private List<Message> messageList;
 
 }

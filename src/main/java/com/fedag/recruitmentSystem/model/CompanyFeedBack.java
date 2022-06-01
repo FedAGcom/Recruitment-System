@@ -24,16 +24,12 @@ public class CompanyFeedBack {
     @Column(name = "comment")
     private String comment;
 
-    @ManyToOne(
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_from_id")
     @JsonBackReference
     private User user;
 
-    @ManyToOne(
-        fetch = FetchType.LAZY,
-        cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "company_to_id")
     @JsonBackReference
     private Company company;

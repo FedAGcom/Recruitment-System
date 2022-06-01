@@ -25,7 +25,7 @@ public class Skill {
   @Column(name = "skill_name")
   private String name;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "resume_skill_link",
       joinColumns = @JoinColumn(name = "skill_id"),
@@ -33,7 +33,7 @@ public class Skill {
   @JsonManagedReference
   private List<Resume> resumeList;
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany
   @JoinTable(
       name = "vacancies_skill_link",
       joinColumns = @JoinColumn(name = "skill_id"),
