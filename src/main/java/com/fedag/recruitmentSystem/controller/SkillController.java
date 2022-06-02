@@ -28,8 +28,8 @@ public class SkillController {
   }
 
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return skillService.findById(id).toString();
+  public Skill getById(@PathVariable Long id) {
+    return skillService.findById(id);
   }
 
   @PostMapping

@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -31,6 +32,7 @@ public class Skill {
       joinColumns = @JoinColumn(name = "skill_id"),
       inverseJoinColumns = @JoinColumn(name = "resume_id"))
   @JsonManagedReference
+  @JsonIgnore
   private List<Resume> resumeList;
 
   @ManyToMany
@@ -39,6 +41,7 @@ public class Skill {
       joinColumns = @JoinColumn(name = "skill_id"),
       inverseJoinColumns = @JoinColumn(name = "vacancy_id"))
   @JsonManagedReference
+  @JsonIgnore
   private List<Vacancy> vacancyList;
 
 }
