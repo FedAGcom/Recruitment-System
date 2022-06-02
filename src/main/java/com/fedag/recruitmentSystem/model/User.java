@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -32,7 +32,7 @@ public class User {
     private String email;
 
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDateTime birthday;
 
     @OneToOne(
         cascade = CascadeType.ALL,
