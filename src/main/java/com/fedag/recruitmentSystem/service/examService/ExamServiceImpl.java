@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.service.examService;
 
 import com.fedag.recruitmentSystem.repository.ExamRepository;
 import com.fedag.recruitmentSystem.model.Exam;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
