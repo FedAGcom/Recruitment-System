@@ -1,17 +1,11 @@
 package com.fedag.recruitmentSystem.service;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.ExamRepository;
-import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import java.util.Optional;
-
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
-import org.junit.jupiter.api.Assertions;
 
 @ExtendWith(MockitoExtension.class)
 public class ExamServiceTest {
