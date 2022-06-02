@@ -10,11 +10,14 @@ import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
 
+@ExtendWith(MockitoExtension.class)
 public class CompanyServiceTest {
 
   @Mock
