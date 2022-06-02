@@ -28,8 +28,8 @@ public class CompanyController {
   }
 
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return companyService.findById(id).toString();
+  public Company getById(@PathVariable Long id) {
+    return companyService.findById(id);
   }
 
   @PostMapping

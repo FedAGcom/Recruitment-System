@@ -28,8 +28,8 @@ public class VacancyController {
   }
 
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return vacancyService.findById(id).toString();
+  public Vacancy getById(@PathVariable Long id) {
+    return vacancyService.findById(id);
   }
 
   @PostMapping
