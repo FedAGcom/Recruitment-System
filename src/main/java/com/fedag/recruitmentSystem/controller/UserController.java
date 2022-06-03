@@ -1,7 +1,9 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
+import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -39,8 +42,13 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<User> showAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<User> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
     return userService.getAllUsers(pageable);
+  }
+
+  @GetMapping("/filter")
+  public List<User> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
+    return userService.getByEntranceExamScore(score);
   }
 
   @Operation(summary = "Получение пользователя по id")
