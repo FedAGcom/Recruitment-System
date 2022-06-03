@@ -20,7 +20,7 @@ public class ResumeController {
     return resumeService.getAllResumes(pageable);
   }
 
-  @GetMapping("/where")
+  @GetMapping("/search")
   public Page<Resume> getAllResumesByTextFilter(@RequestParam("text") String text,
                                                 @PageableDefault(size = 15) Pageable pageable) {
     return resumeService.findByTextFilter(text, pageable);
