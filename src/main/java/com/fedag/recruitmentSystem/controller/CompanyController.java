@@ -52,8 +52,8 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return companyService.findById(id).toString();
+  public Company getById(@PathVariable Long id) {
+    return companyService.findById(id);
   }
 
   @Operation(summary = "Удаление кампании")

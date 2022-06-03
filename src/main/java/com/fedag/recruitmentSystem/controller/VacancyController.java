@@ -51,8 +51,8 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return vacancyService.findById(id).toString();
+  public Vacancy getById(@PathVariable Long id) {
+    return vacancyService.findById(id);
   }
 
   @Operation(summary = "Удаление вакансии")

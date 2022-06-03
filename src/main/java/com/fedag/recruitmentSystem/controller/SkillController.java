@@ -51,8 +51,8 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return skillService.findById(id).toString();
+  public Skill getById(@PathVariable Long id) {
+    return skillService.findById(id);
   }
 
   @Operation(summary = "Удаление ключевого навыка")
