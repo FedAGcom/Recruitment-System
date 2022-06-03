@@ -41,4 +41,9 @@ public class ResumeServiceImpl implements ResumeService<Resume> {
   public void deleteById(Long id) {
     resumeRepository.deleteById(id);
   }
+
+  @Override
+  public Page<Resume> findByTextFilter(String text, Pageable pageable) {
+    return resumeRepository.findByTextFilter(text, pageable);
+  }
 }
