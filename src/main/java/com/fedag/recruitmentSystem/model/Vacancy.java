@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,9 @@ public class Vacancy {
   @Column(name = "status")
   @Enumerated(EnumType.STRING)
   private ResumeStatus status;
+
+  @Column(name = "date_created")
+  private LocalDateTime dateCreated;
 
   @ManyToOne
   @JoinColumn(name = "company_id")

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class Resume {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ResumeStatus status;
+
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
 
     @OneToMany(
             mappedBy = "resume",
