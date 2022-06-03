@@ -1,8 +1,10 @@
 package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +24,8 @@ public class Skill {
   @Column(name = "id")
   private Long id;
 
+  @NotBlank
+  @Schema(description = "Ключевой навык")
   @Column(name = "skill_name")
   private String name;
 
