@@ -98,4 +98,9 @@ public class UserController {
   public void deleteUser(@PathVariable Long id) {
     userService.deleteById(id);
   }
+
+  @GetMapping("/filter/stars")
+  public List<User> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
+    return userService.getByStars(stars);
+  }
 }

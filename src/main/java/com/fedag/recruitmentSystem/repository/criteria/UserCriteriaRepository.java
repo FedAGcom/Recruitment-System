@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserCriteriaRepository {
   List<User> findByEntranceExamScore(int score);
+  List<User> findByStars(byte stars);
 }
