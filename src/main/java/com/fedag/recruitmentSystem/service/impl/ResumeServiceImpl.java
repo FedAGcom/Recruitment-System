@@ -46,5 +46,9 @@ public class ResumeServiceImpl implements ResumeService<Resume> {
 
   public List<Resume> findByDateCreated(LocalDateTime dateCreated) {
     return resumeRepository.findByDateCreated(dateCreated);
+  
+  @Override
+  public Page<Resume> findByTextFilter(String text, Pageable pageable) {
+    return resumeRepository.findByTextFilter(text, pageable);
   }
 }
