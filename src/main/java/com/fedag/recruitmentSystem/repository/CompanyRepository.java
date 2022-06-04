@@ -1,10 +1,11 @@
 package com.fedag.recruitmentSystem.repository;
 
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.repository.criteria.CompanyCriteriaRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long>, CompanyCriteriaRepository {
 
 }

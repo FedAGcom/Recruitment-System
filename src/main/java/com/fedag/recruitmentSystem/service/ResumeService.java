@@ -12,4 +12,7 @@ public interface ResumeService<T> extends AbstractServiceInterface<T> {
     Page<T> getAllResumes(Pageable pageable);
 
     Page<T> getAllResumesByPosition(String position, Pageable pageable);
+
+    Page<T> findByTextFilter(String text, Pageable pageable);
+
 }
