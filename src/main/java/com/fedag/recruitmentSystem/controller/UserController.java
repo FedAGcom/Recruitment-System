@@ -1,8 +1,10 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Exam;
+import com.fedag.recruitmentSystem.dto.UserDTO;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
+
+
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -42,8 +44,10 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<User> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
-    return userService.getAllUsers(pageable);
+  public Page<UserDTO> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+    Page<User> userPage = userService.getAllUsers(pageable);
+    Page<UserDTO> userDTOPage = UserDTO.convertUserPageToUserDTOPage(userPage,pageable);
+    return userDTOPage;
   }
 
   @GetMapping("/filter")
@@ -59,8 +63,10 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public User getUser(@PathVariable Long id) {
-    return userService.findById(id);
+  public UserDTO getUser(@PathVariable Long id) {
+    User user = userService.findById(id);
+    UserDTO userDTO = UserDTO.convertUserToUserDTO(user);
+    return userDTO;
   }
 
   @Operation(summary = "Добавление пользователя")
@@ -71,7 +77,8 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUser(@RequestBody User user) {
+  public void addNewUser(@RequestBody UserDTO userDTO) {
+    User user = UserDTO.convertUserDtoToUser(userDTO);
     userService.save(user);
   }
 
@@ -83,7 +90,8 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUser(@RequestBody User user) {
+  public void updateUser(@RequestBody UserDTO userDTO) {
+    User user = UserDTO.convertUserDtoToUser(userDTO);
     userService.save(user);
   }
 

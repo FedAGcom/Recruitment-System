@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.repository.criteria.impl;
 
 import com.fedag.recruitmentSystem.model.Resume;
+
 import com.fedag.recruitmentSystem.repository.criteria.ResumeCriteriaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
+
+
 
 @Repository
 @RequiredArgsConstructor
@@ -33,6 +36,7 @@ public class ResumeCriteriaRepositoryImpl implements ResumeCriteriaRepository {
         TypedQuery<Resume> query = entityManager.createQuery(cr);
 
         return query.getResultList();
+    }
 
     public Page<Resume> findByTextFilter(String text, Pageable pageable) {
         int pageSize = pageable.getPageSize();
