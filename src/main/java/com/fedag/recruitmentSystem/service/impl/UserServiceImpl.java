@@ -32,6 +32,10 @@ public class UserServiceImpl implements UserService<User> {
     return userRepository.findByEntranceExamScore(score);
   }
 
+  public List<User> getByStars(byte stars) {
+    return userRepository.findByStars(stars);
+  }
+
   @Override
   public User findById(Long id) {
     return userRepository

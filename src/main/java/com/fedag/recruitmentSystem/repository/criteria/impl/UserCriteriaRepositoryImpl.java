@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.repository.criteria.impl;
 
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.model.User;
+import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.repository.criteria.UserCriteriaRepository;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -38,5 +39,21 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
     TypedQuery<User> query = entityManager.createQuery(cr);
     return query.getResultList();
 
+  }
+
+  @Override
+  public List<User> findByStars(byte stars) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<User> cr = cb.createQuery(User.class);
+
+    Root<User> root = cr.from(User.class);
+    Join<UserFeedback, User> join = root.join("userFeedbackList");
+
+    cr.select(root).
+            where(cb.ge(join.get("stars"), stars)).
+            orderBy(cb.desc(join.get("stars")));
+
+    TypedQuery<User> query = entityManager.createQuery(cr);
+    return query.getResultList();
   }
 }
