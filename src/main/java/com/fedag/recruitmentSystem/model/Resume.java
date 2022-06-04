@@ -6,6 +6,7 @@ import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ public class Resume {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ResumeStatus status;
+
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
 
     @OneToMany(
             mappedBy = "resume",

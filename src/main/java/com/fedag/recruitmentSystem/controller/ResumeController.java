@@ -12,8 +12,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import org.springframework.http.MediaType;
 
 @RequiredArgsConstructor
 @RestController
@@ -89,5 +92,10 @@ public class ResumeController {
   @DeleteMapping("/{id}")
   public void deleteById(@PathVariable Long id) {
     resumeService.deleteById(id);
+  }
+
+  @GetMapping("/filter/date")
+  public List<Resume> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
+    return resumeService.findByDateCreated(dateCreated);
   }
 }

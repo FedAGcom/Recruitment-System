@@ -4,6 +4,8 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.repository.ResumeRepository;
 import com.fedag.recruitmentSystem.service.ResumeService;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,6 +44,9 @@ public class ResumeServiceImpl implements ResumeService<Resume> {
     resumeRepository.deleteById(id);
   }
 
+  public List<Resume> findByDateCreated(LocalDateTime dateCreated) {
+    return resumeRepository.findByDateCreated(dateCreated);
+  
   @Override
   public Page<Resume> findByTextFilter(String text, Pageable pageable) {
     return resumeRepository.findByTextFilter(text, pageable);

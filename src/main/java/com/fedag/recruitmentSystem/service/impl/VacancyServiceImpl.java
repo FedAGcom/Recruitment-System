@@ -1,9 +1,12 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
 import com.fedag.recruitmentSystem.service.VacancyService;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,5 +46,9 @@ public class VacancyServiceImpl implements VacancyService<Vacancy> {
   @Override
   public void deleteById(Long id) {
     vacancyRepository.deleteById(id);
+  }
+
+  public List<Vacancy> findByDateCreated(LocalDateTime dateCreated) {
+    return vacancyRepository.findByDateCreated(dateCreated);
   }
 }
