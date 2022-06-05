@@ -1,5 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.ResumeResponse;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.http.MediaType;
@@ -35,12 +36,12 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Resume> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<ResumeResponse> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
     return resumeService.getAllResumes(pageable);
   }
 
   @GetMapping("/search")
-  public Page<Resume> getAllResumesByTextFilter(@RequestParam("text") String text,
+  public Page<ResumeResponse> getAllResumesByTextFilter(@RequestParam("text") String text,
                                                 @PageableDefault(size = 15) Pageable pageable) {
     return resumeService.findByTextFilter(text, pageable);
   }
@@ -52,10 +53,14 @@ public class ResumeController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-
   @GetMapping("/{id}")
-  public Resume getById(@PathVariable Long id) {
+  public ResumeResponse getById(@PathVariable Long id) {
     return resumeService.findById(id);
+  }
+
+  @GetMapping("/{id}/experiences")
+  public List<ExperienceResponse> GetExperiencesByResume(@PathVariable("id") Long id) {
+    return resumeService.listExperiencesByResume(id);
   }
 
   @Operation(summary = "Добавление резюме")
@@ -66,7 +71,7 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody Resume resume) {
+  public void addVacancy(@RequestBody ResumeResponse resume) {
     resumeService.save(resume);
   }
 
@@ -78,7 +83,7 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody Resume resume) {
+  public void updateVacancy(@RequestBody ResumeResponse resume) {
     resumeService.save(resume);
   }
 
@@ -95,7 +100,7 @@ public class ResumeController {
   }
 
   @GetMapping("/filter/date")
-  public List<Resume> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
+  public List<ResumeResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
     return resumeService.findByDateCreated(dateCreated);
   }
 }

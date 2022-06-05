@@ -1,7 +1,10 @@
 package com.fedag.recruitmentSystem.service;
 
+import com.fedag.recruitmentSystem.dto.ResumeResponse;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.map.ExperienceMapper;
+import com.fedag.recruitmentSystem.map.ResumeMapper;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.model.Skill;
@@ -34,6 +37,10 @@ class ResumeServiceTest {
     @Mock
     private ResumeRepository resumeRepository;
 
+    private ResumeMapper resumeMapper;
+
+    private ExperienceMapper experienceMapper;
+
     private ResumeServiceImpl resumeService;
 
     private AutoCloseable autoClosable;
@@ -41,7 +48,7 @@ class ResumeServiceTest {
     @BeforeEach
     void setUp() {
         autoClosable = MockitoAnnotations.openMocks(this);
-        resumeService = new ResumeServiceImpl(resumeRepository);
+        resumeService = new ResumeServiceImpl(resumeRepository, resumeMapper, experienceMapper);
     }
 
     @AfterEach
@@ -54,7 +61,8 @@ class ResumeServiceTest {
         Long resumeId = 1L;
         Resume mockResume = getTestResume(1L, 1L, resumeId);
         BDDMockito.given(resumeRepository.save(mockResume)).willReturn(mockResume);
-        assertDoesNotThrow(() -> resumeService.save(mockResume));
+        ResumeResponse mockResumeResponse = resumeMapper.modelToDto(getTestResume(1L, 1L, resumeId));
+        assertDoesNotThrow(() -> resumeService.save(mockResumeResponse));
     }
 
     @Test
@@ -62,7 +70,8 @@ class ResumeServiceTest {
         Long resumeId = 1L;
         Resume mockResume = getTestResume(1L, 1L, resumeId);
         BDDMockito.given(resumeRepository.findById(resumeId)).willReturn(java.util.Optional.of(mockResume));
-        Resume resultResume = resumeService.findById(resumeId);
+        ResumeResponse mockResumeResponse = resumeService.findById(resumeId);
+        Resume resultResume = resumeMapper.dtoToModel(mockResumeResponse);
         assertThat(resultResume)
                 .isNotNull()
                 .usingRecursiveComparison()
@@ -84,7 +93,8 @@ class ResumeServiceTest {
     @MethodSource("dataForTest")
     void itShouldFindAllResumes(List<Resume> resumes, List<String> expected) {
         BDDMockito.given(resumeRepository.findAll()).willReturn(resumes);
-        List<Resume> actualPages = resumeService.getAllResumes();
+        List<ResumeResponse> actualPagesResponse = resumeService.getAllResumes();
+        List<Resume> actualPages = resumeMapper.dtoToModel(actualPagesResponse);
         List<String> resumeNames = actualPages.stream()
                 .map(Resume::getResumeName)
                 .collect(Collectors.toList());
@@ -99,9 +109,9 @@ class ResumeServiceTest {
         int limit = 5;
         Page<Resume> mockedPages = new PageImpl<>(resumes);
         BDDMockito.given(resumeRepository.findAll(PageRequest.of(0, limit))).willReturn(mockedPages);
-        Page<Resume> actualPages = resumeService.getAllResumes(PageRequest.of(0, limit));
-        List<String> resumeNames = actualPages.get()
-                .map(Resume::getResumeName)
+        Page<ResumeResponse> actualPagesResponse = resumeService.getAllResumes(PageRequest.of(0, limit));
+        List<String> resumeNames = actualPagesResponse.get()
+                .map(ResumeResponse::getResumeName)
                 .collect(Collectors.toList());
         assertThat(resumeNames)
                 .usingRecursiveComparison()
