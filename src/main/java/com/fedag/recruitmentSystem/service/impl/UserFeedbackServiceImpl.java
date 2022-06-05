@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.map.UserFeedbackMapper;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.repository.UserFeedbackRepository;
 import com.fedag.recruitmentSystem.service.UserFeedbackService;
@@ -12,32 +14,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedback> {
+public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedbackResponse> {
 
   private final UserFeedbackRepository userFeedbackRepository;
+  private final UserFeedbackMapper userFeedbackMapper;
 
   @Override
-  public List<UserFeedback> getAllUserFeedbacks() {
-    return userFeedbackRepository.findAll();
+  public List<UserFeedbackResponse> getAllUserFeedbacks() {
+    return userFeedbackMapper.modelToDto(userFeedbackRepository.findAll());
   }
 
   @Override
-  public Page<UserFeedback> getAllUserFeedbacks(Pageable pageable) {
-    return userFeedbackRepository.findAll(pageable);
+  public Page<UserFeedbackResponse> getAllUserFeedbacks(Pageable pageable) {
+    return userFeedbackMapper.modelToDto(userFeedbackRepository.findAll(pageable));
   }
 
   @Override
-  public UserFeedback findById(Long id) {
-    return userFeedbackRepository
+  public UserFeedbackResponse findById(Long id) {
+    UserFeedback userFeedback = userFeedbackRepository
         .findById(id)
         .orElseThrow(
             () -> new ObjectNotFoundException("UserFeedback with id: " + id + " not found")
         );
+    return userFeedbackMapper.modelToDto(userFeedback);
   }
 
   @Override
-  public void save(UserFeedback element) {
-    userFeedbackRepository.save(element);
+  public void save(UserFeedbackResponse userFeedbackResponse) {
+    UserFeedback userFeedback = userFeedbackMapper.dtoToModel(userFeedbackResponse);
+    userFeedbackRepository.save(userFeedback);
   }
 
   @Override

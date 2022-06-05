@@ -38,27 +38,22 @@ public class User {
     @OneToOne(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private Exam exam;
 
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private List<UserFeedback> userFeedbackList;
 
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private List<Resume> resumeList;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
     private List<VacancyResponse> vacancyResponseList;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
     private List<Message> messageList;
 
 }

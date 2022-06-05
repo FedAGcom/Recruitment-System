@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.map;
 
-import com.fedag.recruitmentSystem.dto.UserResponse;
-import com.fedag.recruitmentSystem.model.User;
+import com.fedag.recruitmentSystem.dto.ExamResponse;
+import com.fedag.recruitmentSystem.model.Exam;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
@@ -11,37 +11,37 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
-public class UserMapper {
+public class ExamMapper {
 
-    public UserResponse modelToDto(User user) {
+    public ExamResponse modelToDto(Exam exam) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(user, UserResponse.class);
+        return mapper.map(exam, ExamResponse.class);
     }
 
-    public List<UserResponse> modelToDto(List<User> user) {
-        return user
+    public List<ExamResponse> modelToDto(List<Exam> exam) {
+        return exam
                 .stream()
                 .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public Page<UserResponse> modelToDto(Page<User> userPage) {
-        return userPage
-                .map(new Function<User, UserResponse>() {
+    public Page<ExamResponse> modelToDto(Page<Exam> examPage) {
+        return examPage
+                .map(new Function<Exam, ExamResponse>() {
                     @Override
-                    public UserResponse apply(User entity) {
+                    public ExamResponse apply(Exam entity) {
                         return modelToDto(entity);
                     }
                 });
     }
 
-    public User dtoToModel(UserResponse dto) {
+    public Exam dtoToModel(ExamResponse dto) {
         ModelMapper mapper = new ModelMapper();
-        return mapper.map(dto, User.class);
+        return mapper.map(dto, Exam.class);
 
     }
 
-    public List<User> dtoToModel(List<UserResponse> dto) {
+    public List<Exam> dtoToModel(List<ExamResponse> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)

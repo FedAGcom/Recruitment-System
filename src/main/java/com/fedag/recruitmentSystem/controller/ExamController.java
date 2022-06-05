@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.ExamResponse;
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +39,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @GetMapping
-  public Page<Exam> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
     return examService.getAllExams(pageable);
   }
   @Operation(summary = "Получение теста по id")
@@ -49,7 +50,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Exam getExam(@PathVariable Long id) {
+  public ExamResponse getExam(@PathVariable Long id) {
     return examService.findById(id);
   }
 
@@ -61,7 +62,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PostMapping
-  public void addNewExam(@RequestBody Exam exam) {
+  public void addNewExam(@RequestBody ExamResponse exam) {
     examService.save(exam);
   }
 
@@ -73,7 +74,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PutMapping
-  public void updateExam(@RequestBody Exam exam) {
+  public void updateExam(@RequestBody ExamResponse exam) {
     examService.save(exam);
   }
 

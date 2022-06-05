@@ -46,6 +46,5 @@ public class UserFeedback {
 
     @ManyToOne
     @JoinColumn(name = "user_to_id")
-    @JsonBackReference
     private User user;
 }
