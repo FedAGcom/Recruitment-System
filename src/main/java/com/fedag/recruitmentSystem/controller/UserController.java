@@ -1,10 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.UserDTO;
-import com.fedag.recruitmentSystem.model.User;
+
+import com.fedag.recruitmentSystem.dto.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
-
-
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -44,14 +42,12 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<UserDTO> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
-    Page<User> userPage = userService.getAllUsers(pageable);
-    Page<UserDTO> userDTOPage = UserDTO.convertUserPageToUserDTOPage(userPage,pageable);
-    return userDTOPage;
+  public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+    return userService.getAllUsers(pageable);
   }
 
   @GetMapping("/filter")
-  public List<User> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
+  public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
     return userService.getByEntranceExamScore(score);
   }
 
@@ -63,10 +59,8 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public UserDTO getUser(@PathVariable Long id) {
-    User user = userService.findById(id);
-    UserDTO userDTO = UserDTO.convertUserToUserDTO(user);
-    return userDTO;
+  public UserResponse getUser(@PathVariable Long id) {
+    return userService.findById(id);
   }
 
   @Operation(summary = "Добавление пользователя")
@@ -77,8 +71,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUser(@RequestBody UserDTO userDTO) {
-    User user = UserDTO.convertUserDtoToUser(userDTO);
+  public void addNewUser(@RequestBody UserResponse user) {
     userService.save(user);
   }
 
@@ -90,8 +83,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUser(@RequestBody UserDTO userDTO) {
-    User user = UserDTO.convertUserDtoToUser(userDTO);
+  public void updateUser(@RequestBody UserResponse user) {
     userService.save(user);
   }
 
@@ -108,7 +100,7 @@ public class UserController {
   }
 
   @GetMapping("/filter/stars")
-  public List<User> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
+  public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
     return userService.getByStars(stars);
   }
 }
