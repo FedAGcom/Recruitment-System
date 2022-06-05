@@ -36,7 +36,7 @@ public class CompanyCriteriaRepositoryImpl implements CompanyCriteriaRepository 
 
         cr.select(root).
                 where(cb.ge(join.get("stars"), stars)).
-                orderBy(cb.desc(join.get("stars")));
+                orderBy(cb.desc(cb.avg(join.get("stars")))).groupBy(root);;
 
         TypedQuery<Company> query = entityManager.createQuery(cr);
         return query.getResultList();

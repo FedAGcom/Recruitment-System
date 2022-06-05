@@ -28,6 +28,20 @@ public class ResumeController {
   @Schema(name = "Сервис резюме", description = "Содержит имплементацию методов для работы с репозиторием")
   private final ResumeServiceImpl resumeService;
 
+  @Operation(summary = "Получение резюме по позиции")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Резюме получено согласно позиции",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+    @GetMapping("/byPosition/{position}")
+    public Page<Resume> getAllResumesByPosition(
+            @PageableDefault(size = 1) Pageable pageable
+            , @PathVariable("position") String position) {
+        return resumeService.getAllResumesByPosition(position, pageable);
+    }
+  
   @Operation(summary = "Получение списка резюме")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Список загружен",

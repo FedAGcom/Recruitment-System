@@ -30,7 +30,7 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
   public List<ResumeResponse> getAllResumes() {
     return resumeMapper.modelToDto(resumeRepository.findAll());
   }
-
+  
   @Override
   public Page<ResumeResponse> getAllResumes(Pageable pageable) {
     return resumeMapper.modelToDto(resumeRepository.findAll(pageable));
@@ -41,6 +41,10 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
     Resume resume = resumeRepository.findById(id)
             .orElseThrow(() -> new ObjectNotFoundException("Resume with id: " + id + " not found"));
     return resumeMapper.modelToDto(resume);
+  }
+
+  public Page<Resume> getAllResumesByPosition(String position, Pageable pageable) {
+      return resumeRepository.findAllByResumeName(position, pageable);
   }
 
   @Override
