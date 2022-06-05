@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface ResumeCriteriaRepository {
-    List<Resume> findByDateCreated(LocalDateTime dateCreated);
-
 @Repository
 public interface ResumeCriteriaRepository {
-    Page<Resume> findByTextFilter(String text, Pageable pageable);
+        List<Resume> findByDateCreated(LocalDateTime dateCreated);
+        Page<Resume> findByTextFilter(String text, Pageable pageable);
 }
+

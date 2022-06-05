@@ -120,7 +120,7 @@ class ResumeServiceTest {
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
-        return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, experiences, skills, user);
+        return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
     }
 
     static Stream<Arguments> dataForTest() {
