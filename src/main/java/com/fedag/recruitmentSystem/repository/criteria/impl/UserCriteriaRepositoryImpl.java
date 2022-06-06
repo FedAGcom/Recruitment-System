@@ -51,7 +51,7 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
 
     cr.select(root).
             where(cb.ge(join.get("stars"), stars)).
-            orderBy(cb.desc(join.get("stars")));
+            orderBy(cb.desc(cb.avg(join.get("stars")))).groupBy(root);
 
     TypedQuery<User> query = entityManager.createQuery(cr);
     return query.getResultList();
