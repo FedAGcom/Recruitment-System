@@ -20,11 +20,13 @@ public class VacancyMapper {
   @PostConstruct
   public void setupMapper() {
     mapper.createTypeMap(VacancyDto.class, Vacancy.class)
-        .addMappings(m -> m.skip(Vacancy::setCompany)).setPostConverter(toEntityConverter())
-        .addMappings(m -> m.skip(Vacancy::setId));
+        .addMappings(m -> m.skip(Vacancy::setCompany))
+        .addMappings(m -> m.skip(Vacancy::setId))
+        .setPostConverter(toEntityConverter());
 
     mapper.createTypeMap(Vacancy.class, VacancyDto.class)
-        .addMappings(m -> m.skip(VacancyDto::setCompanyId)).setPostConverter(toDtoConverter());
+        .addMappings(m -> m.skip(VacancyDto::setCompanyId))
+        .setPostConverter(toDtoConverter());
   }
 
   public VacancyDto toDto(Vacancy vacancy) {

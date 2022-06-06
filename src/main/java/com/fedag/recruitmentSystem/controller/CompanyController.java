@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.domain.dto.CompanyDto;
 import com.fedag.recruitmentSystem.domain.entity.Company;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Company> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<CompanyDto> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
     return companyService.getAllCompanies(pageable);
   }
 
@@ -51,7 +52,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Company getById(@PathVariable Long id) {
+  public CompanyDto getById(@PathVariable Long id) {
     return companyService.findById(id);
   }
 
@@ -75,8 +76,8 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/add")
-  public void addVacancy(@RequestBody Company company) {
-    companyService.save(company);
+  public void addVacancy(@RequestBody CompanyDto companyDto) {
+    companyService.save(companyDto);
   }
 
   @Operation(summary = "Изменение компании")
@@ -87,7 +88,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PatchMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody Company company) {
-    companyService.save(company);
+  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
+    companyService.save(companyDto);
   }
 }
