@@ -38,6 +38,10 @@ public class UserServiceImpl implements UserService<UserResponse> {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
 
+    public List<UserResponse> getByExperience() {
+        return userMapper.modelToDto(userRepository.findByExperience());
+    }
+
     @Override
     public UserResponse findById(Long id) {
         User user = userRepository

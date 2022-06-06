@@ -103,4 +103,9 @@ public class UserController {
   public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
     return userService.getByStars(stars);
   }
+
+  @GetMapping("/filter/exp")
+  public List<UserResponse> findByExperience() {
+    return userService.getByExperience();
+  }
 }

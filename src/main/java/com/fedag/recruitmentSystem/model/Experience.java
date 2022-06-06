@@ -26,12 +26,12 @@ public class Experience {
     @NotBlank
     @Schema(description = "Дата начала работы")
     @Column(name = "start_date")
-    private LocalDateTime StartDate;
+    private LocalDateTime startDate;
 
     @NotBlank
     @Schema(description = "Дата окончания работы")
     @Column(name = "end_date")
-    private LocalDateTime EndDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")

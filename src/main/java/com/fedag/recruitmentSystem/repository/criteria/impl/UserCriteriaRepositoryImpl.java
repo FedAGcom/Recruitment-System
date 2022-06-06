@@ -1,9 +1,9 @@
 package com.fedag.recruitmentSystem.repository.criteria.impl;
 
-import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.model.User;
-import com.fedag.recruitmentSystem.model.UserFeedback;
+import com.fedag.recruitmentSystem.model.*;
 import com.fedag.recruitmentSystem.repository.criteria.UserCriteriaRepository;
+
+import java.beans.Expression;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -52,6 +52,21 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
     cr.select(root).
             where(cb.ge(join.get("stars"), stars)).
             orderBy(cb.desc(cb.avg(join.get("stars")))).groupBy(root);
+
+    TypedQuery<User> query = entityManager.createQuery(cr);
+    return query.getResultList();
+  }
+
+  @Override
+  public List<User> findByExperience() {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<User> cr = cb.createQuery(User.class);
+
+    Root<User> root = cr.from(User.class);
+    Join<Resume, User> join1 = root.join("resumeList");
+    Join<Experience, Resume> join = join1.join("experiences");
+
+    cr.select(root).orderBy(cb.desc(cb.diff(join.get("endDate"), join.get("startDate")))).groupBy(join1, root, join);
 
     TypedQuery<User> query = entityManager.createQuery(cr);
     return query.getResultList();
