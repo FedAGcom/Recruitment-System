@@ -33,6 +33,7 @@ public class ResumeCriteriaRepositoryImpl implements ResumeCriteriaRepository {
         TypedQuery<Resume> query = entityManager.createQuery(cr);
 
         return query.getResultList();
+    }
 
     public Page<Resume> findByTextFilter(String text, Pageable pageable) {
         int pageSize = pageable.getPageSize();

@@ -49,7 +49,6 @@ public class User {
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private List<Resume> resumeList;
 
     @OneToMany(mappedBy = "user")
