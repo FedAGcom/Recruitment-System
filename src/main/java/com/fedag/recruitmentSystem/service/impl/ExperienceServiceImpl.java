@@ -1,43 +1,57 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.ExperienceResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.map.ExperienceMapper;
 import com.fedag.recruitmentSystem.model.Experience;
+import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.repository.ExperienceRepository;
 import com.fedag.recruitmentSystem.service.ExperienceService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ExperienceServiceImpl implements ExperienceService<Experience> {
+@Transactional
+public class ExperienceServiceImpl implements ExperienceService<ExperienceResponse> {
 
   private final ExperienceRepository experienceRepository;
+  private final ExperienceMapper experienceMapper;
 
   @Override
-  public List<Experience> getAllExperience() {
-    return experienceRepository.findAll();
+  public List<ExperienceResponse> getAllExperience() {
+    return experienceMapper.modelToDto(experienceRepository.findAll());
   }
 
   @Override
-  public Page<Experience> getAllExperience(Pageable pageable) {
-    return experienceRepository.findAll(pageable);
+  public Page<ExperienceResponse> getAllExperience(Pageable pageable) {
+    return experienceMapper.modelToDto(experienceRepository.findAll(pageable));
   }
 
   @Override
-  public Experience findById(Long id) {
-    return experienceRepository
-        .findById(id)
-        .orElseThrow(
-            () -> new ObjectNotFoundException("Experience with id: " + id + " not found")
-        );
+  public ExperienceResponse findById(Long id) {
+    Experience experience = experienceRepository
+            .findById(id)
+            .orElseThrow(
+                    () -> new ObjectNotFoundException("Experience with id: " + id + " not found")
+            );
+    return experienceMapper.modelToDto(experience);
   }
 
   @Override
-  public void save(Experience element) {
-    experienceRepository.save(element);
+  public void save(ExperienceResponse element) {
+    Experience experience = experienceMapper.dtoToModel(element);
+    Optional<Resume> resume = Optional.ofNullable(experience.getResume());
+    resume.ifPresent(r->{
+      if(r.getId()!=null)
+        experience.setResume(r);
+    });
+    experienceRepository.save(experience);
   }
 
   @Override

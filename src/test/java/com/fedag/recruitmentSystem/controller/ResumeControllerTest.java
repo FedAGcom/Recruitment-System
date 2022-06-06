@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.ResumeResponse;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.map.ResumeMapper;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.domain.entity.Skill;
@@ -40,6 +42,9 @@ class ResumeControllerTest {
     @Autowired
     private ResumeController controller;
 
+    @Autowired
+    private ResumeMapper resumeMapper;
+
     @MockBean
     private ResumeServiceImpl resumeService;
 
@@ -50,9 +55,9 @@ class ResumeControllerTest {
 
     @ParameterizedTest(name = "test {index}: students from service = {0} expected = {1}")
     @MethodSource("dataForTest")
-    void getAllResumes(List<Resume> resumes, List<String> expected) throws Exception {
+    void getAllResumes(List<ResumeResponse> resumes, List<String> expected) throws Exception {
         int limit = 5;
-        Page<Resume> mockedPages = new PageImpl<>(resumes);
+        Page<ResumeResponse> mockedPages = new PageImpl<>(resumes);
         Mockito.when(resumeService.getAllResumes(PageRequest.of(0, limit))).thenReturn(mockedPages);
         mockMvc.perform(get("/api/resumes"))
                 .andDo(print())
@@ -66,7 +71,8 @@ class ResumeControllerTest {
     @Test
     void getById() throws Exception {
         Long resumeId = 1L;
-        Resume mockResume = getTestResume(1L, 1L, 1L);
+        ResumeResponse mockResume = resumeMapper.modelToDto(getTestResume(1L, 1L, 1L));
+
         Mockito.when(resumeService.findById(resumeId)).thenReturn(mockResume);
         mockMvc.perform(get("/api/resumes/" + resumeId))
                 .andDo(print())
@@ -86,8 +92,7 @@ class ResumeControllerTest {
 
     @Test
     void addVacancy() throws Exception {
-        Resume mockResume = getTestResume(1L, 1L, 1L);
-        Mockito.doNothing().when(resumeService).save(mockResume);
+        ResumeResponse mockResume = resumeMapper.modelToDto(getTestResume(1L, 1L, 1L));
         mockMvc.perform(post("/api/resumes/", mockResume)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":1,\"resumeName\":\"Ivan CV\",\"status\":\"ACTIVE\",\"experiences\":[{\"id\":1,\"description\":\"Java developing\",\"endDate\":\"2022-06-02T15:40:32.0247436\",\"startDate\":\"2020-06-02T15:40:32.0247436\"}]}"))
@@ -97,7 +102,7 @@ class ResumeControllerTest {
 
     @Test
     void updateVacancy() throws Exception {
-        Resume mockResume = getTestResume(1L, 1L, 1L);
+        ResumeResponse mockResume = resumeMapper.modelToDto(getTestResume(1L, 1L, 1L));
         Mockito.doNothing().when(resumeService).save(mockResume);
         mockMvc.perform(put("/api/resumes/", mockResume)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -111,7 +116,7 @@ class ResumeControllerTest {
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
-        return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, experiences, skills, user);
+        return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
     }
 
     static Stream<Arguments> dataForTest() {

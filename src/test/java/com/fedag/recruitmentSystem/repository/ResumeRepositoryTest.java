@@ -39,7 +39,7 @@ class ResumeRepositoryTest {
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(experience);
-        Resume resume = new Resume(null, "Ivan", ResumeStatus.ACTIVE, experiences, skills, user);
+        Resume resume = new Resume(null, "Ivan", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
 
         userRepository.save(user);
         Optional<User> optionalUser = userRepository.findById(userId);

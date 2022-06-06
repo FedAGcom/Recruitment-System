@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Experience;
+import com.fedag.recruitmentSystem.dto.ExperienceResponse;
 import com.fedag.recruitmentSystem.service.impl.ExperienceServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +39,7 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Experience> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<ExperienceResponse> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
     return experienceService.getAllExperience(pageable);
   }
 
@@ -51,7 +51,7 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Experience getById(@PathVariable Long id) {
+  public ExperienceResponse getById(@PathVariable Long id) {
     return experienceService.findById(id);
   }
 
@@ -63,7 +63,7 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody Experience experience) {
+  public void addVacancy(@RequestBody ExperienceResponse experience) {
     experienceService.save(experience);
   }
 
@@ -75,7 +75,7 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody Experience experience) {
+  public void updateVacancy(@RequestBody ExperienceResponse experience) {
     experienceService.save(experience);
   }
 

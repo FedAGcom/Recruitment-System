@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.model.User;
+
+import com.fedag.recruitmentSystem.dto.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,12 +42,12 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<User> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
     return userService.getAllUsers(pageable);
   }
 
   @GetMapping("/filter")
-  public List<User> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
+  public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
     return userService.getByEntranceExamScore(score);
   }
 
@@ -59,7 +59,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public User getUser(@PathVariable Long id) {
+  public UserResponse getUser(@PathVariable Long id) {
     return userService.findById(id);
   }
 
@@ -71,7 +71,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUser(@RequestBody User user) {
+  public void addNewUser(@RequestBody UserResponse user) {
     userService.save(user);
   }
 
@@ -83,7 +83,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUser(@RequestBody User user) {
+  public void updateUser(@RequestBody UserResponse user) {
     userService.save(user);
   }
 
@@ -97,5 +97,10 @@ public class UserController {
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable Long id) {
     userService.deleteById(id);
+  }
+
+  @GetMapping("/filter/stars")
+  public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
+    return userService.getByStars(stars);
   }
 }
