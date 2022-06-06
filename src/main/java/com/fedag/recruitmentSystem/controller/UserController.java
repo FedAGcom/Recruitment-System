@@ -46,6 +46,13 @@ public class UserController {
     return userService.getAllUsers(pageable);
   }
 
+  @Operation(summary = "Сортировка списка пользователей по вступительным экзаменам")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
   @GetMapping("/filter")
   public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
     return userService.getByEntranceExamScore(score);
@@ -99,11 +106,25 @@ public class UserController {
     userService.deleteById(id);
   }
 
+  @Operation(summary = "Сортировка списка пользователей по рейтингу")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
   @GetMapping("/filter/stars")
   public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
     return userService.getByStars(stars);
   }
 
+  @Operation(summary = "Сортировка списка пользователей по опыту работы")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
   @GetMapping("/filter/exp")
   public List<UserResponse> findByExperience() {
     return userService.getByExperience();

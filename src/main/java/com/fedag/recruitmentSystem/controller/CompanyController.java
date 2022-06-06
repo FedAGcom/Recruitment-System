@@ -87,6 +87,13 @@ public class CompanyController {
     companyService.save(company);
   }
 
+  @Operation(summary = "Сортировка списка компаний по рейтингу")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Компании отсортированы",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
   @GetMapping("/filter/stars")
   public List<Company> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
     return companyService.getByStars(stars);
