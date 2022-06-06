@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.domain.dto.CompanyDto;
-import com.fedag.recruitmentSystem.domain.entity.Company;
+import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.domain.dto.CompanyResponse;
 import com.fedag.recruitmentSystem.domain.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyServiceImpl implements CompanyService<CompanyDto> {
+public class CompanyServiceImpl implements CompanyService<CompanyResponse, CompanyRequest> {
 
   private final CompanyRepository companyRepository;
   private final CompanyMapper companyMapper;
 
   @Override
-  public List<CompanyDto> getAllCompanies() {
+  public List<CompanyResponse> getAllCompanies() {
     return companyRepository
         .findAll()
         .stream()
@@ -30,14 +30,14 @@ public class CompanyServiceImpl implements CompanyService<CompanyDto> {
   }
 
   @Override
-  public Page<CompanyDto> getAllCompanies(Pageable pageable) {
+  public Page<CompanyResponse> getAllCompanies(Pageable pageable) {
     return companyRepository
         .findAll(pageable)
         .map(companyMapper::toDto);
   }
 
   @Override
-  public CompanyDto findById(Long id) {
+  public CompanyResponse findById(Long id) {
     return companyMapper.toDto(companyRepository
         .findById(id)
         .orElseThrow(
@@ -46,7 +46,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyDto> {
   }
 
   @Override
-  public void save(CompanyDto element) {
+  public void save(CompanyRequest element) {
     companyRepository.save(companyMapper.toEntity(element));
   }
 

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SkillDto {
-  private String name;
+public class CompanyRequest {
+
+  private String companyName;
+  private String email;
+  private String location;
 }

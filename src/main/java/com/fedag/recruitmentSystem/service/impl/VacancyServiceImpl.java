@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.domain.dto.VacancyDto;
+import com.fedag.recruitmentSystem.domain.dto.VacancyRequest;
+import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
 import com.fedag.recruitmentSystem.domain.mapper.VacancyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
@@ -14,13 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VacancyServiceImpl implements VacancyService<VacancyDto> {
+public class VacancyServiceImpl implements VacancyService<VacancyResponse, VacancyRequest> {
 
   private final VacancyRepository vacancyRepository;
   private final VacancyMapper vacancyMapper;
 
   @Override
-  public List<VacancyDto> getAllVacancies() {
+  public List<VacancyResponse> getAllVacancies() {
     return vacancyRepository
         .findAll()
         .stream()
@@ -29,14 +30,14 @@ public class VacancyServiceImpl implements VacancyService<VacancyDto> {
   }
 
   @Override
-  public Page<VacancyDto> getAllVacancies(Pageable pageable) {
+  public Page<VacancyResponse> getAllVacancies(Pageable pageable) {
     return vacancyRepository
         .findAll(pageable)
         .map(vacancyMapper::toDto);
   }
 
   @Override
-  public VacancyDto findById(Long id) {
+  public VacancyResponse findById(Long id) {
     return vacancyMapper.toDto(vacancyRepository
         .findById(id)
         .orElseThrow(
@@ -45,8 +46,8 @@ public class VacancyServiceImpl implements VacancyService<VacancyDto> {
   }
 
   @Override
-  public void save(VacancyDto vacancyDto) {
-    vacancyRepository.save(vacancyMapper.toEntity(vacancyDto));
+  public void save(VacancyRequest element) {
+    vacancyRepository.save(vacancyMapper.toEntity(element));
   }
 
   @Override

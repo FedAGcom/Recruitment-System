@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.fedag.recruitmentSystem.domain.dto.CompanyDto;
+import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
 import com.fedag.recruitmentSystem.domain.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.domain.entity.Company;
@@ -58,7 +58,7 @@ public class CompanyServiceTest {
 
   @Test
   void testSave() {
-    CompanyDto company = new CompanyDto();
+    CompanyRequest company = new CompanyRequest();
     companyService.save(company);
     verify(companyRepository).save(companyMapper.toEntity(company));
   }

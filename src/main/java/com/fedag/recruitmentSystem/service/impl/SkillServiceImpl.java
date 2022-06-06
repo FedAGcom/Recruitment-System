@@ -1,9 +1,9 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.domain.dto.SkillDto;
+import com.fedag.recruitmentSystem.domain.dto.SkillRequest;
+import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
 import com.fedag.recruitmentSystem.domain.mapper.SkillMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
 import com.fedag.recruitmentSystem.repository.SkillRepository;
 import com.fedag.recruitmentSystem.service.SkillService;
 import java.util.List;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SkillServiceImpl implements SkillService<SkillDto> {
+public class SkillServiceImpl implements SkillService<SkillResponse, SkillRequest> {
 
   private final SkillRepository skillRepository;
   private final SkillMapper skillMapper;
 
   @Override
-  public List<SkillDto> getAllSkills() {
+  public List<SkillResponse> getAllSkills() {
     return skillRepository
         .findAll()
         .stream()
@@ -30,14 +30,14 @@ public class SkillServiceImpl implements SkillService<SkillDto> {
   }
 
   @Override
-  public Page<SkillDto> getAllSkills(Pageable pageable) {
+  public Page<SkillResponse> getAllSkills(Pageable pageable) {
     return skillRepository
         .findAll(pageable)
         .map(skillMapper::toDto);
   }
 
   @Override
-  public SkillDto findById(Long id) {
+  public SkillResponse findById(Long id) {
     return skillMapper.toDto
         (skillRepository
             .findById(id)
@@ -47,7 +47,7 @@ public class SkillServiceImpl implements SkillService<SkillDto> {
   }
 
   @Override
-  public void save(SkillDto element) {
+  public void save(SkillRequest element) {
     skillRepository.save(skillMapper.toEntity(element));
   }
 

@@ -1,9 +1,9 @@
 package com.fedag.recruitmentSystem.domain.mapper;
 
-import com.fedag.recruitmentSystem.domain.dto.VacancyDto;
+import com.fedag.recruitmentSystem.domain.dto.VacancyRequest;
+import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
 import com.fedag.recruitmentSystem.domain.entity.Vacancy;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
-import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -19,47 +19,47 @@ public class VacancyMapper {
 
   @PostConstruct
   public void setupMapper() {
-    mapper.createTypeMap(VacancyDto.class, Vacancy.class)
+    mapper.createTypeMap(VacancyRequest.class, Vacancy.class)
         .addMappings(m -> m.skip(Vacancy::setCompany))
         .addMappings(m -> m.skip(Vacancy::setId))
         .setPostConverter(toEntityConverter());
 
-    mapper.createTypeMap(Vacancy.class, VacancyDto.class)
-        .addMappings(m -> m.skip(VacancyDto::setCompanyId))
+    mapper.createTypeMap(Vacancy.class, VacancyResponse.class)
+        .addMappings(m -> m.skip(VacancyResponse::setCompanyId))
         .setPostConverter(toDtoConverter());
   }
 
-  public VacancyDto toDto(Vacancy vacancy) {
-    return mapper.map(vacancy, VacancyDto.class);
+  public VacancyResponse toDto(Vacancy vacancy) {
+    return mapper.map(vacancy, VacancyResponse.class);
   }
 
-  public Vacancy toEntity(VacancyDto vacancyDto) {
-    return mapper.map(vacancyDto, Vacancy.class);
+  public Vacancy toEntity(VacancyRequest vacancyRequest) {
+    return mapper.map(vacancyRequest, Vacancy.class);
   }
 
-  private Converter<Vacancy, VacancyDto> toDtoConverter() {
+  private Converter<Vacancy, VacancyResponse> toDtoConverter() {
     return context -> {
       Vacancy source = context.getSource();
-      VacancyDto destination = context.getDestination();
+      VacancyResponse destination = context.getDestination();
       mapSpecificFields(source, destination);
       return context.getDestination();
     };
   }
 
-  private Converter<VacancyDto, Vacancy> toEntityConverter() {
+  private Converter<VacancyRequest, Vacancy> toEntityConverter() {
     return context -> {
-      VacancyDto source = context.getSource();
+      VacancyRequest source = context.getSource();
       Vacancy destination = context.getDestination();
       mapSpecificFields(source, destination);
       return context.getDestination();
     };
   }
 
-  private void mapSpecificFields(Vacancy source, VacancyDto destination) {
+  private void mapSpecificFields(Vacancy source, VacancyResponse destination) {
     destination.setCompanyId(source.getCompany().getId());
   }
 
-  private void mapSpecificFields(VacancyDto source, Vacancy destination) {
+  private void mapSpecificFields(VacancyRequest source, Vacancy destination) {
     destination.setCompany(companyRepository.getById(source.getCompanyId()));
   }
 }

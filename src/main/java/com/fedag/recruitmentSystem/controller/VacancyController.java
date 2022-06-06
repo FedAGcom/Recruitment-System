@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.domain.dto.VacancyDto;
-import com.fedag.recruitmentSystem.domain.entity.Vacancy;
+import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +38,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<VacancyDto> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<VacancyResponse> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
     return vacancyService.getAllVacancies(pageable);
   }
 
@@ -51,7 +50,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public VacancyDto getById(@PathVariable Long id) {
+  public VacancyResponse getById(@PathVariable Long id) {
     return vacancyService.findById(id);
   }
 
@@ -75,8 +74,8 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping("/add")
-  public void addVacancy(@RequestBody VacancyDto vacancyDto) {
-    vacancyService.save(vacancyDto);
+  public void addVacancy(@RequestBody VacancyResponse vacancyResponse) {
+    vacancyService.save(vacancyResponse);
   }
 
   @Operation(summary = "Изменение вакансии")
@@ -87,7 +86,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
-    vacancyService.save(vacancyDto);
+  public void updateVacancy(@PathVariable Long id, @RequestBody VacancyResponse vacancyResponse) {
+    vacancyService.save(vacancyResponse);
   }
 }

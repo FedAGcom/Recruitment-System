@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.domain.dto.CompanyDto;
-import com.fedag.recruitmentSystem.domain.entity.Company;
+import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.domain.dto.CompanyResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +40,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<CompanyDto> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<CompanyResponse> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
     return companyService.getAllCompanies(pageable);
   }
 
@@ -52,7 +52,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public CompanyDto getById(@PathVariable Long id) {
+  public CompanyResponse getById(@PathVariable Long id) {
     return companyService.findById(id);
   }
 
@@ -76,8 +76,8 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/add")
-  public void addVacancy(@RequestBody CompanyDto companyDto) {
-    companyService.save(companyDto);
+  public void addVacancy(@RequestBody CompanyRequest companyRequest) {
+    companyService.save(companyRequest);
   }
 
   @Operation(summary = "Изменение компании")
@@ -88,7 +88,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PatchMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
-    companyService.save(companyDto);
+  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+    companyService.save(companyRequest);
   }
 }

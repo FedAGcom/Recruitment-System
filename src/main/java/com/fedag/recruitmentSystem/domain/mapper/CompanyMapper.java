@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.domain.mapper;
 
-import com.fedag.recruitmentSystem.domain.dto.CompanyDto;
+import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.domain.dto.CompanyResponse;
 import com.fedag.recruitmentSystem.domain.entity.Company;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -12,11 +13,11 @@ public class CompanyMapper {
 
   private final ModelMapper mapper;
 
-  public CompanyDto toDto(Company company) {
-    return mapper.map(company, CompanyDto.class);
+  public CompanyResponse toDto(Company company) {
+    return mapper.map(company, CompanyResponse.class);
   }
 
-  public Company toEntity(CompanyDto companyDto) {
-    return mapper.map(companyDto, Company.class);
+  public Company toEntity(CompanyRequest companyRequest) {
+    return mapper.map(companyRequest, Company.class);
   }
 }

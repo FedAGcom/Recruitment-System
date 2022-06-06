@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.domain.dto.SkillDto;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
+import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,7 +39,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<SkillDto> getAllSkills(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<SkillResponse> getAllSkills(@PageableDefault(size = 5) Pageable pageable) {
     return skillService.getAllSkills(pageable);
   }
 
@@ -52,7 +51,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public SkillDto getById(@PathVariable Long id) {
+  public SkillResponse getById(@PathVariable Long id) {
     return skillService.findById(id);
   }
 
@@ -76,8 +75,8 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody SkillDto skillDto) {
-    skillService.save(skillDto);
+  public void addVacancy(@RequestBody SkillResponse skillResponse) {
+    skillService.save(skillResponse);
   }
 
   @Operation(summary = "Изменение ключевого навыка")
@@ -88,7 +87,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody SkillDto skillDto) {
-    skillService.save(skillDto);
+  public void updateVacancy(@PathVariable Long id, @RequestBody SkillResponse skillResponse) {
+    skillService.save(skillResponse);
   }
 }

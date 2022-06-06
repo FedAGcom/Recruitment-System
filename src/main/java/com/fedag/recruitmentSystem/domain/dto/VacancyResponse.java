@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VacancyDto {
+public class VacancyResponse {
 
   private String header;
   private String description;
