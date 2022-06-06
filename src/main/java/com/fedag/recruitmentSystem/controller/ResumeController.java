@@ -98,4 +98,18 @@ public class ResumeController {
   public List<Resume> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
     return resumeService.findByDateCreated(dateCreated);
   }
+
+  @Operation(summary = "Получение резюме по позиции")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Резюме получено согласно позиции",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @GetMapping("/filter/{position}")
+  public Page<Resume> getAllResumesByPosition(
+          @PageableDefault(size = 1) Pageable pageable
+          , @PathVariable("position") String position){
+      return resumeService.findByPosition(position, pageable);
+  }
 }

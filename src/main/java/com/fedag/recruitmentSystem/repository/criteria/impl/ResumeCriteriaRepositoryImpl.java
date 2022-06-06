@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
+
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -60,5 +61,19 @@ public class ResumeCriteriaRepositoryImpl implements ResumeCriteriaRepository {
         List<Resume> res = query.getResultList();
 
         return new PageImpl<>(res, pageable, count);
+    }
+
+    @Override
+    public Page<Resume> findByPosition(String position, Pageable pageable) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Resume> cq = cb.createQuery(Resume.class);
+        Root<Resume> root = cq.from(Resume.class);
+
+        cq.select(root).where(cb.like(root.get("resumeName"), position));
+        TypedQuery<Resume> query = entityManager.createQuery(cq);
+
+        List<Resume> resumeList = query.getResultList();
+
+        return new PageImpl<>(resumeList,pageable,resumeList.size());
     }
 }
