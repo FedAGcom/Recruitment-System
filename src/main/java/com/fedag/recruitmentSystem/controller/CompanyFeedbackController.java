@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +39,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<CompanyFeedBack> getAllCompanyFeedBack(Pageable pageable) {
+  public Page<CompanyFeedbackResponse> getAllCompanyFeedBack(Pageable pageable) {
     return companyFeedBackService.getAllCompanyFeedbacks(pageable);
   }
 
@@ -50,7 +51,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public CompanyFeedBack getCompanyFeedBackById(@PathVariable Long id) {
+  public CompanyFeedbackResponse getCompanyFeedBackById(@PathVariable Long id) {
     return companyFeedBackService.findById(id);
   }
 
@@ -62,7 +63,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addCompanyFeedBack(@RequestBody CompanyFeedBack companyFeedBack) {
+  public void addCompanyFeedBack(@RequestBody CompanyFeedbackResponse companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
   }
 
@@ -75,7 +76,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody CompanyFeedBack companyFeedBack) {
+  public void updateVacancy(@RequestBody CompanyFeedbackResponse companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
   }
 
