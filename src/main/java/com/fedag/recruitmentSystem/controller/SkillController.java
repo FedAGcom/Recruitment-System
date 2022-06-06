@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.domain.dto.SkillRequest;
 import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,8 +76,8 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody SkillResponse skillResponse) {
-    skillService.save(skillResponse);
+  public void addVacancy(@RequestBody SkillRequest skillRequest) {
+    skillService.save(skillRequest);
   }
 
   @Operation(summary = "Изменение ключевого навыка")
@@ -87,7 +88,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody SkillResponse skillResponse) {
-    skillService.save(skillResponse);
+  public void updateVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
+    skillService.save(skillRequest);
   }
 }

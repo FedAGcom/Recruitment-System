@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.domain.dto.VacancyRequest;
 import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,8 +75,8 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping("/add")
-  public void addVacancy(@RequestBody VacancyResponse vacancyResponse) {
-    vacancyService.save(vacancyResponse);
+  public void addVacancy(@RequestBody VacancyRequest vacancyRequest) {
+    vacancyService.save(vacancyRequest);
   }
 
   @Operation(summary = "Изменение вакансии")
@@ -86,7 +87,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody VacancyResponse vacancyResponse) {
-    vacancyService.save(vacancyResponse);
+  public void updateVacancy(@PathVariable Long id, @RequestBody VacancyRequest vacancyRequest) {
+    vacancyService.save(vacancyRequest);
   }
 }

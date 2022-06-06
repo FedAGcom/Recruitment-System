@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import com.fedag.recruitmentSystem.domain.dto.VacancyDto;
+import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.domain.entity.Vacancy;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
@@ -54,9 +54,9 @@ public class VacancyServiceTest {
 
   @Test
   void testSave() {
-    VacancyDto vacancyDto = new VacancyDto();
+    VacancyResponse vacancyResponse = new VacancyResponse();
     Vacancy vacancy = new Vacancy();
-    vacancyService.save(vacancyDto);
+    vacancyService.save(vacancyResponse);
     verify(vacancyRepository).save(vacancy);
   }
 

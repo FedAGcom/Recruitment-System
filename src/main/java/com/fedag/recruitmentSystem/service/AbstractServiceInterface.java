@@ -1,10 +1,10 @@
 package com.fedag.recruitmentSystem.service;
 
-public interface AbstractServiceInterface<T, R> {
+public interface AbstractServiceInterface<T, S> {
 
   T findById(Long id);
 
-  void save(R element);
+  void save(S element);
 
   void deleteById(Long id);
 }
