@@ -4,8 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.domain.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.domain.entity.Company;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import java.util.Optional;
@@ -22,6 +24,9 @@ public class CompanyServiceTest {
 
   @Mock
   private CompanyRepository companyRepository;
+
+  @Mock
+  private CompanyMapper companyMapper;
 
   @InjectMocks
   private CompanyServiceImpl companyService;
@@ -53,9 +58,9 @@ public class CompanyServiceTest {
 
   @Test
   void testSave() {
-    Company company = new Company();
+    CompanyRequest company = new CompanyRequest();
     companyService.save(company);
-    verify(companyRepository).save(company);
+    verify(companyRepository).save(companyMapper.toEntity(company));
   }
 
   @Test

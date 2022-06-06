@@ -1,7 +1,10 @@
-package com.fedag.recruitmentSystem.model;
+package com.fedag.recruitmentSystem.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fedag.recruitmentSystem.domain.entity.Vacancy;
+import com.fedag.recruitmentSystem.model.CompanyFeedBack;
+import com.fedag.recruitmentSystem.model.Message;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,13 +44,11 @@ public class Company {
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")
-    @JsonManagedReference
     private List<CompanyFeedBack> companyFeedBackList;
 
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")
-    @JsonBackReference
     private List<Vacancy> vacancyList;
 
     @OneToMany(mappedBy = "company")

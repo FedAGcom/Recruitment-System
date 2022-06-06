@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
+import com.fedag.recruitmentSystem.domain.entity.Company;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 

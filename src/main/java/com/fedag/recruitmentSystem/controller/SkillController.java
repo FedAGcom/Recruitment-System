@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Skill;
+import com.fedag.recruitmentSystem.domain.dto.SkillRequest;
+import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +40,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Skill> getAllSkills(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<SkillResponse> getAllSkills(@PageableDefault(size = 5) Pageable pageable) {
     return skillService.getAllSkills(pageable);
   }
 
@@ -51,7 +52,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Skill getById(@PathVariable Long id) {
+  public SkillResponse getById(@PathVariable Long id) {
     return skillService.findById(id);
   }
 
@@ -74,9 +75,9 @@ public class SkillController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PostMapping("/add")
-  public void addVacancy(@RequestBody Skill skill) {
-    skillService.save(skill);
+  @PostMapping
+  public void addVacancy(@RequestBody SkillRequest skillRequest) {
+    skillService.save(skillRequest);
   }
 
   @Operation(summary = "Изменение ключевого навыка")
@@ -87,7 +88,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody Skill skill) {
-    skillService.save(skill);
+  public void updateVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
+    skillService.save(skillRequest);
   }
 }
