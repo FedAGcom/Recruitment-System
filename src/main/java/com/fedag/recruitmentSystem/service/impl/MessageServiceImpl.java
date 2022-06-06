@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.MessageResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.map.MessageMapper;
 import com.fedag.recruitmentSystem.model.Message;
 import com.fedag.recruitmentSystem.repository.MessageRepository;
 import com.fedag.recruitmentSystem.service.MessageService;
@@ -12,32 +14,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService<Message> {
+public class MessageServiceImpl implements MessageService<MessageResponse> {
 
   private final MessageRepository messageRepository;
+  private final MessageMapper messageMapper;
 
   @Override
-  public List<Message> getAllMessages() {
-    return messageRepository.findAll();
+  public List<MessageResponse> getAllMessages() {
+    return messageMapper.modelToDto(messageRepository.findAll());
   }
 
   @Override
-  public Page<Message> getAllMessages(Pageable pageable) {
-    return messageRepository.findAll(pageable);
+  public Page<MessageResponse> getAllMessages(Pageable pageable) {
+    return messageMapper.modelToDto(messageRepository.findAll(pageable));
   }
 
   @Override
-  public Message findById(Long id) {
-    return messageRepository
+  public MessageResponse findById(Long id) {
+    Message message = messageRepository
         .findById(id)
         .orElseThrow(
             () -> new ObjectNotFoundException("Message with id: " + id + " not found")
         );
+    return messageMapper.modelToDto(message);
   }
 
   @Override
-  public void save(Message element) {
-    messageRepository.save(element);
+  public void save(MessageResponse messageResponse) {
+    Message message = messageMapper.dtoToModel(messageResponse);
+    messageRepository.save(message);
   }
 
   @Override
