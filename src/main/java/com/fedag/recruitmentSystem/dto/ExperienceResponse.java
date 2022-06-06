@@ -8,11 +8,14 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
-
+public class ExperienceResponse {
     private Long id;
-    private String firstname;
-    private String lastname;
-    private String email;
-    private LocalDateTime birthday;
+
+    private String description;
+
+    private LocalDateTime StartDate;
+
+    private LocalDateTime EndDate;
+
+    private ResumeRequest resume;
 }

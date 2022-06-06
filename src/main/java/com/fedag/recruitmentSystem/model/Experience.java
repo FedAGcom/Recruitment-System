@@ -35,6 +35,5 @@ public class Experience {
 
     @ManyToOne
     @JoinColumn(name = "resume_id")
-    @JsonBackReference
     private Resume resume;
 }
