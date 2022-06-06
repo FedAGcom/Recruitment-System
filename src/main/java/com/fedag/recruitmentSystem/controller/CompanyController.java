@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,7 +76,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping("/add")
+  @PostMapping
   public void addVacancy(@RequestBody CompanyRequest companyRequest) {
     companyService.save(companyRequest);
   }
@@ -87,7 +88,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PatchMapping("/{id}")
+  @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
     companyService.save(companyRequest);
   }
