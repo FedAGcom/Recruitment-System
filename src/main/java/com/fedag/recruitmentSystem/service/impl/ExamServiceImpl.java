@@ -1,7 +1,10 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 
+import com.fedag.recruitmentSystem.dto.ExamResponse;
+import com.fedag.recruitmentSystem.dto.UserResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.map.ExamMapper;
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.repository.ExamRepository;
 import com.fedag.recruitmentSystem.service.ExamService;
@@ -13,32 +16,35 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExamServiceImpl implements ExamService<Exam> {
+public class ExamServiceImpl implements ExamService<ExamResponse> {
 
   private final ExamRepository examRepository;
+  private final ExamMapper examMapper;
 
   @Override
-  public List<Exam> getAllExams() {
-    return examRepository.findAll();
+  public List<ExamResponse> getAllExams() {
+    return examMapper.modelToDto(examRepository.findAll());
   }
 
   @Override
-  public Page<Exam> getAllExams(Pageable pageable) {
-    return examRepository.findAll(pageable);
+  public Page<ExamResponse> getAllExams(Pageable pageable) {
+    return examMapper.modelToDto(examRepository.findAll(pageable));
   }
 
   @Override
-  public Exam findById(Long id) {
-    return examRepository
+  public ExamResponse findById(Long id) {
+    Exam exam = examRepository
         .findById(id)
         .orElseThrow(
             () -> new ObjectNotFoundException("Exam with id: " + id + " not found")
         );
+    return examMapper.modelToDto(exam);
   }
 
   @Override
-  public void save(Exam element) {
-    examRepository.save(element);
+  public void save(ExamResponse examResponse) {
+    Exam exam = examMapper.dtoToModel(examResponse);
+    examRepository.save(exam);
   }
 
   @Override

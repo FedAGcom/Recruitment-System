@@ -24,8 +24,7 @@ public class Exam {
     @Column(name = "score")
     private int score;
 
-    @OneToOne
-    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }

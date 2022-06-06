@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,13 +38,11 @@ public class User {
     @OneToOne(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private Exam exam;
 
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "user")
-    @JsonManagedReference
     private List<UserFeedback> userFeedbackList;
 
     @OneToMany(
@@ -52,10 +51,9 @@ public class User {
     private List<Resume> resumeList;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
     private List<VacancyResponse> vacancyResponseList;
 
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
     private List<Message> messageList;
+
 }

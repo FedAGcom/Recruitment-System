@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,7 +40,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<UserFeedback> showAllFeedback(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<UserFeedbackResponse> showAllFeedback(@PageableDefault(size = 5) Pageable pageable) {
     return userFeedbackService.getAllUserFeedbacks(pageable);
   }
 
@@ -51,7 +52,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public UserFeedback getUserFeedback(@PathVariable Long id) {
+  public UserFeedbackResponse getUserFeedback(@PathVariable Long id) {
     return userFeedbackService.findById(id);
   }
 
@@ -63,7 +64,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUserFeedback(@RequestBody UserFeedback userFeedback) {
+  public void addNewUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
     userFeedbackService.save(userFeedback);
   }
 
@@ -75,7 +76,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUserFeedback(@RequestBody UserFeedback userFeedback) {
+  public void updateUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
     userFeedbackService.save(userFeedback);
   }
 

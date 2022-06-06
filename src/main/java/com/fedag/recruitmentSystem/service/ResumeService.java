@@ -19,6 +19,8 @@ public interface ResumeService<T> extends AbstractServiceInterface<T> {
 
     Page<T> findByTextFilter(String text, Pageable pageable);
 
+    Page<T> findByPosition(String position, Pageable pageable);
+
     List<T> findByDateCreated(LocalDateTime dateCreated);
 
     List<ExperienceResponse> listExperiencesByResume(Long resumeId) throws ObjectNotFoundException;

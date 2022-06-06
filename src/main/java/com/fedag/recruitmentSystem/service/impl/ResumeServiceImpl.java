@@ -79,4 +79,9 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
   public Page<ResumeResponse> findByTextFilter(String text, Pageable pageable) {
     return resumeMapper.modelToDto(resumeRepository.findByTextFilter(text, pageable));
   }
+
+  @Override
+  public Page<Resume> findByPosition(String position, Pageable pageable) {
+    return resumeRepository.findByPosition(position, pageable);
+  }
 }
