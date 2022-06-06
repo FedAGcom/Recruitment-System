@@ -44,13 +44,11 @@ public class Company {
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")
-    @JsonManagedReference
     private List<CompanyFeedBack> companyFeedBackList;
 
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")
-    @JsonBackReference
     private List<Vacancy> vacancyList;
 
     @OneToMany(mappedBy = "company")
