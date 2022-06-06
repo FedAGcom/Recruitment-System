@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Vacancy;
+import com.fedag.recruitmentSystem.domain.dto.VacancyDto;
+import com.fedag.recruitmentSystem.domain.entity.Vacancy;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +16,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,7 +39,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Vacancy> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<VacancyDto> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
     return vacancyService.getAllVacancies(pageable);
   }
 
@@ -51,7 +51,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Vacancy getById(@PathVariable Long id) {
+  public VacancyDto getById(@PathVariable Long id) {
     return vacancyService.findById(id);
   }
 
@@ -75,8 +75,8 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping("/add")
-  public void addVacancy(@RequestBody Vacancy vacancy) {
-    vacancyService.save(vacancy);
+  public void addVacancy(@RequestBody VacancyDto vacancyDto) {
+    vacancyService.save(vacancyDto);
   }
 
   @Operation(summary = "Изменение вакансии")
@@ -87,7 +87,7 @@ public class VacancyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody Vacancy vacancy) {
-    vacancyService.save(vacancy);
+  public void updateVacancy(@PathVariable Long id, @RequestBody VacancyDto vacancyDto) {
+    vacancyService.save(vacancyDto);
   }
 }

@@ -4,7 +4,7 @@ import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
-import com.fedag.recruitmentSystem.model.Skill;
+import com.fedag.recruitmentSystem.domain.entity.Skill;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.ResumeRepository;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;

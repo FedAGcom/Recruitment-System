@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.domain.entity.Company;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import java.util.List;
