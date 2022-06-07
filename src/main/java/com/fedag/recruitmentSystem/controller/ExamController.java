@@ -1,11 +1,10 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.ExamRequest;
 import com.fedag.recruitmentSystem.dto.ExamResponse;
-import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,14 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,30 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Контроллер тестов", description = "Работа с тестами")
 public class ExamController {
 
-  private final ExamServiceImpl examService;
+    private final ExamServiceImpl examService;
 
-  @Operation(summary = "Получение списка тестов")
-  @ApiResponses(value = {
+    @Operation(summary = "Получение списка тестов")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тесты загружены",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-  @GetMapping
-  public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
-    return examService.getAllExams(pageable);
-  }
-  @Operation(summary = "Получение теста по id")
-  @ApiResponses(value = {
+    @GetMapping
+    public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
+        return examService.getAllExams(pageable);
+    }
+
+    @Operation(summary = "Получение теста по id")
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тест найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-  })
-  @GetMapping("/{id}")
-  public ExamResponse getExam(@PathVariable Long id) {
-    return examService.findById(id);
-  }
+    })
+    @GetMapping("/{id}")
+    public ExamResponse getExam(@PathVariable Long id) {
+        return examService.findById(id);
+    }
 
     @Operation(summary = "Добавление теста")
     @ApiResponses(value = {
@@ -61,22 +54,22 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-  @PostMapping
-  public void addNewExam(@RequestBody ExamResponse exam) {
-    examService.save(exam);
-  }
+    @PostMapping
+    public void addNewExam(@RequestBody ExamRequest exam) {
+        examService.save(exam);
+    }
 
-  @Operation(summary = "Изменение теста")
+    @Operation(summary = "Изменение теста")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тест изменен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-  @PutMapping
-  public void updateExam(@RequestBody ExamResponse exam) {
-    examService.save(exam);
-  }
+    @PutMapping
+    public void updateExam(@RequestBody ExamRequest exam) {
+        examService.save(exam);
+    }
 
     @Operation(summary = "Удаление теста")
     @ApiResponses(value = {
@@ -85,8 +78,8 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-  @DeleteMapping("/{id}")
-  public void deleteExam(@PathVariable Long id) {
-    examService.deleteById(id);
-  }
+    @DeleteMapping("/{id}")
+    public void deleteExam(@PathVariable Long id) {
+        examService.deleteById(id);
+    }
 }

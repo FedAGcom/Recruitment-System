@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.map;
 
+import com.fedag.recruitmentSystem.dto.ExamRequest;
 import com.fedag.recruitmentSystem.dto.ExamResponse;
 import com.fedag.recruitmentSystem.model.Exam;
 import org.modelmapper.ModelMapper;
@@ -16,6 +17,7 @@ public class ExamMapper {
     public ExamResponse modelToDto(Exam exam) {
         ModelMapper mapper = new ModelMapper();
         return mapper.map(exam, ExamResponse.class);
+
     }
 
     public List<ExamResponse> modelToDto(List<Exam> exam) {
@@ -35,13 +37,13 @@ public class ExamMapper {
                 });
     }
 
-    public Exam dtoToModel(ExamResponse dto) {
+    public Exam dtoToModel(ExamRequest dto) {
         ModelMapper mapper = new ModelMapper();
         return mapper.map(dto, Exam.class);
 
     }
 
-    public List<Exam> dtoToModel(List<ExamResponse> dto) {
+    public List<Exam> dtoToModel(List<ExamRequest> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)
