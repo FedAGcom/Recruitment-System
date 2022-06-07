@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.response;
 
-import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
