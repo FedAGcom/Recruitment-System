@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.dto.UserFeedbackRequest;
-import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.map.UserFeedbackMapper;
 import com.fedag.recruitmentSystem.model.UserFeedback;
@@ -41,8 +41,8 @@ public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedback
   }
 
   @Override
-  public void save(UserFeedbackRequest userFeedbackRequest) {
-    UserFeedback userFeedback = userFeedbackMapper.dtoToModel(userFeedbackRequest);
+  public void save(UserFeedbackRequest element) {
+    UserFeedback userFeedback = userFeedbackMapper.dtoToModel(element);
     userFeedbackRepository.save(userFeedback);
   }
 

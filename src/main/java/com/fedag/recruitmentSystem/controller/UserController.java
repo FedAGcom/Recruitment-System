@@ -1,8 +1,9 @@
 package com.fedag.recruitmentSystem.controller;
 
 
-import com.fedag.recruitmentSystem.dto.UserRequest;
-import com.fedag.recruitmentSystem.dto.UserResponse;
+
+import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;

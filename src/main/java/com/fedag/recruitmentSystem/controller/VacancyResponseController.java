@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.VacancyResponseResponse;
+import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
+import com.fedag.recruitmentSystem.dto.response.VacancyResponseResponse;
 import com.fedag.recruitmentSystem.service.impl.VacancyResponseServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,7 +64,7 @@ public class VacancyResponseController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancyResponse(@RequestBody VacancyResponseResponse vacancyResponse) {
+  public void addVacancyResponse(@RequestBody VacancyResponseRequest vacancyResponse) {
     vacancyResponseService.save(vacancyResponse);
   }
 
@@ -75,7 +76,7 @@ public class VacancyResponseController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancyResponse(@RequestBody VacancyResponseResponse vacancyResponse) {
+  public void updateVacancyResponse(@RequestBody VacancyResponseRequest vacancyResponse) {
     vacancyResponseService.save(vacancyResponse);
   }
 
