@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.MessageRequest;
+import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.MessageResponse;
 import com.fedag.recruitmentSystem.model.Message;
 import java.util.List;
@@ -38,6 +39,10 @@ public class MessageMapper {
   }
 
   public Message dtoToModel(MessageRequest dto) {
+    return mapper.map(dto, Message.class);
+  }
+
+  public Message dtoToModel(MessageUpdateRequest dto) {
     return mapper.map(dto, Message.class);
   }
 

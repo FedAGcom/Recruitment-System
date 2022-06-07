@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyFeedbackMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyFeedbackServiceImpl implements CompanyFeedbackService<CompanyFeedbackResponse, CompanyFeedbackRequest> {
+public class CompanyFeedbackServiceImpl implements CompanyFeedbackService<CompanyFeedbackResponse, CompanyFeedbackRequest, CompanyFeedbackUpdateRequest> {
 
   private final CompanyFeedbackRepository companyFeedBackRepository;
   private final CompanyFeedbackMapper companyFeedbackMapper;
@@ -44,6 +45,11 @@ public class CompanyFeedbackServiceImpl implements CompanyFeedbackService<Compan
   public void save(CompanyFeedbackRequest element) {
     CompanyFeedBack companyFeedBack = companyFeedbackMapper.dtoToModel(element);
     companyFeedBackRepository.save(companyFeedBack);
+  }
+
+  @Override
+  public void update(CompanyFeedbackUpdateRequest element) {
+    companyFeedBackRepository.save(companyFeedbackMapper.dtoToModel(element));
   }
 
   @Override

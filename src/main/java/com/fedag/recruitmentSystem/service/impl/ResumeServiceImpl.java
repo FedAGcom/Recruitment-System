@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRequest> {
+public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRequest, ResumeUpdateRequest> {
 
   private final ResumeRepository resumeRepository;
   private final ResumeMapper resumeMapper;
@@ -63,6 +64,16 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
     if(resume.getId()!=null) {
       resume.getExperiences()
               .forEach(e->e.setResume(resume));
+    }
+    resumeRepository.save(resume);
+  }
+
+  @Override
+  public void update(ResumeUpdateRequest element) {
+    Resume resume = resumeMapper.dtoToModel(element);
+    if(resume.getId()!=null) {
+      resume.getExperiences()
+          .forEach(e->e.setResume(resume));
     }
     resumeRepository.save(resume);
   }

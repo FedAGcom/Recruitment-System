@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.SkillRequest;
+import com.fedag.recruitmentSystem.dto.request.SkillUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.SkillResponse;
 import com.fedag.recruitmentSystem.model.Skill;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,10 @@ public class SkillMapper {
   }
 
   public Skill toEntity(SkillRequest skillRequest) {
+    return mapper.map(skillRequest, Skill.class);
+  }
+
+  public Skill toEntity(SkillUpdateRequest skillRequest) {
     return mapper.map(skillRequest, Skill.class);
   }
 }

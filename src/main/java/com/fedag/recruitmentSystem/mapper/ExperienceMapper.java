@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
+import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.model.Experience;
 import java.util.List;
@@ -39,6 +40,10 @@ public class ExperienceMapper {
   }
 
   public Experience dtoToModel(ExperienceRequest dto) {
+    return mapper.map(dto, Experience.class);
+  }
+
+  public Experience dtoToModel(ExperienceUpdateRequest dto) {
     return mapper.map(dto, Experience.class);
   }
 

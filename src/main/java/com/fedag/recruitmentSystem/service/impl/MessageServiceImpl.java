@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.MessageRequest;
+import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.MessageResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.MessageMapper;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService<MessageResponse, MessageRequest> {
+public class MessageServiceImpl implements MessageService<MessageResponse, MessageRequest, MessageUpdateRequest> {
 
   private final MessageRepository messageRepository;
   private final MessageMapper messageMapper;
@@ -42,6 +43,12 @@ public class MessageServiceImpl implements MessageService<MessageResponse, Messa
 
   @Override
   public void save(MessageRequest element) {
+    Message message = messageMapper.dtoToModel(element);
+    messageRepository.save(message);
+  }
+
+  @Override
+  public void update(MessageUpdateRequest element) {
     Message message = messageMapper.dtoToModel(element);
     messageRepository.save(message);
   }

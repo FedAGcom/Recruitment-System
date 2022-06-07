@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
+import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
@@ -22,7 +23,12 @@ public class VacancyMapper {
     mapper.createTypeMap(VacancyRequest.class, Vacancy.class)
         .addMappings(m -> m.skip(Vacancy::setCompany))
         .addMappings(m -> m.skip(Vacancy::setId))
-        .setPostConverter(toEntityConverter());
+        .setPostConverter(toEntityConverterFromRequest());
+
+    mapper.createTypeMap(VacancyUpdateRequest.class, Vacancy.class)
+        .addMappings(m -> m.skip(Vacancy::setCompany))
+        .addMappings(m -> m.skip(Vacancy::setId))
+        .setPostConverter(toEntityConverterFromUpdateRequest());
 
     mapper.createTypeMap(Vacancy.class, VacancyResponse.class)
         .addMappings(m -> m.skip(VacancyResponse::setCompanyId))
@@ -37,6 +43,10 @@ public class VacancyMapper {
     return mapper.map(vacancyRequest, Vacancy.class);
   }
 
+  public Vacancy toEntity(VacancyUpdateRequest vacancyUpdateRequest) {
+    return mapper.map(vacancyUpdateRequest, Vacancy.class);
+  }
+
   private Converter<Vacancy, VacancyResponse> toDtoConverter() {
     return context -> {
       Vacancy source = context.getSource();
@@ -46,9 +56,18 @@ public class VacancyMapper {
     };
   }
 
-  private Converter<VacancyRequest, Vacancy> toEntityConverter() {
+  private Converter<VacancyRequest, Vacancy> toEntityConverterFromRequest() {
     return context -> {
       VacancyRequest source = context.getSource();
+      Vacancy destination = context.getDestination();
+      mapSpecificFields(source, destination);
+      return context.getDestination();
+    };
+  }
+
+  private Converter<VacancyUpdateRequest, Vacancy> toEntityConverterFromUpdateRequest() {
+    return context -> {
+      VacancyUpdateRequest source = context.getSource();
       Vacancy destination = context.getDestination();
       mapSpecificFields(source, destination);
       return context.getDestination();
@@ -60,6 +79,10 @@ public class VacancyMapper {
   }
 
   private void mapSpecificFields(VacancyRequest source, Vacancy destination) {
+    destination.setCompany(companyRepository.getById(source.getCompanyId()));
+  }
+
+  private void mapSpecificFields(VacancyUpdateRequest source, Vacancy destination) {
     destination.setCompany(companyRepository.getById(source.getCompanyId()));
   }
 }

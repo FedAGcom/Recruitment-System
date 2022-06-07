@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.model.Exam;
 import java.util.List;
@@ -39,6 +40,10 @@ public class ExamMapper {
   }
 
   public Exam dtoToModel(ExamRequest dto) {
+    return mapper.map(dto, Exam.class);
+  }
+
+  public Exam dtoToModel(ExamUpdateRequest dto) {
     return mapper.map(dto, Exam.class);
   }
 
