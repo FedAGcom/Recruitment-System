@@ -90,6 +90,7 @@ public class CompanyController {
   })
   @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody CompanyUpdateRequest companyUpdateRequest) {
+    companyUpdateRequest.setId(id);
     companyService.update(companyUpdateRequest);
   }
 }

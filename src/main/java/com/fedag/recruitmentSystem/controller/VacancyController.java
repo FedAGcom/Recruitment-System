@@ -89,6 +89,7 @@ public class VacancyController {
   })
   @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody VacancyUpdateRequest vacancyUpdateRequest) {
+    vacancyUpdateRequest.setId(id);
     vacancyService.update(vacancyUpdateRequest);
   }
 }

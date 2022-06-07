@@ -76,8 +76,9 @@ public class VacancyResponseController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateVacancyResponse(@RequestBody VacancyResponseUpdateRequest vacancyResponse) {
+  @PutMapping("/{id}")
+  public void updateVacancyResponse(@PathVariable Long id, @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
+    vacancyResponse.setId(id);
     vacancyResponseService.update(vacancyResponse);
   }
 

@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SkillUpdateRequest {
 
+  private Long id;
   private String name;
 }

@@ -76,8 +76,9 @@ public class SkillController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PostMapping
-  public void addVacancy(@RequestBody SkillRequest skillRequest) {
+  @PutMapping("/{id}")
+  public void addVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
+    skillRequest.setId(id);
     skillService.save(skillRequest);
   }
 

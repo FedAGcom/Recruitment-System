@@ -76,8 +76,9 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateVacancy(@RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
+  @PutMapping("/{id}")
+  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
+    companyFeedBack.setId(id);
     companyFeedBackService.update(companyFeedBack);
   }
 

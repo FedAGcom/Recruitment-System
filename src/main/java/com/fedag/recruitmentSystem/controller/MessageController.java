@@ -76,8 +76,9 @@ public class MessageController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateMessage(@RequestBody MessageUpdateRequest messageResponse) {
+  @PutMapping("/{id}")
+  public void updateMessage(@PathVariable Long id, @RequestBody MessageUpdateRequest messageResponse) {
+    messageResponse.setId(id);
     messageService.update(messageResponse);
   }
 

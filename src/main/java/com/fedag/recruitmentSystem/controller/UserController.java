@@ -84,8 +84,9 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateUser(@RequestBody UserUpdateRequest user) {
+  @PutMapping("/{id}")
+  public void updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest user) {
+    user.setId(id);
     userService.update(user);
   }
 

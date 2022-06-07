@@ -73,8 +73,9 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-  @PutMapping
-  public void updateExam(@RequestBody ExamUpdateRequest exam) {
+  @PutMapping("/{id}")
+  public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
+    exam.setId(id);
     examService.update(exam);
   }
 

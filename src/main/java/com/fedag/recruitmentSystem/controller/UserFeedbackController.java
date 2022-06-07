@@ -76,8 +76,9 @@ public class UserFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateUserFeedback(@RequestBody UserFeedbackUpdateRequest userFeedback) {
+  @PutMapping("/{id}")
+  public void updateUserFeedback(@PathVariable Long id, @RequestBody UserFeedbackUpdateRequest userFeedback) {
+    userFeedback.setId(id);
     userFeedbackService.update(userFeedback);
   }
 

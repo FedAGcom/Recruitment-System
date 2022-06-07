@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SkillRequest {
 
+  private Long id;
   private String name;
 }
