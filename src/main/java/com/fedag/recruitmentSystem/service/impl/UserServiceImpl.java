@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService<UserResponse, UserRequest> {
+public class UserServiceImpl implements UserService<UserResponse, UserRequest, UserUpdateRequest> {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -51,6 +52,12 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest> {
 
     @Override
     public void save(UserRequest element) {
+        User user = userMapper.dtoToModel(element);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void update(UserUpdateRequest element) {
         User user = userMapper.dtoToModel(element);
         userRepository.save(user);
     }

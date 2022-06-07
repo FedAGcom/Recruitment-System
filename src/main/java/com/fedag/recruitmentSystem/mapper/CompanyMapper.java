@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.model.Company;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,9 @@ public class CompanyMapper {
 
   public Company toEntity(CompanyRequest companyRequest) {
     return mapper.map(companyRequest, Company.class);
+  }
+
+  public Company toEntity(CompanyUpdateRequest companyUpdateRequest) {
+    return mapper.map(companyUpdateRequest, Company.class);
   }
 }

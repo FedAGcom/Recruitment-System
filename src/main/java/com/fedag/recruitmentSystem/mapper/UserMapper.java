@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.model.User;
 import java.util.List;
@@ -39,6 +40,10 @@ public class UserMapper {
   }
 
   public User dtoToModel(UserRequest dto) {
+    return mapper.map(dto, User.class);
+  }
+
+  public User dtoToModel(UserUpdateRequest dto) {
     return mapper.map(dto, User.class);
   }
 

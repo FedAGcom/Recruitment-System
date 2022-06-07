@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
@@ -97,8 +98,8 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody ResumeRequest resume) {
-    resumeService.save(resume);
+  public void updateVacancy(@RequestBody ResumeUpdateRequest resume) {
+    resumeService.update(resume);
   }
 
   @Operation(summary = "Удаление резюме")

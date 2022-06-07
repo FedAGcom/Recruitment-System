@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -88,7 +89,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
-    companyService.save(companyRequest);
+  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyUpdateRequest companyUpdateRequest) {
+    companyService.update(companyUpdateRequest);
   }
 }
