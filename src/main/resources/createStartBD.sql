@@ -1,12 +1,18 @@
 CREATE DATABASE recruitment_system_test;
 
+-- ENUM в таблицу users в столбец role
+-- и в таблице companies в стобец role
+CREATE TYPE enum_role_type AS ENUM('USER', 'ADMIN');
+
 CREATE TABLE users
 (
     id bigserial PRIMARY KEY,
     first_name varchar(128) NOT NULL,
     last_name varchar(128) NOT NULL,
     email varchar(128) UNIQUE NOT NULL,
-    birthday date NOT NULL
+    birthday date NOT NULL,
+    role enum_role_type DEFAULT 'USER' NOT NULL,
+    password varchar(128) NOT NULL
 );
 
 CREATE TABLE entrance_exams
@@ -40,6 +46,7 @@ CREATE TABLE resume
 (
     id bigserial PRIMARY KEY,
     resume_name varchar(256) NOT NULL,
+    date_created date NOT NULL,
     status enum_resume_vacancy_status_type NOT NULL,
     user_id bigint NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -77,7 +84,9 @@ CREATE TABLE companies
     id bigserial PRIMARY KEY,
     company_name varchar(256) UNIQUE NOT NULL,
     email varchar(128) UNIQUE NOT NULL,
-    location varchar(128) NOT NULL
+    location varchar(128) NOT NULL,
+    role enum_role_type DEFAULT 'USER' NOT NULL,
+    password varchar(128) NOT NULL
 );
 
 CREATE TABLE company_feedback
@@ -98,6 +107,7 @@ CREATE TABLE vacancies
 (
     id bigserial PRIMARY KEY,
     company_id bigint NOT NULL,
+    date_created date NOT NULL,
     header varchar (256) NOT NULL,
     description text NOT NULL,
     salary int DEFAULT 0 NOT NULL,
