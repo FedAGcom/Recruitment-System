@@ -125,8 +125,8 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @GetMapping("/filter/exp")
-  public List<UserResponse> findByExperience() {
-    return userService.getByExperience();
+  @GetMapping("/filter/exp={max}")
+  public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
+    return userService.getByExperience(max);
   }
 }

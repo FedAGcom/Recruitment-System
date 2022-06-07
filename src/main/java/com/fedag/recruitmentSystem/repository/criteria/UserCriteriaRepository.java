@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface UserCriteriaRepository {
   List<User> findByEntranceExamScore(int score);
   List<User> findByStars(byte stars);
-  List<User> findByExperience();
+  List<User> findByExperience(int max);
 
 }

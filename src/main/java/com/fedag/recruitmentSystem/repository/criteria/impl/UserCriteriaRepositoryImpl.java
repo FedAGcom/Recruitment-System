@@ -58,7 +58,7 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
   }
 
   @Override
-  public List<User> findByExperience() {
+  public List<User> findByExperience(int max) {
     CriteriaBuilder cb = entityManager.getCriteriaBuilder();
     CriteriaQuery<User> cr = cb.createQuery(User.class);
 
@@ -66,8 +66,11 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
     Join<Resume, User> join1 = root.join("resumeList");
     Join<Experience, Resume> join = join1.join("experiences");
 
-    cr.select(root).orderBy(cb.desc(cb.diff(join.get("endDate"), join.get("startDate")))).groupBy(join1, root, join);
-
+    if(max == 0) {
+      cr.select(root).orderBy(cb.desc(cb.sum(cb.diff(join.get("endDate"), join.get("startDate"))))).groupBy(root);
+    } else {
+      cr.select(root).orderBy(cb.desc(cb.max(cb.diff(join.get("endDate"), join.get("startDate"))))).groupBy(root.get("id"));
+    }
     TypedQuery<User> query = entityManager.createQuery(cr);
     return query.getResultList();
   }
