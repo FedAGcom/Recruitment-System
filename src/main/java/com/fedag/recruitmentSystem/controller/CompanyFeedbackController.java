@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.CompanyFeedbackResponse;
-import com.fedag.recruitmentSystem.model.CompanyFeedBack;
+import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

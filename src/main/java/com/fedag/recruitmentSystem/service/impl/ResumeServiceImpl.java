@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.dto.ExperienceResponse;
-import com.fedag.recruitmentSystem.dto.ResumeRequest;
-import com.fedag.recruitmentSystem.dto.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
+import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExperienceMapper;
 import com.fedag.recruitmentSystem.mapper.ResumeMapper;

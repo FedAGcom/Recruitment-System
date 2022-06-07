@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.dto.ExamRequest;
-import com.fedag.recruitmentSystem.dto.ExamResponse;
+import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.model.Exam;
 import java.util.List;
 import java.util.function.Function;

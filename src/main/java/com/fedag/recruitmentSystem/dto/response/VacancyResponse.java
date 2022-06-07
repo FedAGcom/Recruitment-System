@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.domain.dto;
+package com.fedag.recruitmentSystem.dto.response;
 
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;

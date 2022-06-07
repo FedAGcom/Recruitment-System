@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto;
+package com.fedag.recruitmentSystem.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.dto.VacancyResponseRequest;
-import com.fedag.recruitmentSystem.dto.VacancyResponseResponse;
+import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
+import com.fedag.recruitmentSystem.dto.response.VacancyResponseResponse;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
 import java.util.List;
 import java.util.function.Function;

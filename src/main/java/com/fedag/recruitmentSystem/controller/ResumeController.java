@@ -1,9 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.ExperienceResponse;
-import com.fedag.recruitmentSystem.dto.ResumeRequest;
-import com.fedag.recruitmentSystem.dto.ResumeResponse;
-import com.fedag.recruitmentSystem.model.Resume;
+import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
+import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

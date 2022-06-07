@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.dto.SkillRequest;
-import com.fedag.recruitmentSystem.dto.SkillResponse;
+import com.fedag.recruitmentSystem.dto.request.SkillRequest;
+import com.fedag.recruitmentSystem.dto.response.SkillResponse;
 import com.fedag.recruitmentSystem.mapper.SkillMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.SkillRepository;

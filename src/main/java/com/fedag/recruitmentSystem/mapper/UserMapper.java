@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.dto.UserRequest;
-import com.fedag.recruitmentSystem.dto.UserResponse;
+import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.model.User;
 import java.util.List;
 import java.util.function.Function;

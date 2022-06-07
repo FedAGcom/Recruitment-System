@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto;
+package com.fedag.recruitmentSystem.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamResponse {
-
+public class CompanyFeedbackResponse {
     private Long id;
-    private int score;
-    private Long userId;
+    private String stars;
+    private String comment;
 }

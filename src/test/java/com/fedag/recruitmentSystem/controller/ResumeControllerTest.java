@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import com.fedag.recruitmentSystem.mapper.ResumeMapper;
 import com.fedag.recruitmentSystem.model.Experience;

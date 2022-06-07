@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.dto.VacancyRequest;
-import com.fedag.recruitmentSystem.dto.VacancyResponse;
+import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
+import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.mapper.VacancyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;

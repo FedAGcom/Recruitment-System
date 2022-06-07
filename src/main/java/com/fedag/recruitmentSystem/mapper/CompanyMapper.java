@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.dto.CompanyRequest;
-import com.fedag.recruitmentSystem.dto.CompanyResponse;
+import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.model.Company;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
