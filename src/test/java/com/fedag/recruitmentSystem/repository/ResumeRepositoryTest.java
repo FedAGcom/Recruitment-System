@@ -3,7 +3,7 @@ package com.fedag.recruitmentSystem.repository;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
+import com.fedag.recruitmentSystem.model.Skill;
 import com.fedag.recruitmentSystem.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
