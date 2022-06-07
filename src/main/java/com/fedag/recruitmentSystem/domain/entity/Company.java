@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.domain.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fedag.recruitmentSystem.domain.entity.Vacancy;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
 import com.fedag.recruitmentSystem.model.Message;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,6 +41,13 @@ public class Company {
     @Schema(description = "Местонахождение")
     @Column(name = "location")
     private String location;
+
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(
         cascade = CascadeType.ALL,

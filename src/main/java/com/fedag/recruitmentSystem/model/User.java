@@ -1,9 +1,8 @@
 package com.fedag.recruitmentSystem.model;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -35,19 +34,25 @@ public class User {
     @Column(name = "birthday")
     private LocalDateTime birthday;
 
+    @Column(name="role")
+    private Role role;
+
+    @Column(name = "password")
+    private String password;
+
     @OneToOne(
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
     private Exam exam;
 
     @OneToMany(
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
     private List<UserFeedback> userFeedbackList;
 
     @OneToMany(
-        cascade = CascadeType.ALL,
-        mappedBy = "user")
+            cascade = CascadeType.ALL,
+            mappedBy = "user")
     private List<Resume> resumeList;
 
     @OneToMany(mappedBy = "user")

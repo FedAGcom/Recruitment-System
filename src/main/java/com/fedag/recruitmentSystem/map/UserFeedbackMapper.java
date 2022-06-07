@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.map;
 
+import com.fedag.recruitmentSystem.dto.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.dto.UserResponse;
 import com.fedag.recruitmentSystem.model.User;
@@ -36,13 +37,13 @@ public class UserFeedbackMapper {
                 });
     }
 
-    public UserFeedback dtoToModel(UserFeedbackResponse dto) {
+    public UserFeedback dtoToModel(UserFeedbackRequest dto) {
         ModelMapper mapper = new ModelMapper();
         return mapper.map(dto, UserFeedback.class);
 
     }
 
-    public List<UserFeedback> dtoToModel(List<UserFeedbackResponse> dto) {
+    public List<UserFeedback> dtoToModel(List<UserFeedbackRequest> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)

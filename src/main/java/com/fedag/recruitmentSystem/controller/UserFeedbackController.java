@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
@@ -64,7 +65,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
+  public void addNewUserFeedback(@RequestBody UserFeedbackRequest userFeedback) {
     userFeedbackService.save(userFeedback);
   }
 
@@ -76,7 +77,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
+  public void updateUserFeedback(@RequestBody UserFeedbackRequest userFeedback) {
     userFeedbackService.save(userFeedback);
   }
 

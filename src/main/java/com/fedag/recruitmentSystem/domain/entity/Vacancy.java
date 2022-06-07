@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
