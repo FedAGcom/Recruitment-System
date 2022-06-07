@@ -51,3 +51,5 @@ WHERE 1=1;
 ALTER TABLE companies
     ALTER COLUMN  password
         SET NOT NULL;
+
+CREATE CAST (character varying as enum_role_type) WITH INOUT AS IMPLICIT;

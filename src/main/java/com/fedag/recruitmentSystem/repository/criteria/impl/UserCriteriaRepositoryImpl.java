@@ -4,6 +4,8 @@ import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.repository.criteria.UserCriteriaRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -37,7 +39,9 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
         orderBy(cb.desc(join.get("score")));
 
     TypedQuery<User> query = entityManager.createQuery(cr);
-    return query.getResultList();
+    List<User> users = query.getResultList();
+
+    return users;
 
   }
 

@@ -61,4 +61,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Message> messageList;
 
+    public User(String firstname, String lastname, String email,
+                LocalDateTime birthday, Role role, String password) {
+        this.firstname=firstname;
+        this.lastname=lastname;
+        this.email=email;
+        this.birthday=birthday;
+        this.role=role;
+        this.password=password;
+    }
 }
+
