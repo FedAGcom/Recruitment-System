@@ -69,6 +69,18 @@ public class SkillController {
     skillService.deleteById(id);
   }
 
+  @Operation(summary = "Добавление ключевого навыка")
+  @ApiResponses(value = {
+          @ApiResponse(responseCode = "201", description = "Навык добавлен",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PostMapping
+  public void addVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
+    skillService.save(skillRequest);
+  }
+
   @Operation(summary = "Изменение ключевого навыка")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "Навык изменен",
