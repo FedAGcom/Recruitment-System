@@ -114,15 +114,15 @@ class ResumeControllerTest {
 //                .andExpect(status().is(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()));
     }
 
-    static Resume getTestResume(Long userId, Long experienceId, Long resumeId) {
-        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), null, null, null, null, null);
-        List<Experience> experiences = new ArrayList<>();
-        List<Skill> skills = new ArrayList<>();
-        experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
-        return null;
-
-//      return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
-    }
+//    static Resume getTestResume(Long userId, Long experienceId, Long resumeId) {
+//        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), null, null, null, null, null);
+//        List<Experience> experiences = new ArrayList<>();
+//        List<Skill> skills = new ArrayList<>();
+//        experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
+//        return null;
+//
+////      return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
+//    }
 
     static Stream<Arguments> dataForTest() {
         List<Resume> resumesArrOne = List.of(

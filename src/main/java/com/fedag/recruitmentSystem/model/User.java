@@ -35,6 +35,7 @@ public class User {
     private LocalDateTime birthday;
 
     @Column(name="role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "password")
