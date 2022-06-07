@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
-import com.fedag.recruitmentSystem.domain.dto.CompanyResponse;
-import com.fedag.recruitmentSystem.domain.mapper.CompanyMapper;
+import com.fedag.recruitmentSystem.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.CompanyResponse;
+import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.CompanyService;
