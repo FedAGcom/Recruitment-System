@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyRequest {
 
+  private Long id;
   private String companyName;
   private String email;
   private String location;

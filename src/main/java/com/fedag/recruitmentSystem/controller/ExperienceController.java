@@ -76,8 +76,9 @@ public class ExperienceController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
-  public void updateVacancy(@RequestBody ExperienceUpdateRequest experience) {
+  @PutMapping("/{id}")
+  public void updateVacancy(@PathVariable Long id, @RequestBody ExperienceUpdateRequest experience) {
+    experience.setId(id);
     experienceService.update(experience);
   }
 

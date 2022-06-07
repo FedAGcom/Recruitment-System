@@ -90,6 +90,7 @@ public class SkillController {
   })
   @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody SkillUpdateRequest skillUpdateRequest) {
+    skillUpdateRequest.setId(id);
     skillService.update(skillUpdateRequest);
   }
 }

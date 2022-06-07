@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class VacancyRequest {
 
+  private Long id;
   private String header;
   private String description;
   private int salary;
