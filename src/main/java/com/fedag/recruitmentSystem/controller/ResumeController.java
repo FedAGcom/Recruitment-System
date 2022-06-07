@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.ExperienceResponse;
-import com.fedag.recruitmentSystem.dto.ResumeResponse;
-import com.fedag.recruitmentSystem.model.Resume;
+import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
+import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,8 +35,8 @@ public class ResumeController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-    @GetMapping("/byPosition/{position}")
-    public Page<Resume> getAllResumesByPosition(
+    @GetMapping("/filter/{position}")
+    public Page<ResumeResponse> getAllResumesByPosition(
             @PageableDefault(size = 1) Pageable pageable
             , @PathVariable("position") String position) {
         return resumeService.getAllResumesByPosition(position, pageable);
@@ -85,7 +85,7 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody ResumeResponse resume) {
+  public void addVacancy(@RequestBody ResumeRequest resume) {
     resumeService.save(resume);
   }
 
@@ -97,7 +97,7 @@ public class ResumeController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody ResumeResponse resume) {
+  public void updateVacancy(@RequestBody ResumeRequest resume) {
     resumeService.save(resume);
   }
 
@@ -116,19 +116,5 @@ public class ResumeController {
   @GetMapping("/filter/date")
   public List<ResumeResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
     return resumeService.findByDateCreated(dateCreated);
-  }
-
-  @Operation(summary = "Получение резюме по позиции")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Резюме получено согласно позиции",
-                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-  })
-  @GetMapping("/filter/{position}")
-  public Page<Resume> getAllResumesByPosition(
-          @PageableDefault(size = 1) Pageable pageable
-          , @PathVariable("position") String position){
-      return resumeService.findByPosition(position, pageable);
   }
 }
