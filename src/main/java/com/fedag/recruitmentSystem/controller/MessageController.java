@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.MessageRequest;
 import com.fedag.recruitmentSystem.dto.response.MessageResponse;
 import com.fedag.recruitmentSystem.service.impl.MessageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -63,7 +64,7 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addMessage(@RequestBody MessageResponse messageResponse) {
+  public void addMessage(@RequestBody MessageRequest messageResponse) {
     messageService.save(messageResponse);
   }
 
@@ -75,7 +76,7 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateMessage(@RequestBody MessageResponse messageResponse) {
+  public void updateMessage(@RequestBody MessageRequest messageResponse) {
     messageService.save(messageResponse);
   }
 

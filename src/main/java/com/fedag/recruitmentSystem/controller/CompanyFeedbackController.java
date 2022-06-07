@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -62,7 +63,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addCompanyFeedBack(@RequestBody CompanyFeedbackResponse companyFeedBack) {
+  public void addCompanyFeedBack(@RequestBody CompanyFeedbackRequest companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
   }
 
@@ -75,7 +76,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody CompanyFeedbackResponse companyFeedBack) {
+  public void updateVacancy(@RequestBody CompanyFeedbackRequest companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
   }
 

@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.ExamRequest;
 import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,7 +61,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PostMapping
-  public void addNewExam(@RequestBody ExamResponse exam) {
+  public void addNewExam(@RequestBody ExamRequest exam) {
     examService.save(exam);
   }
 
@@ -72,7 +73,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PutMapping
-  public void updateExam(@RequestBody ExamResponse exam) {
+  public void updateExam(@RequestBody ExamRequest exam) {
     examService.save(exam);
   }
 
