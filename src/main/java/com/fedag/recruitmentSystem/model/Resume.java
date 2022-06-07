@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,11 @@ public class Resume {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ResumeStatus status;
+
+    @NotBlank
+    @Schema(description = "Дата создания")
+    @Column(name = "date_created")
+    private LocalDateTime dateCreated;
 
     @OneToMany(
             mappedBy = "resume",
