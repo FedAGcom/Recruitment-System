@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.domain.dto.SkillRequest;
-import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
+import com.fedag.recruitmentSystem.dto.SkillRequest;
+import com.fedag.recruitmentSystem.dto.SkillResponse;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
