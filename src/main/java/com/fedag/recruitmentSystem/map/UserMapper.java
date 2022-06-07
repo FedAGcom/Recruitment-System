@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.map;
 
+import com.fedag.recruitmentSystem.dto.UserRequest;
 import com.fedag.recruitmentSystem.dto.UserResponse;
 import com.fedag.recruitmentSystem.model.User;
 import org.modelmapper.ModelMapper;
@@ -35,13 +36,13 @@ public class UserMapper {
                 });
     }
 
-    public User dtoToModel(UserResponse dto) {
+    public User dtoToModel(UserRequest dto) {
         ModelMapper mapper = new ModelMapper();
         return mapper.map(dto, User.class);
 
     }
 
-    public List<User> dtoToModel(List<UserResponse> dto) {
+    public List<User> dtoToModel(List<UserRequest> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)
