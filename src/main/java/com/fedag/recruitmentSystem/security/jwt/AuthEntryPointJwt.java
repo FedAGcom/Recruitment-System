@@ -22,7 +22,7 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         System.err.println(authException.getMessage());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setContentType(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType(String.valueOf(HttpServletResponse.SC_UNAUTHORIZED));//HttpServletResponse.SC_UNAUTHORIZED
 
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
