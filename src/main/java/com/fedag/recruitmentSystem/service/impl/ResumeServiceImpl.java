@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.ResumeResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.map.ExperienceMapper;
@@ -20,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
+public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRequest> {
 
   private final ResumeRepository resumeRepository;
   private final ResumeMapper resumeMapper;
@@ -43,8 +44,8 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
     return resumeMapper.modelToDto(resume);
   }
 
-  public Page<Resume> getAllResumesByPosition(String position, Pageable pageable) {
-      return resumeRepository.findAllByResumeName(position, pageable);
+  public Page<ResumeResponse> getAllResumesByPosition(String position, Pageable pageable) {
+      return resumeMapper.modelToDto(resumeRepository.findByPosition(position, pageable));
   }
 
   @Override
@@ -57,8 +58,8 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
   }
 
   @Override
-  public void save(ResumeResponse resumeResponse) {
-    Resume resume = resumeMapper.dtoToModel(resumeResponse);
+  public void save(ResumeRequest element) {
+    Resume resume = resumeMapper.dtoToModel(element);
     if(resume.getId()!=null) {
       resume.getExperiences()
               .forEach(e->e.setResume(resume));
@@ -81,7 +82,7 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse> {
   }
 
   @Override
-  public Page<Resume> findByPosition(String position, Pageable pageable) {
-    return resumeRepository.findByPosition(position, pageable);
+  public Page<ResumeResponse> findByPosition(String position, Pageable pageable) {
+    return resumeMapper.modelToDto(resumeRepository.findByPosition(position, pageable));
   }
 }

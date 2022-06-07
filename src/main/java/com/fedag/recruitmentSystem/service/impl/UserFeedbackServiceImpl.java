@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.map.UserFeedbackMapper;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedbackResponse> {
+public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedbackResponse, UserFeedbackRequest> {
 
   private final UserFeedbackRepository userFeedbackRepository;
   private final UserFeedbackMapper userFeedbackMapper;
@@ -40,8 +41,8 @@ public class UserFeedbackServiceImpl implements UserFeedbackService<UserFeedback
   }
 
   @Override
-  public void save(UserFeedbackResponse userFeedbackResponse) {
-    UserFeedback userFeedback = userFeedbackMapper.dtoToModel(userFeedbackResponse);
+  public void save(UserFeedbackRequest element) {
+    UserFeedback userFeedback = userFeedbackMapper.dtoToModel(element);
     userFeedbackRepository.save(userFeedback);
   }
 

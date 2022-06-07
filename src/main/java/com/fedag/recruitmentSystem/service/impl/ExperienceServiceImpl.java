@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.ExperienceRequest;
 import com.fedag.recruitmentSystem.dto.ExperienceResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.map.ExperienceMapper;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ExperienceServiceImpl implements ExperienceService<ExperienceResponse> {
+public class ExperienceServiceImpl implements ExperienceService<ExperienceResponse, ExperienceRequest> {
 
   private final ExperienceRepository experienceRepository;
   private final ExperienceMapper experienceMapper;
@@ -44,7 +45,7 @@ public class ExperienceServiceImpl implements ExperienceService<ExperienceRespon
   }
 
   @Override
-  public void save(ExperienceResponse element) {
+  public void save(ExperienceRequest element) {
     Experience experience = experienceMapper.dtoToModel(element);
     Optional<Resume> resume = Optional.ofNullable(experience.getResume());
     resume.ifPresent(r->{
