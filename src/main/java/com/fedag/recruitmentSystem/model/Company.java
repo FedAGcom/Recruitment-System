@@ -1,10 +1,5 @@
-package com.fedag.recruitmentSystem.domain.entity;
+package com.fedag.recruitmentSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fedag.recruitmentSystem.domain.entity.Vacancy;
-import com.fedag.recruitmentSystem.model.CompanyFeedBack;
-import com.fedag.recruitmentSystem.model.Message;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

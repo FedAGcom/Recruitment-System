@@ -1,11 +1,8 @@
-package com.fedag.recruitmentSystem.domain.entity;
+package com.fedag.recruitmentSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fedag.recruitmentSystem.model.Resume;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
