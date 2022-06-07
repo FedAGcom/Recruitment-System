@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
+import com.fedag.recruitmentSystem.model.Skill;
 import com.fedag.recruitmentSystem.repository.SkillRepository;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import java.util.Optional;

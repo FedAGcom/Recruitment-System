@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.domain.dto.VacancyRequest;
-import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
+import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
+import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,8 +1,9 @@
 package com.fedag.recruitmentSystem.service.impl;
 
-import com.fedag.recruitmentSystem.dto.VacancyResponseResponse;
+import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
+import com.fedag.recruitmentSystem.dto.response.VacancyResponseResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.map.VacancyResponseMapper;
+import com.fedag.recruitmentSystem.mapper.VacancyResponseMapper;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
 import com.fedag.recruitmentSystem.repository.VacancyResponseRepository;
 import com.fedag.recruitmentSystem.service.VacancyResponseService;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class VacancyResponseServiceImpl implements VacancyResponseService<VacancyResponseResponse> {
+public class VacancyResponseServiceImpl implements VacancyResponseService<VacancyResponseResponse, VacancyResponseRequest> {
 
   private final VacancyResponseRepository vacancyResponseRepository;
   private final VacancyResponseMapper vacancyResponseMapper;
@@ -40,8 +41,8 @@ public class VacancyResponseServiceImpl implements VacancyResponseService<Vacanc
   }
 
   @Override
-  public void save(VacancyResponseResponse vacancyResponseResponse) {
-    VacancyResponse vacancyResponse = vacancyResponseMapper.dtoToModel(vacancyResponseResponse);
+  public void save(VacancyResponseRequest element) {
+    VacancyResponse vacancyResponse = vacancyResponseMapper.dtoToModel(element);
     vacancyResponseRepository.save(vacancyResponse);
   }
 

@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;

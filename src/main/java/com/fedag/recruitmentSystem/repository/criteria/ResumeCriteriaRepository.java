@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.repository.criteria;
 
 import com.fedag.recruitmentSystem.model.Resume;
-import com.fedag.recruitmentSystem.model.Vacancy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

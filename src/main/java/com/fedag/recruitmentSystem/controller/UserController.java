@@ -1,7 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
 
-import com.fedag.recruitmentSystem.dto.UserResponse;
+import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,7 +72,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUser(@RequestBody UserResponse user) {
+  public void addNewUser(@RequestBody UserRequest user) {
     userService.save(user);
   }
 
@@ -83,7 +84,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUser(@RequestBody UserResponse user) {
+  public void updateUser(@RequestBody UserRequest user) {
     userService.save(user);
   }
 

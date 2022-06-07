@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface CompanyFeedbackService<T> extends AbstractServiceInterface<T> {
+public interface CompanyFeedbackService<T, S> extends AbstractServiceInterface<T, S> {
 
   List<T> getAllCompanyFeedbacks();
 
