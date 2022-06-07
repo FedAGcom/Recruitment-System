@@ -1,8 +1,8 @@
-package com.fedag.recruitmentSystem.domain.mapper;
+package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.domain.dto.SkillRequest;
-import com.fedag.recruitmentSystem.domain.dto.SkillResponse;
-import com.fedag.recruitmentSystem.domain.entity.Skill;
+import com.fedag.recruitmentSystem.dto.SkillRequest;
+import com.fedag.recruitmentSystem.dto.SkillResponse;
+import com.fedag.recruitmentSystem.model.Skill;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

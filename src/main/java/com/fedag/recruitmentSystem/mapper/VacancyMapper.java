@@ -1,8 +1,8 @@
-package com.fedag.recruitmentSystem.domain.mapper;
+package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.domain.dto.VacancyRequest;
-import com.fedag.recruitmentSystem.domain.dto.VacancyResponse;
-import com.fedag.recruitmentSystem.domain.entity.Vacancy;
+import com.fedag.recruitmentSystem.dto.VacancyRequest;
+import com.fedag.recruitmentSystem.dto.VacancyResponse;
+import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.domain.mapper.config;
+package com.fedag.recruitmentSystem.mapper.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

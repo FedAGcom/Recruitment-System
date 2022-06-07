@@ -1,8 +1,8 @@
-package com.fedag.recruitmentSystem.domain.mapper;
+package com.fedag.recruitmentSystem.mapper;
 
-import com.fedag.recruitmentSystem.domain.dto.CompanyRequest;
-import com.fedag.recruitmentSystem.domain.dto.CompanyResponse;
-import com.fedag.recruitmentSystem.domain.entity.Company;
+import com.fedag.recruitmentSystem.dto.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.CompanyResponse;
+import com.fedag.recruitmentSystem.model.Company;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
