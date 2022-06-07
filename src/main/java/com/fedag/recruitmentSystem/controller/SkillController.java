@@ -77,7 +77,7 @@ public class SkillController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
+  public void addVacancy(@RequestBody SkillRequest skillRequest) {
     skillService.save(skillRequest);
   }
 
