@@ -1,7 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Company;
-import com.fedag.recruitmentSystem.model.User;
+import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,9 +15,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +41,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Company> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<CompanyResponse> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
     return companyService.getAllCompanies(pageable);
   }
 
@@ -47,7 +53,7 @@ public class CompanyController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Company getById(@PathVariable Long id) {
+  public CompanyResponse getById(@PathVariable Long id) {
     return companyService.findById(id);
   }
 
@@ -70,9 +76,9 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping("/add")
-  public void addVacancy(@RequestBody Company company) {
-    companyService.save(company);
+  @PostMapping
+  public void addVacancy(@RequestBody CompanyRequest companyRequest) {
+    companyService.save(companyRequest);
   }
 
   @Operation(summary = "Изменение компании")
@@ -82,20 +88,8 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PatchMapping("/{id}")
-  public void updateVacancy(@PathVariable Long id, @RequestBody Company company) {
-    companyService.save(company);
-  }
-
-  @Operation(summary = "Сортировка списка компаний по рейтингу")
-  @ApiResponses(value = {
-          @ApiResponse(responseCode = "200", description = "Компании отсортированы",
-                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-  })
-  @GetMapping("/filter/stars")
-  public List<Company> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
-    return companyService.getByStars(stars);
+  @PutMapping("/{id}")
+  public void updateVacancy(@PathVariable Long id, @RequestBody CompanyUpdateRequest companyUpdateRequest) {
+    companyService.update(companyUpdateRequest);
   }
 }

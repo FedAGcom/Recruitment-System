@@ -1,20 +1,19 @@
-package com.fedag.recruitmentSystem.dto;
+package com.fedag.recruitmentSystem.dto.request;
 
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResumeRequest {
+public class MessageRequest {
     private Long id;
-
-    private String resumeName;
-
-    private ResumeStatus status;
-
+    private String entityType;
     private LocalDateTime dateCreated;
+    private String status;
+    private String message;
+
 }

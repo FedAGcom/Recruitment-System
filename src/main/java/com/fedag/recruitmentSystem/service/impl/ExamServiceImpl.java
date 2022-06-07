@@ -1,10 +1,11 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 
-import com.fedag.recruitmentSystem.dto.ExamResponse;
-import com.fedag.recruitmentSystem.dto.UserResponse;
+import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.map.ExamMapper;
+import com.fedag.recruitmentSystem.mapper.ExamMapper;
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.repository.ExamRepository;
 import com.fedag.recruitmentSystem.service.ExamService;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ExamServiceImpl implements ExamService<ExamResponse> {
+public class ExamServiceImpl implements ExamService<ExamResponse, ExamRequest, ExamUpdateRequest> {
 
   private final ExamRepository examRepository;
   private final ExamMapper examMapper;
@@ -42,8 +43,14 @@ public class ExamServiceImpl implements ExamService<ExamResponse> {
   }
 
   @Override
-  public void save(ExamResponse examResponse) {
-    Exam exam = examMapper.dtoToModel(examResponse);
+  public void save(ExamRequest element) {
+    Exam exam = examMapper.dtoToModel(element);
+    examRepository.save(exam);
+  }
+
+  @Override
+  public void update(ExamUpdateRequest element) {
+    Exam exam = examMapper.dtoToModel(element);
     examRepository.save(exam);
   }
 

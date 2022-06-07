@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
+import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.service.impl.ExperienceServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,7 +65,7 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addVacancy(@RequestBody ExperienceResponse experience) {
+  public void addVacancy(@RequestBody ExperienceRequest experience) {
     experienceService.save(experience);
   }
 
@@ -75,8 +77,8 @@ public class ExperienceController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody ExperienceResponse experience) {
-    experienceService.save(experience);
+  public void updateVacancy(@RequestBody ExperienceUpdateRequest experience) {
+    experienceService.update(experience);
   }
 
   @Operation(summary = "Удаление опыта работы")

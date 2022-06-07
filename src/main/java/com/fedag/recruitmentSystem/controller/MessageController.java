@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.Message;
+import com.fedag.recruitmentSystem.dto.request.MessageRequest;
+import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.MessageResponse;
 import com.fedag.recruitmentSystem.service.impl.MessageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +41,7 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<Message> getAllMessage(@PageableDefault(size = 5) Pageable pageable) {
+  public Page<MessageResponse> getAllMessage(@PageableDefault(size = 5) Pageable pageable) {
     return messageService.getAllMessages(pageable);
   }
 
@@ -51,7 +53,7 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public Message getMessageById(@PathVariable Long id) {
+  public MessageResponse getMessageById(@PathVariable Long id) {
     return messageService.findById(id);
   }
 
@@ -63,8 +65,8 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addMessage(@RequestBody Message message) {
-    messageService.save(message);
+  public void addMessage(@RequestBody MessageRequest messageResponse) {
+    messageService.save(messageResponse);
   }
 
   @Operation(summary = "Изменение сообщения")
@@ -75,8 +77,8 @@ public class MessageController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateMessage(@RequestBody Message message) {
-    messageService.save(message);
+  public void updateMessage(@RequestBody MessageUpdateRequest messageResponse) {
+    messageService.update(messageResponse);
   }
 
   @Operation(summary = "Удаление сообщения")

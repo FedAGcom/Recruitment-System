@@ -3,8 +3,6 @@ package com.fedag.recruitmentSystem.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -64,6 +62,5 @@ public class Vacancy {
       name = "vacancies_skill_link",
       joinColumns = @JoinColumn(name = "vacancy_id"),
       inverseJoinColumns = @JoinColumn(name = "skill_id"))
-  @JsonBackReference
   private List<Skill> skillList;
 }

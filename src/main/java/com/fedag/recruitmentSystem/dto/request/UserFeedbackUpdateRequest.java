@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto;
+package com.fedag.recruitmentSystem.dto.request;
 
 import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserFeedbackResponse {
+public class UserFeedbackUpdateRequest {
 
     private Long id;
     private byte stars;

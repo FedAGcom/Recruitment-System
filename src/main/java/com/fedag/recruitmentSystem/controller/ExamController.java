@@ -1,11 +1,11 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.ExamResponse;
-import com.fedag.recruitmentSystem.model.Exam;
+import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -62,7 +62,7 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PostMapping
-  public void addNewExam(@RequestBody ExamResponse exam) {
+  public void addNewExam(@RequestBody ExamRequest exam) {
     examService.save(exam);
   }
 
@@ -74,8 +74,8 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
   @PutMapping
-  public void updateExam(@RequestBody ExamResponse exam) {
-    examService.save(exam);
+  public void updateExam(@RequestBody ExamUpdateRequest exam) {
+    examService.update(exam);
   }
 
     @Operation(summary = "Удаление теста")

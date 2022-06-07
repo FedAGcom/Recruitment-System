@@ -1,7 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.dto.UserFeedbackResponse;
-import com.fedag.recruitmentSystem.model.UserFeedback;
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -64,7 +65,7 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addNewUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
+  public void addNewUserFeedback(@RequestBody UserFeedbackRequest userFeedback) {
     userFeedbackService.save(userFeedback);
   }
 
@@ -76,8 +77,8 @@ public class UserFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateUserFeedback(@RequestBody UserFeedbackResponse userFeedback) {
-    userFeedbackService.save(userFeedback);
+  public void updateUserFeedback(@RequestBody UserFeedbackUpdateRequest userFeedback) {
+    userFeedbackService.update(userFeedback);
   }
 
   @Operation(summary = "Удаление отзыва")

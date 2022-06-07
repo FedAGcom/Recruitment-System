@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-import com.fedag.recruitmentSystem.model.CompanyFeedBack;
+import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,7 +40,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
-  public Page<CompanyFeedBack> getAllCompanyFeedBack(Pageable pageable) {
+  public Page<CompanyFeedbackResponse> getAllCompanyFeedBack(Pageable pageable) {
     return companyFeedBackService.getAllCompanyFeedbacks(pageable);
   }
 
@@ -50,7 +52,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping("/{id}")
-  public CompanyFeedBack getCompanyFeedBackById(@PathVariable Long id) {
+  public CompanyFeedbackResponse getCompanyFeedBackById(@PathVariable Long id) {
     return companyFeedBackService.findById(id);
   }
 
@@ -62,7 +64,7 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PostMapping
-  public void addCompanyFeedBack(@RequestBody CompanyFeedBack companyFeedBack) {
+  public void addCompanyFeedBack(@RequestBody CompanyFeedbackRequest companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
   }
 
@@ -75,8 +77,8 @@ public class CompanyFeedbackController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
-  public void updateVacancy(@RequestBody CompanyFeedBack companyFeedBack) {
-    companyFeedBackService.save(companyFeedBack);
+  public void updateVacancy(@RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
+    companyFeedBackService.update(companyFeedBack);
   }
 
   @Operation(summary = "Удаление отзыва")
