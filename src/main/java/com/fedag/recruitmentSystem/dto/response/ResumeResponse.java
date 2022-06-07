@@ -22,7 +22,7 @@ public class ResumeResponse {
 
     private LocalDateTime dateCreated;
 
-    private List<ExperienceRequest> experiences = new ArrayList<>();
+    private List<ExperienceShortResponse> experiences = new ArrayList<>();
 
     private UserResponse user;
 }
