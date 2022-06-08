@@ -8,8 +8,10 @@ import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.Skill;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
+import java.util.Collections;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,6 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +43,8 @@ public class CompanyServiceTest {
 
   @Test
   void testGetAllCompaniesPageable() {
-    Pageable pageable = Mockito.any(Pageable.class);
+    Pageable pageable = PageRequest.of(0, 5);
+    when(companyRepository.findAll(pageable)).thenReturn(new PageImpl<>(Collections.singletonList(new Company())));
     companyService.getAllCompanies(pageable);
     verify(companyRepository).findAll(pageable);
   }
