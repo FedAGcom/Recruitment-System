@@ -45,6 +45,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @GetMapping
+  @PreAuthorize("hasAuthority('developers:read')")
   public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
     return userService.getAllUsers(pageable);
   }
@@ -86,6 +87,7 @@ public class UserController {
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
   @PutMapping
+  @PreAuthorize("hasAuthority('developers:write')")
   public void updateUser(@RequestBody UserRequest user) {
     userService.save(user);
   }
