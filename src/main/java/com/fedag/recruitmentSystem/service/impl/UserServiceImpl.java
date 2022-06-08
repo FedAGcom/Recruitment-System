@@ -40,6 +40,10 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
 
+    public List<UserResponse> getByExperience(int max) {
+        return userMapper.modelToDto(userRepository.findByExperience(max));
+    }
+
     @Override
     public UserResponse findById(Long id) {
         User user = userRepository
