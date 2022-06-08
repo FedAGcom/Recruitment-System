@@ -7,6 +7,8 @@ import com.fedag.recruitmentSystem.mapper.VacancyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
 import com.fedag.recruitmentSystem.service.VacancyService;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +46,10 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponse, Vacan
         .orElseThrow(
             () -> new ObjectNotFoundException("Vacancy with id: " + id + " not found")
         ));
+  }
+
+  public List<VacancyResponse> findByDateCreated(LocalDateTime dateCreated) {
+    return vacancyMapper.toDto(vacancyRepository.findByDateCreated(dateCreated));
   }
 
   @Override

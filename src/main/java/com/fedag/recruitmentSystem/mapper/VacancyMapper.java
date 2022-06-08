@@ -11,6 +11,9 @@ import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class VacancyMapper {
@@ -37,6 +40,13 @@ public class VacancyMapper {
 
   public VacancyResponse toDto(Vacancy vacancy) {
     return mapper.map(vacancy, VacancyResponse.class);
+  }
+
+  public List<VacancyResponse> toDto(List<Vacancy> user) {
+    return user
+            .stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
   }
 
   public Vacancy toEntity(VacancyRequest vacancyRequest) {

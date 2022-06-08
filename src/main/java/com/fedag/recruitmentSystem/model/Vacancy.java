@@ -50,6 +50,8 @@ public class Vacancy {
   @Enumerated(EnumType.STRING)
   private ResumeStatus status;
 
+  @NotBlank
+  @Schema(description = "Дата размещения")
   @Column(name = "date_created")
   private LocalDateTime dateCreated;
 
