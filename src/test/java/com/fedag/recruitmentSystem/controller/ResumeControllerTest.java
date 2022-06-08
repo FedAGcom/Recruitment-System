@@ -2,38 +2,26 @@ package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponse;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
-import com.fedag.recruitmentSystem.mapper.ResumeMapper;
-import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
-import com.fedag.recruitmentSystem.model.Skill;
-import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import com.fedag.recruitmentSystem.utils.TestDataProvider;
 import org.assertj.core.api.Assertions;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -108,7 +96,7 @@ class ResumeControllerTest {
     void updateVacancy() throws Exception {
         ResumeUpdateRequest mockResume = TestDataProvider.getTestResumeUpdateRequest(TestDataProvider.getTestResume(1L, 1L, 1L));
         Mockito.doNothing().when(resumeService).update(mockResume);
-        mockMvc.perform(put("/api/resumes/", mockResume)
+        mockMvc.perform(put("/api/resumes/"+mockResume.getId(), mockResume)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"id\":1,\"resumeName\":\"Ivan CV\",\"status\":\"ACTIVE\",\"experiences\":[{\"id\":1,\"description\":\"Java developing\",\"startDate\":\"2020-06-02T14:29:10.3825003\",\"endDate\":\"2022-06-02T14:29:10.3825003\"}],\"skills\":[],\"user\":{\"id\":1,\"firstname\":\"Ivan\",\"lastname\":\"Petrov\",\"email\":\"Ivan@gmail.com\",\"birthday\":\"1992-06-02T14:29:10.3814968\"}}"))
                 .andDo(print())
