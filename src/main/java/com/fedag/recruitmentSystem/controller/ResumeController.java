@@ -115,6 +115,7 @@ public class ResumeController {
     resumeService.deleteById(id);
   }
 
+  @Operation(summary = "Фильтр резюме по дате")
   @GetMapping("/filter/date")
   public List<ResumeResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false)LocalDateTime dateCreated) {
     return resumeService.findByDateCreated(dateCreated);

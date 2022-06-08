@@ -11,18 +11,15 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@RequiredArgsConstructor
 public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
 
   private final EntityManager entityManager;
-
-  @Autowired
-  public UserCriteriaRepositoryImpl(EntityManager entityManager) {
-    this.entityManager = entityManager;
-  }
 
   @Override
   public List<User> findByEntranceExamScore(int score) {
