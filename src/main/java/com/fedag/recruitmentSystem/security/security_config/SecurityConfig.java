@@ -2,18 +2,21 @@ package com.fedag.recruitmentSystem.security.security_config;
 
 import com.fedag.recruitmentSystem.enums.Permission;
 import com.fedag.recruitmentSystem.enums.Role;
+import com.fedag.recruitmentSystem.security.JwtConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,20 +32,22 @@ import org.springframework.security.web.util.matcher.AndRequestMatcher;
 //@PreAuthorize("hasAuthority('developers:read')") //над методами для указания прав доступа
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService userDetailsService;
+    private final JwtConfigurer jwtConfigurer;
 
-    @Autowired
-    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public SecurityConfig(JwtConfigurer jwtConfigurer) {
+        this.jwtConfigurer = jwtConfigurer;
     }
 
-    //С помощью Authority
+    //JWT
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/api/v1/auth/login").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
 //                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
 //                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
@@ -50,17 +55,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
-//                .loginPage("api/auth").permitAll() // есди будем делать страницу под регистрацию
-//                .defaultSuccessUrl("/")
-                     .and()
-                .logout()
-//                .logoutRequestMatcher(new AndRequestMatcher("/auth/logout", "POST"))
-                .invalidateHttpSession(true)
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID");
-//                .logoutSuccessUrl("/auth/login");
+                .apply(jwtConfigurer);
+
     }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+
+    //С помощью Authority
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/").permitAll()
+////                .antMatchers(HttpMethod.GET,"/api/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
+////                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
+////                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
+////                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .formLogin()
+////                .loginPage("api/auth").permitAll() // есди будем делать страницу под регистрацию
+////                .defaultSuccessUrl("/")
+//                     .and()
+//                .logout()
+////                .logoutRequestMatcher(new AndRequestMatcher("/auth/logout", "POST"))
+//                .invalidateHttpSession(true)
+//                .clearAuthentication(true)
+//                .deleteCookies("JSESSIONID");
+////                .logoutSuccessUrl("/auth/login");
+//    }
 
     //С помощью Authority
 //    @Bean
@@ -80,10 +110,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        );
 //    }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(daoAuthenticationProvider());
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(daoAuthenticationProvider());
+//    }
 
     @Bean
     protected PasswordEncoder passwordEncoder(){
@@ -103,13 +133,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    @Bean
-    protected DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
-        return daoAuthenticationProvider;
-    }
+//    @Bean
+//    protected DaoAuthenticationProvider daoAuthenticationProvider() {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+//        return daoAuthenticationProvider;
+//    }
 
 
     //С помощью Ролей
