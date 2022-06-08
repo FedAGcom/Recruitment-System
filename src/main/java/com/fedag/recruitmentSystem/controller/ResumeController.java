@@ -36,12 +36,12 @@ public class ResumeController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-    @GetMapping("/filter/{position}")
-    public Page<ResumeResponse> getAllResumesByPosition(
+  @GetMapping("/filter/{position}")
+  public Page<ResumeResponse> getAllResumesByPosition(
             @PageableDefault(size = 1) Pageable pageable
             , @PathVariable("position") String position) {
         return resumeService.getAllResumesByPosition(position, pageable);
-    }
+  }
   
   @Operation(summary = "Получение списка резюме")
   @ApiResponses(value = {
