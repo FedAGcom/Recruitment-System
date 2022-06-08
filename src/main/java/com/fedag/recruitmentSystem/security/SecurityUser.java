@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.security;
 
+import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -62,4 +63,12 @@ public class SecurityUser implements UserDetails {
                 user.getEmail(), user.getPassword(), user.getRole().getAuthorities()
         );
     }
+
+    public static UserDetails fromCompany(Company company) {
+        return new org.springframework.security.core.userdetails.User(
+                company.getEmail(), company.getPassword(), company.getRole().getAuthorities()
+        );
+    }
+
+
 }

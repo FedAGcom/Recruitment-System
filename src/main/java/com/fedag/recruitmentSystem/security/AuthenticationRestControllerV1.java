@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.security;
 
+import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
+import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/auth")
@@ -27,19 +30,31 @@ public class AuthenticationRestControllerV1 {
     private final AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
+    private final CompanyRepository companyRepository;
 
-    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, CompanyRepository companyRepository) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.jwtTokenProvider = jwtTokenProvider;
+        this.companyRepository = companyRepository;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
+            System.out.println("зашли в аутен");
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-            User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
-            String token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+            System.out.println("1");
+            Optional<Company> optionalCompany = companyRepository.findByEmail(request.getEmail());
+            String token;
+            if (optionalCompany.isPresent()) {
+                Company company = optionalCompany.get();
+                token = jwtTokenProvider.createToken(request.getEmail(), company.getRole().name());
+            } else {
+                User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+                token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+            }
+            System.out.println("2");
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
