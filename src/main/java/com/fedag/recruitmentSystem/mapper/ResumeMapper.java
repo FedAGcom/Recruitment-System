@@ -22,6 +22,14 @@ public class ResumeMapper {
     return mapper.map(resume, ResumeResponse.class);
   }
 
+  public ResumeRequest modelToRequestDto(Resume resume) {
+    return mapper.map(resume, ResumeRequest.class);
+  }
+
+  public ResumeUpdateRequest modelToUpdateRequestDto(Resume resume) {
+    return mapper.map(resume, ResumeUpdateRequest.class);
+  }
+
   public List<ResumeResponse> modelToDto(List<Resume> user) {
     return user
         .stream()

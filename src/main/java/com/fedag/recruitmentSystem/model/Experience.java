@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
@@ -26,12 +25,12 @@ public class Experience {
     @NotBlank
     @Schema(description = "Дата начала работы")
     @Column(name = "start_date")
-    private LocalDateTime StartDate;
+    private LocalDateTime startDate;
 
     @NotBlank
     @Schema(description = "Дата окончания работы")
     @Column(name = "end_date")
-    private LocalDateTime EndDate;
+    private LocalDateTime endDate;
 
     @ManyToOne
     @JoinColumn(name = "resume_id")

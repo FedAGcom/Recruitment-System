@@ -1,9 +1,9 @@
 package com.fedag.recruitmentSystem.repository.criteria.impl;
 
-import com.fedag.recruitmentSystem.model.Exam;
-import com.fedag.recruitmentSystem.model.User;
-import com.fedag.recruitmentSystem.model.UserFeedback;
+import com.fedag.recruitmentSystem.model.*;
 import com.fedag.recruitmentSystem.repository.criteria.UserCriteriaRepository;
+
+import java.beans.Expression;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -50,6 +50,24 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
             where(cb.ge(join.get("stars"), stars)).
             orderBy(cb.desc(cb.avg(join.get("stars")))).groupBy(root);
 
+    TypedQuery<User> query = entityManager.createQuery(cr);
+    return query.getResultList();
+  }
+
+  @Override
+  public List<User> findByExperience(int max) {
+    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+    CriteriaQuery<User> cr = cb.createQuery(User.class);
+
+    Root<User> root = cr.from(User.class);
+    Join<Resume, User> join1 = root.join("resumeList");
+    Join<Experience, Resume> join = join1.join("experiences");
+
+    if(max == 0) {
+      cr.select(root).orderBy(cb.desc(cb.sum(cb.diff(join.get("endDate"), join.get("startDate"))))).groupBy(root);
+    } else {
+      cr.select(root).orderBy(cb.desc(cb.max(cb.diff(join.get("endDate"), join.get("startDate"))))).groupBy(root.get("id"));
+    }
     TypedQuery<User> query = entityManager.createQuery(cr);
     return query.getResultList();
   }
