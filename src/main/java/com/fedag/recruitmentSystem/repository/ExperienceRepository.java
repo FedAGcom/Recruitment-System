@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface ExperienceRepository extends JpaRepository<Experience, Long> {
     @Query(
-            value = "select id, description, start_date, end_date " +
+            value = "select id, resume_id, description, start_date, end_date " +
                     "from experience where description = :description",
             nativeQuery = true
     )
