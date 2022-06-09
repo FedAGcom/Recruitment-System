@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.controller;
 
 
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -43,8 +44,15 @@ public class UserController {
         return userService.getAllUsers(pageable);
     }
 
-    @Operation(summary = "Фильтрация пользователей по результатам тестирования",
+
+    @Operation(summary = "Сортировка списка пользователей по вступительным экзаменам",
             security = @SecurityRequirement(name = "bearerAuth"))
+   @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter")
     public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
@@ -77,6 +85,7 @@ public class UserController {
         userService.save(user);
     }
 
+
     @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь изменен",
@@ -85,9 +94,10 @@ public class UserController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateUser(@RequestBody UserRequest user) {
-        userService.save(user);
+    @PutMapping("/{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest user) {
+      user.setId(id);
+      userService.update(user);
     }
 
     @Operation(summary = "Удаление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
@@ -103,10 +113,31 @@ public class UserController {
         userService.deleteById(id);
     }
 
-    @Operation(summary = "Фильтрация пользователей по отзывам", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Сортировка списка пользователей по рейтингу",
+               security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/stars")
     public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
         return userService.getByStars(stars);
+    }
+
+  
+    @Operation(summary = "Сортировка списка пользователей по опыту работы")
+    @ApiResponses(value = {
+          @ApiResponse(responseCode = "200", description = "Список отсортирован",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+          @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                  content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
+    @PreAuthorize("hasAuthority('READ')")
+    @GetMapping("/filter/exp={max}")
+    public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
+      return userService.getByExperience(max);
     }
 }

@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.MessageRequest;
+import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.MessageResponse;
 import com.fedag.recruitmentSystem.service.impl.MessageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -74,10 +75,12 @@ public class MessageController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateMessage(@RequestBody MessageRequest messageResponse) {
-        messageService.save(messageResponse);
+    @PutMapping("/{id}")
+    public void updateMessage(@PathVariable Long id, @RequestBody MessageUpdateRequest messageResponse) {
+      messageResponse.setId(id);
+      messageService.update(messageResponse);
     }
+
 
     @Operation(summary = "Удаление сообщения", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

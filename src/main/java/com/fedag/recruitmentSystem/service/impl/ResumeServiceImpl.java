@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRequest> {
+public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRequest, ResumeUpdateRequest> {
 
   private final ResumeRepository resumeRepository;
   private final ResumeMapper resumeMapper;
@@ -44,6 +45,7 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
     return resumeMapper.modelToDto(resume);
   }
 
+  @Override
   public Page<ResumeResponse> getAllResumesByPosition(String position, Pageable pageable) {
       return resumeMapper.modelToDto(resumeRepository.findByPosition(position, pageable));
   }
@@ -58,6 +60,7 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
   }
 
   @Override
+  @Transactional
   public void save(ResumeRequest element) {
     Resume resume = resumeMapper.dtoToModel(element);
     if(resume.getId()!=null) {
@@ -68,10 +71,22 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
   }
 
   @Override
+  @Transactional
+  public void update(ResumeUpdateRequest element) {
+    Resume resume = resumeMapper.dtoToModel(element);
+    if(resume.getId()!=null) {
+      resume.getExperiences()
+          .forEach(e->e.setResume(resume));
+    }
+    resumeRepository.save(resume);
+  }
+
+  @Override
   public void deleteById(Long id) {
     resumeRepository.deleteById(id);
   }
 
+  @Override
   public List<ResumeResponse> findByDateCreated(LocalDateTime dateCreated) {
     return resumeMapper.modelToDto(resumeRepository.findByDateCreated(dateCreated));
   }
@@ -79,10 +94,5 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
   @Override
   public Page<ResumeResponse> findByTextFilter(String text, Pageable pageable) {
     return resumeMapper.modelToDto(resumeRepository.findByTextFilter(text, pageable));
-  }
-
-  @Override
-  public Page<ResumeResponse> findByPosition(String position, Pageable pageable) {
-    return resumeMapper.modelToDto(resumeRepository.findByPosition(position, pageable));
   }
 }

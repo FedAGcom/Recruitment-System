@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.SkillRequest;
+import com.fedag.recruitmentSystem.dto.request.SkillUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.SkillResponse;
 import com.fedag.recruitmentSystem.mapper.SkillMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SkillServiceImpl implements SkillService<SkillResponse, SkillRequest> {
+public class SkillServiceImpl implements SkillService<SkillResponse, SkillRequest, SkillUpdateRequest> {
 
   private final SkillRepository skillRepository;
   private final SkillMapper skillMapper;
@@ -48,6 +49,11 @@ public class SkillServiceImpl implements SkillService<SkillResponse, SkillReques
 
   @Override
   public void save(SkillRequest element) {
+    skillRepository.save(skillMapper.toEntity(element));
+  }
+
+  @Override
+  public void update(SkillUpdateRequest element) {
     skillRepository.save(skillMapper.toEntity(element));
   }
 

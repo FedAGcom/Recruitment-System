@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.SkillRequest;
+import com.fedag.recruitmentSystem.dto.request.SkillUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.SkillResponse;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -79,6 +80,7 @@ public class SkillController {
         skillService.save(skillRequest);
     }
 
+
     @Operation(summary = "Изменение ключевого навыка", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Навык изменен",
@@ -88,7 +90,8 @@ public class SkillController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateVacancy(@PathVariable Long id, @RequestBody SkillRequest skillRequest) {
-        skillService.save(skillRequest);
-    }
+    public void updateVacancy(@PathVariable Long id, @RequestBody SkillUpdateRequest skillUpdateRequest) {
+      skillUpdateRequest.setId(id);
+      skillService.update(skillUpdateRequest);
+  }
 }

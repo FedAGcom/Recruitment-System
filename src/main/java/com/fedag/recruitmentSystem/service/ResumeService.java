@@ -7,7 +7,7 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface ResumeService<T, S> extends AbstractServiceInterface<T, S> {
+public interface ResumeService<T, S, U> extends AbstractServiceInterface<T, S, U> {
 
     List<T> getAllResumes();
 
@@ -16,8 +16,6 @@ public interface ResumeService<T, S> extends AbstractServiceInterface<T, S> {
     Page<T> getAllResumesByPosition(String position, Pageable pageable);
 
     Page<T> findByTextFilter(String text, Pageable pageable);
-
-    Page<T> findByPosition(String position, Pageable pageable);
 
     List<T> findByDateCreated(LocalDateTime dateCreated);
 

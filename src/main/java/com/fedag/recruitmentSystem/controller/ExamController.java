@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,11 +72,14 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateExam(@RequestBody ExamRequest exam) {
-        examService.save(exam);
+    @PutMapping("/{id}")
+    public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
+      exam.setId(id);
+      examService.update(exam);
     }
+
 
     @Operation(summary = "Удаление теста", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

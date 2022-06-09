@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
+import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.service.impl.ExperienceServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +67,7 @@ public class ExperienceController {
         experienceService.save(experience);
     }
 
+
     @Operation(summary = "Изменение опыта работы", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Опыт работы изменен",
@@ -74,10 +76,12 @@ public class ExperienceController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateVacancy(@RequestBody ExperienceRequest experience) {
-        experienceService.save(experience);
+    @PutMapping("/{id}")
+    public void updateVacancy(@PathVariable Long id, @RequestBody ExperienceUpdateRequest experience) {
+      experience.setId(id);
+      experienceService.update(experience);
     }
+
 
     @Operation(summary = "Удаление опыта работы", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

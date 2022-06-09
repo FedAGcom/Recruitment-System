@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyServiceImpl implements CompanyService<CompanyResponse, CompanyRequest> {
+public class CompanyServiceImpl implements CompanyService<CompanyResponse, CompanyRequest, CompanyUpdateRequest> {
 
   private final CompanyRepository companyRepository;
   private final CompanyMapper companyMapper;
@@ -55,6 +56,11 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     Company company = companyMapper.toEntity(element);
     company.setPassword(encoder.encode(company.getPassword()));
     companyRepository.save(company);
+  }
+
+  @Override
+  public void update(CompanyUpdateRequest element) {
+    companyRepository.save(companyMapper.toEntity(element));
   }
 
   @Override

@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -65,7 +66,6 @@ public class CompanyFeedbackController {
         companyFeedBackService.save(companyFeedBack);
     }
 
-
     @Operation(summary = "Изменение отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Отзыв изменен",
@@ -74,10 +74,11 @@ public class CompanyFeedbackController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateVacancy(@RequestBody CompanyFeedbackRequest companyFeedBack) {
-        companyFeedBackService.save(companyFeedBack);
-    }
+    @PutMapping("/{id}")
+    public void updateVacancy(@PathVariable Long id, @RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
+      companyFeedBack.setId(id);
+      companyFeedBackService.update(companyFeedBack);
+   }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -91,5 +92,4 @@ public class CompanyFeedbackController {
     public void deleteCompanyFeedBack(@PathVariable Long id) {
         companyFeedBackService.deleteById(id);
     }
-
 }

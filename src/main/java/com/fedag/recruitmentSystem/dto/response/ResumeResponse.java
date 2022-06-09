@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.response;
 
-import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +21,7 @@ public class ResumeResponse {
 
     private LocalDateTime dateCreated;
 
-    private List<ExperienceRequest> experiences = new ArrayList<>();
+    private List<ExperienceShortResponse> experiences = new ArrayList<>();
 
     private UserResponse user;
 }

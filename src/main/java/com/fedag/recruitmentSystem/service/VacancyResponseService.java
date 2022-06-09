@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface VacancyResponseService<T, S> extends AbstractServiceInterface<T, S> {
+public interface VacancyResponseService<T, S, U> extends AbstractServiceInterface<T, S, U> {
 
   List<T> getAllVacanciesResponses();
 

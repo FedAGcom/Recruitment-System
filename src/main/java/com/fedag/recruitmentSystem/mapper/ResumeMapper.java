@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
+import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.model.Resume;
 import java.util.List;
@@ -21,6 +22,14 @@ public class ResumeMapper {
     return mapper.map(resume, ResumeResponse.class);
   }
 
+  public ResumeRequest modelToRequestDto(Resume resume) {
+    return mapper.map(resume, ResumeRequest.class);
+  }
+
+  public ResumeUpdateRequest modelToUpdateRequestDto(Resume resume) {
+    return mapper.map(resume, ResumeUpdateRequest.class);
+  }
+
   public List<ResumeResponse> modelToDto(List<Resume> user) {
     return user
         .stream()
@@ -39,6 +48,10 @@ public class ResumeMapper {
   }
 
   public Resume dtoToModel(ResumeRequest dto) {
+    return mapper.map(dto, Resume.class);
+  }
+
+  public Resume dtoToModel(ResumeUpdateRequest dto) {
     return mapper.map(dto, Resume.class);
   }
 

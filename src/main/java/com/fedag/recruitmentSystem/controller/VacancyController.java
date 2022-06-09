@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
+import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+import java.time.LocalDateTime;
+import java.util.List;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -87,7 +92,15 @@ public class VacancyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateVacancy(@PathVariable Long id, @RequestBody VacancyRequest vacancyRequest) {
-        vacancyService.save(vacancyRequest);
+    public void updateVacancy(@PathVariable Long id, @RequestBody VacancyUpdateRequest vacancyUpdateRequest) {
+      vacancyUpdateRequest.setId(id);
+      vacancyService.update(vacancyUpdateRequest);
+    }
+  
+    @Operation(summary = "Фильтр вакансий по дате")
+    @PreAuthorize("hasAuthority('READ')")
+    @GetMapping("/filter/date")
+    public List<VacancyResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false) LocalDateTime dateCreated) {
+      return vacancyService.findByDateCreated(dateCreated);
     }
 }

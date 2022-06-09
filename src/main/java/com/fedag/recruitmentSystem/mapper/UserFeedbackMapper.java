@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import java.util.List;
@@ -39,6 +40,10 @@ public class UserFeedbackMapper {
   }
 
   public UserFeedback dtoToModel(UserFeedbackRequest dto) {
+    return mapper.map(dto, UserFeedback.class);
+  }
+
+  public UserFeedback dtoToModel(UserFeedbackUpdateRequest dto) {
     return mapper.map(dto, UserFeedback.class);
   }
 

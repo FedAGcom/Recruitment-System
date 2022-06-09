@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.service.impl;
 
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExamResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExamMapper;
@@ -19,7 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ExamServiceImpl implements ExamService<ExamResponse, ExamRequest> {
+public class ExamServiceImpl implements ExamService<ExamResponse, ExamRequest, ExamUpdateRequest> {
 
   private final ExamRepository examRepository;
   private final ExamMapper examMapper;
@@ -46,6 +47,12 @@ public class ExamServiceImpl implements ExamService<ExamResponse, ExamRequest> {
 
   @Override
   public void save(ExamRequest element) {
+    Exam exam = examMapper.dtoToModel(element);
+    examRepository.save(exam);
+  }
+
+  @Override
+  public void update(ExamUpdateRequest element) {
     Exam exam = examMapper.dtoToModel(element);
     examRepository.save(exam);
   }

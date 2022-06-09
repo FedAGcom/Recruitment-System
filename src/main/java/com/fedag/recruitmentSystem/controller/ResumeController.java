@@ -1,5 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
+import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
@@ -30,6 +32,7 @@ public class ResumeController {
 
     @Schema(name = "Сервис резюме", description = "Содержит имплементацию методов для работы с репозиторием")
     private final ResumeServiceImpl resumeService;
+
 
     @Operation(summary = "Получение резюме по позиции", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -100,6 +103,7 @@ public class ResumeController {
         resumeService.save(resume);
     }
 
+
     @Operation(summary = "Изменение резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме изменено",
@@ -108,10 +112,12 @@ public class ResumeController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateVacancy(@RequestBody ResumeRequest resume) {
-        resumeService.save(resume);
+    @PutMapping("/{id}")
+    public void updateVacancy(@PathVariable Long id, @RequestBody ResumeUpdateRequest resume) {
+      resume.setId(id);
+      resumeService.update(resume);
     }
+
 
     @Operation(summary = "Удаление резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -125,6 +131,7 @@ public class ResumeController {
     public void deleteById(@PathVariable Long id) {
         resumeService.deleteById(id);
     }
+
 
     @Operation(summary = "Фильтрация резюме по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")

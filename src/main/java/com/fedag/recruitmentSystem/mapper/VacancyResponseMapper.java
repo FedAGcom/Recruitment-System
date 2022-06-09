@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
+import com.fedag.recruitmentSystem.dto.request.VacancyResponseUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponseResponse;
 import com.fedag.recruitmentSystem.model.VacancyResponse;
 import java.util.List;
@@ -38,6 +39,10 @@ public class VacancyResponseMapper {
 
   public VacancyResponse dtoToModel(VacancyResponseRequest vacancyResponseRequest) {
     return mapper.map(vacancyResponseRequest, VacancyResponse.class);
+  }
+
+  public VacancyResponse dtoToModel(VacancyResponseUpdateRequest vacancyResponseUpdateRequest) {
+    return mapper.map(vacancyResponseUpdateRequest, VacancyResponse.class);
   }
 
   public VacancyResponse dtoToModel(VacancyResponseResponse response) {

@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -66,6 +67,7 @@ public class UserFeedbackController {
         userFeedbackService.save(userFeedback);
     }
 
+
     @Operation(summary = "Измение отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Отзыв изменен",
@@ -74,9 +76,10 @@ public class UserFeedbackController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping
-    public void updateUserFeedback(@RequestBody UserFeedbackRequest userFeedback) {
-        userFeedbackService.save(userFeedback);
+    @PutMapping("/{id}")
+    public void updateUserFeedback(@PathVariable Long id, @RequestBody UserFeedbackUpdateRequest userFeedback) {
+      userFeedback.setId(id);
+      userFeedbackService.update(userFeedback);
     }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))
