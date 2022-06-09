@@ -69,6 +69,4 @@ public class SecurityUser implements UserDetails {
                 company.getEmail(), company.getPassword(), company.getRole().getAuthorities()
         );
     }
-
-
 }

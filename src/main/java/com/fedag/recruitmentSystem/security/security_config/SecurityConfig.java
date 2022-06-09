@@ -10,14 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
-
-import java.util.HashMap;
-import java.util.Map;
 
 @Configuration
 @EnableWebSecurity
@@ -31,7 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtConfigurer = jwtConfigurer;
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -41,6 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/v1/auth/login").permitAll()
+//                .antMatchers("/swagger-ui/index.html#/").permitAll()
 //                .antMatchers(HttpMethod.GET,"/api/**").hasAuthority(Permission.DEVELOPERS_READ.getPermission())
 //                .antMatchers(HttpMethod.POST,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
 //                .antMatchers(HttpMethod.PUT,"/api/**").hasAuthority(Permission.DEVELOPERS_WRITE.getPermission())
@@ -58,47 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-//    @Bean
-//    protected PasswordEncoder passwordEncoder(){
-//        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//    }
-//
-    @SuppressWarnings("deprecation")
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    protected PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    protected PasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder();
-//    }
-
-//    @SuppressWarnings("deprecation")
-//    @Bean
-//    protected PasswordEncoder passwordEncoder(){
-//        return new Pbkdf2PasswordEncoder();
-//    }
-
-//    @Bean
-//    protected PasswordEncoder passwordEncoder(){
-//        String idForEncode = "bcrypt";
-//         Map encoders = new HashMap<>();
-//        encoders.put(idForEncode, new BCryptPasswordEncoder());
-//        PasswordEncoder passwordEncoder =
-//            new DelegatingPasswordEncoder(idForEncode, encoders);
-//        return passwordEncoder;
-//    }
-
-//    String idForEncode = "bcrypt";
-//    Map encoders = new HashMap<>();
-//encoders.put(idForEncode, new BCryptPasswordEncoder());
-//encoders.put("noop", NoOpPasswordEncoder.getInstance());
-//encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
-//encoders.put("scrypt", new SCryptPasswordEncoder());
-//encoders.put("sha256", new StandardPasswordEncoder());
-//
-//    PasswordEncoder passwordEncoder =
-//            new DelegatingPasswordEncoder(idForEncode, encoders);
 }

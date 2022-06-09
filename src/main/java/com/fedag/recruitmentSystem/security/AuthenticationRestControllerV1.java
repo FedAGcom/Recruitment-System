@@ -42,31 +42,32 @@ public class AuthenticationRestControllerV1 {
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
-            System.out.println("зашли в аутен");
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-            System.out.println("1");
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                    request.getEmail(), request.getPassword()));
             Optional<Company> optionalCompany = companyRepository.findByEmail(request.getEmail());
             String token;
             if (optionalCompany.isPresent()) {
                 Company company = optionalCompany.get();
                 token = jwtTokenProvider.createToken(request.getEmail(), company.getRole().name());
             } else {
-                User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
+                User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                        () -> new UsernameNotFoundException("User doesn't exists"));
                 token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
             }
-            System.out.println("2");
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Invalid email/password combination", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Invalid email/password combination",
+                    HttpStatus.FORBIDDEN);
         }
     }
 
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
-        SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
+        SecurityContextLogoutHandler securityContextLogoutHandler =
+                new SecurityContextLogoutHandler();
         securityContextLogoutHandler.logout(request, response, null);
     }
 }

@@ -10,6 +10,8 @@ import com.fedag.recruitmentSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,7 +53,9 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest> {
 
     @Override
     public void save(UserRequest element) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 

@@ -14,7 +14,6 @@ public class JwtAuthenticationException extends AuthenticationException {
         this.httpStatus = httpStatus;
     }
 
-
     public JwtAuthenticationException(String msg) {
         super(msg);
     }

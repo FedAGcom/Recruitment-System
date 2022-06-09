@@ -4,6 +4,8 @@ import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,7 +51,10 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
 
   @Override
   public void save(CompanyRequest element) {
-    companyRepository.save(companyMapper.toEntity(element));
+    PasswordEncoder encoder = new BCryptPasswordEncoder(12);
+    Company company = companyMapper.toEntity(element);
+    company.setPassword(encoder.encode(company.getPassword()));
+    companyRepository.save(company);
   }
 
   @Override

@@ -28,14 +28,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<Company> companyOptional = companyRepository.findByEmail(email);
-        if(companyOptional.isPresent()) {
-            System.out.println("Зашли");
+        if (companyOptional.isPresent()) {
             Company company = companyOptional.get();
             return SecurityUser.fromCompany(company);
         }
         User user = userRepository.findByEmail(email).orElseThrow(() ->
                 new ObjectNotFoundException("User with email: " + email + " not found"));
-        System.out.println(user.getPassword());
         return SecurityUser.fromUser(user);
     }
 }
