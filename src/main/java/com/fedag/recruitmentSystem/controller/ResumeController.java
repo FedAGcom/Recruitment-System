@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,7 +31,7 @@ public class ResumeController {
     @Schema(name = "Сервис резюме", description = "Содержит имплементацию методов для работы с репозиторием")
     private final ResumeServiceImpl resumeService;
 
-    @Operation(summary = "Получение резюме по позиции")
+    @Operation(summary = "Получение резюме по позиции", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме получено согласно позиции",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -45,7 +46,7 @@ public class ResumeController {
         return resumeService.getAllResumesByPosition(position, pageable);
     }
 
-    @Operation(summary = "Получение списка резюме")
+    @Operation(summary = "Получение списка резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список загружен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -58,6 +59,7 @@ public class ResumeController {
         return resumeService.getAllResumes(pageable);
     }
 
+    @Operation(summary = "Поиск определенного списка резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/search")
     public Page<ResumeResponse> getAllResumesByTextFilter(@RequestParam("text") String text,
@@ -65,7 +67,7 @@ public class ResumeController {
         return resumeService.findByTextFilter(text, pageable);
     }
 
-    @Operation(summary = "Получение резюме по id")
+    @Operation(summary = "Получение резюме по id", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме получено",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -78,13 +80,14 @@ public class ResumeController {
         return resumeService.findById(id);
     }
 
+    @Operation(summary = "Получение списка опыта по id", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/{id}/experiences")
     public List<ExperienceResponse> GetExperiencesByResume(@PathVariable("id") Long id) {
         return resumeService.listExperiencesByResume(id);
     }
 
-    @Operation(summary = "Добавление резюме")
+    @Operation(summary = "Добавление резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Резюме добавлено",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -97,7 +100,7 @@ public class ResumeController {
         resumeService.save(resume);
     }
 
-    @Operation(summary = "Изменение резюме")
+    @Operation(summary = "Изменение резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме изменено",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -110,7 +113,7 @@ public class ResumeController {
         resumeService.save(resume);
     }
 
-    @Operation(summary = "Удаление резюме")
+    @Operation(summary = "Удаление резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме удалено",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -123,6 +126,7 @@ public class ResumeController {
         resumeService.deleteById(id);
     }
 
+    @Operation(summary = "Фильтрация резюме по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/date")
     public List<ResumeResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false) LocalDateTime dateCreated) {

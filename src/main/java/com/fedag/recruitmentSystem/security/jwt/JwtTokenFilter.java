@@ -27,7 +27,12 @@ public class JwtTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-
+        //Если токен начинается с Bearer мы его удаляем
+        System.out.println(token);
+        if (token != null && token.startsWith("Bearer")) {
+            token = token.substring(7);
+        }
+        System.out.println(token);
         try {
             if (token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);

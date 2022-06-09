@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class ExamController {
 
     private final ExamServiceImpl examService;
 
-    @Operation(summary = "Получение списка тестов")
+    @Operation(summary = "Получение списка тестов", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тесты загружены",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -37,7 +38,7 @@ public class ExamController {
         return examService.getAllExams(pageable);
     }
 
-    @Operation(summary = "Получение теста по id")
+    @Operation(summary = "Получение теста по id", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тест найден",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -50,7 +51,7 @@ public class ExamController {
         return examService.findById(id);
     }
 
-    @Operation(summary = "Добавление теста")
+    @Operation(summary = "Добавление теста", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Тест добавлен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -63,7 +64,7 @@ public class ExamController {
         examService.save(exam);
     }
 
-    @Operation(summary = "Изменение теста")
+    @Operation(summary = "Изменение теста", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тест изменен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -76,7 +77,7 @@ public class ExamController {
         examService.save(exam);
     }
 
-    @Operation(summary = "Удаление теста")
+    @Operation(summary = "Удаление теста", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Тест удален",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
