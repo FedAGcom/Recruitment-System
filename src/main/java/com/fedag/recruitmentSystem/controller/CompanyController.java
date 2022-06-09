@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +40,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping
   public Page<CompanyResponse> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
     return companyService.getAllCompanies(pageable);
@@ -51,6 +53,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/{id}")
   public CompanyResponse getById(@PathVariable Long id) {
     return companyService.findById(id);
@@ -63,6 +66,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @DeleteMapping("/{id}")
   public void deleteVacancy(@PathVariable Long id) {
     companyService.deleteById(id);
@@ -75,6 +79,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PostMapping
   public void addVacancy(@RequestBody CompanyRequest companyRequest) {
     companyService.save(companyRequest);
@@ -87,6 +92,7 @@ public class CompanyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
     companyService.save(companyRequest);

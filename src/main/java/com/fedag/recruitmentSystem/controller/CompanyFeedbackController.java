@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping
   public Page<CompanyFeedbackResponse> getAllCompanyFeedBack(Pageable pageable) {
     return companyFeedBackService.getAllCompanyFeedbacks(pageable);
@@ -50,6 +52,7 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/{id}")
   public CompanyFeedbackResponse getCompanyFeedBackById(@PathVariable Long id) {
     return companyFeedBackService.findById(id);
@@ -62,6 +65,7 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PostMapping
   public void addCompanyFeedBack(@RequestBody CompanyFeedbackRequest companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
@@ -75,6 +79,7 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PutMapping
   public void updateVacancy(@RequestBody CompanyFeedbackRequest companyFeedBack) {
     companyFeedBackService.save(companyFeedBack);
@@ -87,6 +92,7 @@ public class CompanyFeedbackController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @DeleteMapping("/{id}")
   public void deleteCompanyFeedBack(@PathVariable Long id) {
     companyFeedBackService.deleteById(id);

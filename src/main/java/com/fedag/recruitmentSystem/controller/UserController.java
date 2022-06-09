@@ -44,12 +44,13 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @GetMapping
   @PreAuthorize("hasAuthority('READ')")
+  @GetMapping
   public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
     return userService.getAllUsers(pageable);
   }
 
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/filter")
   public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
     return userService.getByEntranceExamScore(score);
@@ -62,6 +63,7 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/{id}")
   public UserResponse getUser(@PathVariable Long id) {
     return userService.findById(id);
@@ -74,6 +76,7 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PostMapping
   public void addNewUser(@RequestBody UserRequest user) {
     userService.save(user);
@@ -86,8 +89,8 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PutMapping
   @PreAuthorize("hasAuthority('WRITE')")
+  @PutMapping
   public void updateUser(@RequestBody UserRequest user) {
     userService.save(user);
   }
@@ -99,11 +102,13 @@ public class UserController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable Long id) {
     userService.deleteById(id);
   }
 
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/filter/stars")
   public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
     return userService.getByStars(stars);

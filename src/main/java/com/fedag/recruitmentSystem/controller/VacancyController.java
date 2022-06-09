@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class VacancyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping
   public Page<VacancyResponse> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
     return vacancyService.getAllVacancies(pageable);
@@ -50,6 +52,7 @@ public class VacancyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/{id}")
   public VacancyResponse getById(@PathVariable Long id) {
     return vacancyService.findById(id);
@@ -62,6 +65,7 @@ public class VacancyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @DeleteMapping("/{id}")
   public void deleteVacancy(@PathVariable Long id) {
     vacancyService.deleteById(id);
@@ -74,6 +78,7 @@ public class VacancyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PostMapping("/add")
   public void addVacancy(@RequestBody VacancyRequest vacancyRequest) {
     vacancyService.save(vacancyRequest);
@@ -86,6 +91,7 @@ public class VacancyController {
           @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                   content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
+  @PreAuthorize("hasAuthority('WRITE')")
   @PutMapping("/{id}")
   public void updateVacancy(@PathVariable Long id, @RequestBody VacancyRequest vacancyRequest) {
     vacancyService.save(vacancyRequest);
