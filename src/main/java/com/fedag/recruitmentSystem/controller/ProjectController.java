@@ -2,12 +2,8 @@ package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.ProjectRequest;
 import com.fedag.recruitmentSystem.dto.request.ProjectUpdateRequest;
-import com.fedag.recruitmentSystem.dto.request.UserRequest;
-import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ProjectResponse;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.service.impl.ProjectServiceImpl;
-import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,8 +18,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
