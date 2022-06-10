@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.repository;
 
 import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.model.Skill;
@@ -31,7 +32,7 @@ class ResumeRepositoryTest {
     void itShouldFindResumeById() {
         Long userId = 1L;
         String experienceDescription = "Java developing";
-        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), null, null, null, null, null);
+        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), Role.USER, "user",null, null, null, null, null);
         Experience experience = new Experience(null, experienceDescription, LocalDateTime.now().minusYears(2), LocalDateTime.now(), null);
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
