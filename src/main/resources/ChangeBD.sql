@@ -53,3 +53,27 @@ ALTER TABLE companies
         SET NOT NULL;
 
 CREATE CAST (character varying as enum_role_type) WITH INOUT AS IMPLICIT;
+
+--Изменения 10.06.22
+CREATE TABLE projects
+(
+    id bigserial PRIMARY KEY,
+    project_name varchar(256) NOT NULL,
+    description text NOT NULL,
+    requirement text NOT NULL,
+    date_start date NOT NULL,
+    date_end date NOT NULL,
+    company_id bigint NOT NULL,
+    CHECK (date_start<date_end),
+    FOREIGN KEY (company_id) REFERENCES companies(id)
+
+);
+
+CREATE TABLE user_project_link
+(
+    user_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    PRIMARY KEY (user_id, project_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
