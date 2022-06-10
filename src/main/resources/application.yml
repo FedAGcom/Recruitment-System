@@ -3,8 +3,6 @@ spring:
   datasource:
     url: jdbc:postgresql://host.docker.internal:5432/rs-db
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: admin
 
     # JPA
   jpa:

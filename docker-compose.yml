@@ -5,7 +5,5 @@ services:
     image: postgres:latest
     environment:
       - POSTGRES_DB=rs-db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=admin
     ports:
       - 5432:5432
