@@ -62,11 +62,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Message> messageList;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_project_link",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "project_id"))
-    private List<Project> projects;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_project_link",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "project_id"))
+//    private List<Project> projects;
 }
 
