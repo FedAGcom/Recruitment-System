@@ -18,5 +18,6 @@ public class VacancyResponse {
   private String experience;
   private ResumeStatus status;
   private LocalDateTime dateCreated;
+  private Long companyId;
 
 }
