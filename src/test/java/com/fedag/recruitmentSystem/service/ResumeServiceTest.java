@@ -147,7 +147,7 @@ class ResumeServiceTest {
         Mockito.when(resumeService.findByTextFilter("Java developer", pageable)).thenReturn(resumePage);
         assertEquals(resumeService.findByTextFilter("Java developer", pageable), resumePage);
     }  
-  
+
     static Stream<Arguments> dataForTest() {
         // set one
         List<Resume> resumesArrOne = List.of(
