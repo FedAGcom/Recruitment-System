@@ -155,7 +155,7 @@ CREATE TABLE messages
     message text NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (company_id) REFERENCES companies(id)
-)
+);
 
 --Команды для преобразования ENUM с кода в ENUM БД
 CREATE CAST (character varying as enum_user_company_type) WITH INOUT AS IMPLICIT;
@@ -163,3 +163,26 @@ CREATE CAST (character varying as enum_resume_vacancy_status_type) WITH INOUT AS
 CREATE CAST (character varying as enum_vacancy_responses_status_type) WITH INOUT AS IMPLICIT;
 CREATE CAST (character varying as enum_messages_is_read_type) WITH INOUT AS IMPLICIT;
 CREATE CAST (character varying as enum_role_type) WITH INOUT AS IMPLICIT;
+
+CREATE TABLE projects
+(
+    id bigserial PRIMARY KEY,
+    project_name varchar(256) NOT NULL,
+    description text NOT NULL,
+    requirement text NOT NULL,
+    date_start date NOT NULL,
+    date_end date NOT NULL,
+    company_id bigint NOT NULL,
+    CHECK (date_start<date_end),
+    FOREIGN KEY (company_id) REFERENCES companies(id)
+
+);
+
+CREATE TABLE user_project_link
+(
+    user_id bigint NOT NULL,
+    project_id bigint NOT NULL,
+    PRIMARY KEY (user_id, project_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
