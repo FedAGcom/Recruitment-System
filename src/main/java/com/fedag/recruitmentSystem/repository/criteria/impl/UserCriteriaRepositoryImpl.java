@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.repository.criteria.impl;
 
 import com.fedag.recruitmentSystem.model.*;
 import com.fedag.recruitmentSystem.repository.criteria.UserCriteriaRepository;
-
+import java.util.ArrayList;
 import java.beans.Expression;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -11,7 +11,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Root;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -34,8 +33,9 @@ public class UserCriteriaRepositoryImpl implements UserCriteriaRepository {
         orderBy(cb.desc(join.get("score")));
 
     TypedQuery<User> query = entityManager.createQuery(cr);
-    return query.getResultList();
+    List<User> users = query.getResultList();
 
+    return users;
   }
 
   @Override

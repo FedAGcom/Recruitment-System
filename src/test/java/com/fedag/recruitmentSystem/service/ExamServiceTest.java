@@ -3,6 +3,9 @@ package com.fedag.recruitmentSystem.service;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import com.fedag.recruitmentSystem.dto.request.ExamRequest;
+import com.fedag.recruitmentSystem.mapper.ExamMapper;
 import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.repository.ExamRepository;
 import java.util.Optional;
@@ -23,6 +26,9 @@ public class ExamServiceTest {
 
     @InjectMocks
     private ExamServiceImpl examService;
+
+    @Mock
+    private ExamMapper examMapper;
 
     @Test
     void testGetAllExams(){
@@ -46,9 +52,10 @@ public class ExamServiceTest {
 
     @Test
     void testExamSave(){
-//        Exam exam = new Exam();
-//        examService.save(exam);
-//        verify(examRepository).save(exam);
+        ExamRequest examRequest = new ExamRequest();
+        examService.save(examRequest);
+        Exam exam = examMapper.dtoToModel(examRequest);
+        verify(examRepository).save(exam);
     }
 
     @Test

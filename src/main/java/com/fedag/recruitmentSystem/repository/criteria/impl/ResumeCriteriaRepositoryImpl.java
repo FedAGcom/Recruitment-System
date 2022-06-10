@@ -69,7 +69,7 @@ public class ResumeCriteriaRepositoryImpl implements ResumeCriteriaRepository {
         CriteriaQuery<Resume> cq = cb.createQuery(Resume.class);
         Root<Resume> root = cq.from(Resume.class);
 
-        cq.select(root).where(cb.like(root.get("resumeName"), position));
+        cq.select(root).where(cb.equal(root.get("resumeName"), position));
         TypedQuery<Resume> query = entityManager.createQuery(cq);
 
         List<Resume> resumeList = query.getResultList();

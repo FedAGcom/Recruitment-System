@@ -4,8 +4,8 @@ import com.fedag.recruitmentSystem.enums.ResumeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
+
 
 @Data
 @NoArgsConstructor
@@ -18,5 +18,5 @@ public class VacancyResponse {
   private String experience;
   private ResumeStatus status;
   private LocalDateTime dateCreated;
-  private Long companyId;
+
 }

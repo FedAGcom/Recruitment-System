@@ -5,6 +5,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Optional;
 
+import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
+import com.fedag.recruitmentSystem.mapper.UserFeedbackMapper;
+import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import com.fedag.recruitmentSystem.repository.UserFeedbackRepository;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
@@ -23,6 +26,9 @@ public class UserFeedbackServiceTest {
 
     @InjectMocks
     private UserFeedbackServiceImpl userFeedbackService;
+
+    @Mock
+    private UserFeedbackMapper userFeedbackMapper;
 
     @Test
     void testGetAllUserFeedback(){
@@ -46,9 +52,10 @@ public class UserFeedbackServiceTest {
 
     @Test
     void testUserFeedbackSave(){
-//        UserFeedback exam = new UserFeedback();
-//        userFeedbackService.save(exam);
-//        verify(userFeedbackRepository).save(exam);
+        UserFeedbackRequest userFeedbackRequest = new UserFeedbackRequest();
+        userFeedbackService.save(userFeedbackRequest);
+        UserFeedback userFeedback = userFeedbackMapper.dtoToModel(userFeedbackRequest);
+        verify(userFeedbackRepository).save(userFeedback);
     }
 
     @Test

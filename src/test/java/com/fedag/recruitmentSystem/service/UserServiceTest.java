@@ -1,5 +1,7 @@
 package com.fedag.recruitmentSystem.service;
 
+import com.fedag.recruitmentSystem.dto.request.UserRequest;
+import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
@@ -10,11 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
+
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -24,6 +28,9 @@ public class UserServiceTest {
 
     @InjectMocks
     private UserServiceImpl userService;
+
+    @Mock
+    private UserMapper userMapper;
 
     @Test
     void testGetAllUsers() {
@@ -47,9 +54,10 @@ public class UserServiceTest {
 
     @Test
     void testUserSave() {
-//        User exam = new User();
-//        userService.save(exam);
-//        verify(userRepository).save(exam);
+        UserRequest userRequest = new UserRequest();
+        userService.save(userRequest);
+        User user = userMapper.dtoToModel(userRequest);
+        verify(userRepository).save(user);
     }
 
     @Test

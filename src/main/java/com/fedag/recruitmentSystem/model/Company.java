@@ -1,10 +1,11 @@
 package com.fedag.recruitmentSystem.model;
 
+
+import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -35,6 +36,13 @@ public class Company {
     @Schema(description = "Местонахождение")
     @Column(name = "location")
     private String location;
+
+    @Column(name="role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Column(name = "password")
+    private String password;
 
     @OneToMany(
         cascade = CascadeType.ALL,
