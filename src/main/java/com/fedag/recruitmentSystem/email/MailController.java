@@ -17,11 +17,10 @@ public class MailController {
     @GetMapping("/activate/{code}")
     public String activate(@PathVariable String code) {
         boolean isActivated = userService.activateUser(code);
-
-        if (isActivated) {
+        if (!isActivated) {
             return "Activation is failed"; // redirect на страницу о том что активация не прошла
         }
-        return "Activation success. Go to login page"; // redirect на страницу ввода логина и пароля
+        return "Activation success. Go to login page."; // redirect на страницу ввода логина и пароля
     }
 
 

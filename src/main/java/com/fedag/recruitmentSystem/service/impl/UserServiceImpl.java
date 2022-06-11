@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+
+    private final MailSendlerService mailSendler;
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -75,10 +78,12 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         userRepository.save(user);
 
         String message = String.format("Hello, %s \n" +
-                        "Welcome to FedAG. Please, visit next link:" +
-                        "http://localhost:8080/api/users/activate/%s",
+                        "Welcome to FedAG. Please, visit next link: " +
+                        "http://localhost:8080/api/activate/%s",
                 user.getFirstname(),
                 user.getActivationCode());
+
+        mailSendler.send(user.getEmail(), "Activation code", message);
 
         return true;
     }
@@ -95,10 +100,11 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     public boolean activateUser(String code) {
-        User user = userRepository.findByActivationCode(code);
-        if(user == null) {
+        Optional<User> userOptional = userRepository.findByActivationCode(code);
+        if(!userOptional.isPresent()) {
             return false;
         }
+        User user = userOptional.get();
         user.setActivationCode(null);
         userRepository.save(user);
         return true;
