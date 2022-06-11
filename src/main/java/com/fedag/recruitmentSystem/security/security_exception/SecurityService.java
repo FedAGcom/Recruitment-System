@@ -34,9 +34,9 @@ public class SecurityService {
         } else {
             User user = userRepository.findByEmail(email).orElseThrow(
                     () -> new UsernameNotFoundException("User doesn't exists"));
-//            if(user.getActivationCode() != null) {
-//                return "Email not confirm";
-//            }
+            if(user.getActivationCode() != null) {
+                return "Email not confirm";
+            }
             token = jwtTokenProvider.createToken(email, user.getRole().name());
         }
         return token;

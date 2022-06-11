@@ -62,7 +62,11 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void save(UserRequest element) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
+        System.out.println(user.getPassword());
+        user.setPassword(encoder.encode(user.getPassword()));
+        System.out.println(user.getPassword());
         userRepository.save(user);
     }
 
@@ -90,7 +94,9 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void update(UserUpdateRequest element) {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
+        user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
