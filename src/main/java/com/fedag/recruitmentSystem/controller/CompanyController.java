@@ -67,17 +67,19 @@ public class CompanyController {
         companyService.deleteById(id);
     }
 
-    @Operation(summary = "Добавление компании", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Добавление компании")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Компания добавлена",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping
-    public void addVacancy(@RequestBody CompanyRequest companyRequest) {
-        companyService.save(companyRequest);
+    public String addVacancy(@RequestBody CompanyRequest companyRequest) {
+        if(!companyService.saveCompany(companyRequest)){
+            return "User with this email exists"; //вернуть на форму регистрации /api/company-registration
+        }
+        return "User is added successfully"; //redirect /api/success-registration
     }
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))

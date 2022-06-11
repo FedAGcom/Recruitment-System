@@ -13,5 +13,6 @@ public class CompanyResponse {
   private String companyName;
   private String email;
   private String location;
+  private String activationCode;
 
 }

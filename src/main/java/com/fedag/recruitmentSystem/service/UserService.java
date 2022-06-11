@@ -14,5 +14,5 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
 
   boolean saveUser(UserRequest user);
 
-  public boolean activateUser(String code);
+  boolean activateUser(String code);
 }

@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.email;
 
+import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,20 @@ public class MailController {
 
     private final UserServiceImpl userService;
 
+    private final CompanyServiceImpl companyService;
+
     @GetMapping("/activate/{code}")
     public String activate(@PathVariable String code) {
-        boolean isActivated = userService.activateUser(code);
-        if (!isActivated) {
-            return "Activation is failed"; // redirect на страницу о том что активация не прошла
+
+        boolean isActivatedUser = userService.activateUser(code);
+        if (isActivatedUser) {
+            return "Activation success. Go to login page."; // redirect на страницу ввода логина и парол
         }
-        return "Activation success. Go to login page."; // redirect на страницу ввода логина и пароля
+        boolean isActivatedCompany = companyService.activateCompany(code);
+        if (isActivatedCompany) {
+            return "Activation success. Go to login page."; // redirect на страницу ввода логина и парол
+        }
+
+        return "Activation is failed"; // redirect на страницу о том что активация не прошла
     }
-
-
 }

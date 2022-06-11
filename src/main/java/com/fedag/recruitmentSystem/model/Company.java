@@ -44,6 +44,9 @@ public class Company {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "activation_code")
+    private String activationCode;
+
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")

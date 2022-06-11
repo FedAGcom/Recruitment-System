@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +80,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
             return false;
         }
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
         String message = String.format("Hello, %s \n" +
@@ -105,6 +107,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         userRepository.deleteById(id);
     }
 
+    @Override
     public boolean activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
         if(!userOptional.isPresent()) {

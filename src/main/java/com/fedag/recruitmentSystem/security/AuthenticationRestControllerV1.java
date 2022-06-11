@@ -1,17 +1,10 @@
 package com.fedag.recruitmentSystem.security;
 
-import com.fedag.recruitmentSystem.model.Company;
-import com.fedag.recruitmentSystem.model.User;
-import com.fedag.recruitmentSystem.repository.CompanyRepository;
-import com.fedag.recruitmentSystem.repository.UserRepository;
-import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
-import com.fedag.recruitmentSystem.security.security_exception.SecurityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/auth")
 public class AuthenticationRestControllerV1 {
 
     private final AuthenticationManager authenticationManager;
-     private final SecurityService securityService;
+    private final SecurityService securityService;
+
 
     public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, SecurityService securityService) {
         this.authenticationManager = authenticationManager;
@@ -43,7 +36,7 @@ public class AuthenticationRestControllerV1 {
                     request.getEmail(), request.getPassword()));
 
             String token = securityService.definitionToken(request.getEmail());
-            if(token.equals("Email not confirm")){
+            if (token.equals("Email not confirm")) {
                 return new ResponseEntity<>("Email not confirm",
                         HttpStatus.FORBIDDEN);
             }
