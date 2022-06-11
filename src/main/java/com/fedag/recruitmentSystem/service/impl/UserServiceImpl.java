@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -58,10 +59,28 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void save(UserRequest element) {
+        User user = userMapper.dtoToModel(element);
+        userRepository.save(user);
+    }
+
+    @Override
+    public boolean saveUser(UserRequest element) {
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
+        Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
+        if (userFromDB.isPresent()) {
+            return false;
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);
+
+        String message = String.format("Hello, %s \n" +
+                        "Welcome to FedAG. Please, visit next link:" +
+                        "http://localhost:8080/api/users/activate/%s",
+                user.getFirstname(),
+                user.getActivationCode());
+
+        return true;
     }
 
     @Override
@@ -73,5 +92,15 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepository.findByActivationCode(code);
+        if(user == null) {
+            return false;
+        }
+        user.setActivationCode(null);
+        userRepository.save(user);
+        return true;
     }
 }

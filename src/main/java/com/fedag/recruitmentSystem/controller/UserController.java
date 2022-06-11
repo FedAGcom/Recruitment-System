@@ -81,8 +81,12 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping
-    public void addNewUser(@RequestBody UserRequest user) {
-        userService.save(user);
+    public String addNewUser(@RequestBody UserRequest user) {
+       if(!userService.saveUser(user)){
+           return "User with this email exists";//вернуть на форму регистрации /api/user-registration
+       }
+       //бросить письмо
+       return "User is added successfully";//redirect /api/success-registration
     }
 
 

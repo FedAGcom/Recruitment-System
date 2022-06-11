@@ -41,6 +41,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "activation_code")
+    private String activationCode;
+
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")
