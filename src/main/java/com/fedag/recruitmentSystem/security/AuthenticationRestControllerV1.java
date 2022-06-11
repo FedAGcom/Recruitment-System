@@ -5,6 +5,7 @@ import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
+import com.fedag.recruitmentSystem.security.security_exception.SecurityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,15 +29,11 @@ import java.util.Optional;
 public class AuthenticationRestControllerV1 {
 
     private final AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private JwtTokenProvider jwtTokenProvider;
-    private final CompanyRepository companyRepository;
+     private final SecurityService securityService;
 
-    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider, CompanyRepository companyRepository) {
+    public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, SecurityService securityService) {
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.companyRepository = companyRepository;
+        this.securityService = securityService;
     }
 
     @PostMapping("/login")
@@ -44,15 +41,11 @@ public class AuthenticationRestControllerV1 {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getEmail(), request.getPassword()));
-            Optional<Company> optionalCompany = companyRepository.findByEmail(request.getEmail());
-            String token;
-            if (optionalCompany.isPresent()) {
-                Company company = optionalCompany.get();
-                token = jwtTokenProvider.createToken(request.getEmail(), company.getRole().name());
-            } else {
-                User user = userRepository.findByEmail(request.getEmail()).orElseThrow(
-                        () -> new UsernameNotFoundException("User doesn't exists"));
-                token = jwtTokenProvider.createToken(request.getEmail(), user.getRole().name());
+
+            String token = securityService.definitionToken(request.getEmail());
+            if(token.equals("Email not confirm")){
+                return new ResponseEntity<>("Email not confirm",
+                        HttpStatus.FORBIDDEN);
             }
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());

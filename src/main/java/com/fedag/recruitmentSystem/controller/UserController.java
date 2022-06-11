@@ -72,14 +72,15 @@ public class UserController {
         return userService.findById(id);
     }
 
-    @Operation(summary = "Добавление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
+//    @Operation(summary = "Добавление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Добавление пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Пользователь добавлен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+//    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping
     public String addNewUser(@RequestBody UserRequest user) {
        if(!userService.saveUser(user)){
