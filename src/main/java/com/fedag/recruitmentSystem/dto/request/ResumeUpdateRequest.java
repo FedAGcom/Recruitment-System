@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.dto.request;
 
 import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponse;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class ResumeUpdateRequest {
 
     private String resumeName;
 
-    private ResumeStatus status;
+    private ActiveStatus status;
 
     private LocalDateTime dateCreated;
 

@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
-import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
+import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,9 +15,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequiredArgsConstructor
@@ -63,22 +66,30 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @DeleteMapping("/{id}")
-    public void deleteVacancy(@PathVariable Long id) {
+    public void deleteCompany(@PathVariable Long id) {
         companyService.deleteById(id);
     }
 
-    @Operation(summary = "Добавление компании", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Добавление компании")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Компания добавлена",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
     @PostMapping
-    public void addVacancy(@RequestBody CompanyRequest companyRequest) {
-        companyService.save(companyRequest);
+    public ResponseEntity<?> addCompany(@RequestBody CompanyRequest companyRequest) {
+        try {
+            companyService.save(companyRequest);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Company is added successfully." +
+                " To your email was spend letter for confirm the registration.",
+                HttpStatus.OK); //redirect /api/success-registration
     }
+
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -89,7 +100,7 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateVacancy(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+    public void updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
         companyService.save(companyRequest);
     }
 }

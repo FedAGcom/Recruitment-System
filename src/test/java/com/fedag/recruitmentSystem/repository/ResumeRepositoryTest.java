@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.repository;
 
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.model.Skill;
@@ -36,7 +36,7 @@ class ResumeRepositoryTest {
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(experience);
-        Resume resume = new Resume(null, "Ivan", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
+        Resume resume = new Resume(null, "Ivan", ActiveStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
 
         userRepository.save(user);
         Optional<User> optionalUser = userRepository.findById(userId);

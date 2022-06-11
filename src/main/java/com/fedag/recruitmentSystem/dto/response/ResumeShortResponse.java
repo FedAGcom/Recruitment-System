@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.dto.response;
 
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ public class ResumeShortResponse {
 
     private String resumeName;
 
-    private ResumeStatus status;
+    private ActiveStatus status;
 
     private LocalDateTime dateCreated;
 }

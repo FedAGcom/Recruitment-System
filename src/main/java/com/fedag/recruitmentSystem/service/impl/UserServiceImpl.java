@@ -4,20 +4,26 @@ import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
+import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +31,9 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-
     private final MailSendlerService mailSendler;
+    @Value("${activation.url}")
+    private String activationURL;
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -61,35 +68,25 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public void save(UserRequest element) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
-        User user = userMapper.dtoToModel(element);
-        System.out.println(user.getPassword());
-        user.setPassword(encoder.encode(user.getPassword()));
-        System.out.println(user.getPassword());
-        userRepository.save(user);
-    }
-
-    @Override
-    public boolean saveUser(UserRequest element) {
+    public void save(UserRequest element) throws EntityIsExistsException {
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
         if (userFromDB.isPresent()) {
-            return false;
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
         }
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
         String message = String.format("Hello, %s \n" +
                         "Welcome to FedAG. Please, visit next link: " +
-                        "http://localhost:8080/api/activate/%s",
+                        activationURL + "user/%s",
                 user.getFirstname(),
                 user.getActivationCode());
 
         mailSendler.send(user.getEmail(), "Activation code", message);
 
-        return true;
     }
 
     @Override
@@ -102,13 +99,19 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
+                );
+        user.setActiveStatus(ActiveStatus.INACTIVE);
+        userRepository.save(user);
     }
 
+    @Override
     public boolean activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
-        if(!userOptional.isPresent()) {
-            return false;
+        if (!userOptional.isPresent()) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
         }
         User user = userOptional.get();
         user.setActivationCode(null);

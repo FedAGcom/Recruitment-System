@@ -43,6 +43,7 @@ public class MailConfig {
         properties.setProperty("mail.transport.protocol", protocol);
         properties.setProperty("mail.debug", debug);
 
+
         return mailSender;
     }
 }

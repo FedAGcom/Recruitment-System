@@ -41,15 +41,11 @@ public class UserMapper {
   }
 
   public User dtoToModel(UserRequest dto) {
-    User user = mapper.map(dto, User.class);
-    user.setActivationCode(UUID.randomUUID().toString());
-    return user;
+    return mapper.map(dto, User.class);
   }
 
   public User dtoToModel(UserUpdateRequest dto) {
-    User user = mapper.map(dto, User.class);
-    user.setActivationCode(UUID.randomUUID().toString());
-    return user;
+    return mapper.map(dto, User.class);
   }
 
   public User dtoToModel(UserResponse dto) {

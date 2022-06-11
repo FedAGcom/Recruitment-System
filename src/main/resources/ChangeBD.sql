@@ -81,3 +81,6 @@ CREATE TABLE user_project_link
 --Изменения 11.06.22
 ALTER TABLE users
     ADD activation_code varchar(60);
+
+ALTER TABLE users
+    ADD activation_code varchar(60);
