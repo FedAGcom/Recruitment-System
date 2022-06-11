@@ -34,9 +34,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("api/activate/*").permitAll()
-//                .anyRequest()
-//                .authenticated()
+                .antMatchers("/api/activate/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 .and()
                 .apply(jwtConfigurer);
 
@@ -52,10 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/webjars/**",
                 "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "api/activate/*",
-                "activate/*",
-                "http://localhost:8080/api/activate/b502fe2e-c0e6-489b-a55b-8a8303ccb85d");
+                "/swagger-ui/**");
     }
 
     @Bean
