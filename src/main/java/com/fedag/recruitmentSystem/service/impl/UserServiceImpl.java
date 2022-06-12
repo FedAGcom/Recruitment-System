@@ -4,6 +4,7 @@ import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.exception.EntityIsExestsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
@@ -62,22 +63,12 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public void save(UserRequest element) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
-        User user = userMapper.dtoToModel(element);
-        System.out.println(user.getPassword());
-        user.setPassword(encoder.encode(user.getPassword()));
-        System.out.println(user.getPassword());
-        userRepository.save(user);
-    }
-
-    @Override
-    public boolean saveUser(UserRequest element) {
+    public void save(UserRequest element) throws EntityIsExestsException {
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
         if (userFromDB.isPresent()) {
-            return false;
+            throw new EntityIsExestsException("User with this email exists");
         }
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
@@ -91,7 +82,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
         mailSendler.send(user.getEmail(), "Activation code", message);
 
-        return true;
     }
 
     @Override

@@ -23,7 +23,6 @@ public class AuthenticationRestControllerV1 {
     private final AuthenticationManager authenticationManager;
     private final SecurityService securityService;
 
-
     public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, SecurityService securityService) {
         this.authenticationManager = authenticationManager;
         this.securityService = securityService;
@@ -34,18 +33,13 @@ public class AuthenticationRestControllerV1 {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     request.getEmail(), request.getPassword()));
-
             String token = securityService.definitionToken(request.getEmail());
-            if (token.equals("Email not confirm")) {
-                return new ResponseEntity<>("Email not confirm",
-                        HttpStatus.FORBIDDEN);
-            }
             Map<Object, Object> response = new HashMap<>();
             response.put("email", request.getEmail());
             response.put("token", token);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
-            return new ResponseEntity<>("Invalid email/password combination",
+            return new ResponseEntity<>(e.getMessage(),
                     HttpStatus.FORBIDDEN);
         }
     }

@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
-import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
+import com.fedag.recruitmentSystem.exception.EntityIsExestsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -75,12 +77,18 @@ public class CompanyController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PostMapping
-    public String addVacancy(@RequestBody CompanyRequest companyRequest) {
-        if(!companyService.saveCompany(companyRequest)){
-            return "User with this email exists"; //вернуть на форму регистрации /api/company-registration
+    public ResponseEntity<?> addVacancy(@RequestBody CompanyRequest companyRequest) {
+        try {
+            companyService.save(companyRequest);
+        } catch (EntityIsExestsException e) {
+            return new ResponseEntity<>(e.getMessage(),
+                    HttpStatus.FORBIDDEN);
         }
-        return "User is added successfully"; //redirect /api/success-registration
+        return new ResponseEntity<>("Company is added successfully." +
+                " To your email was spend letter for confirm the registration.",
+                HttpStatus.OK); //redirect /api/success-registration
     }
+
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
