@@ -74,7 +74,19 @@
 			<artifactId>bcrypt</artifactId>
 			<version>0.9.0</version>
 		</dependency>
-	</dependencies>
+		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-calendar</artifactId>
+			<version>v3-rev409-1.25.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.oauth-client/google-oauth-client-jetty -->
+		<dependency>
+			<groupId>com.google.oauth-client</groupId>
+			<artifactId>google-oauth-client-jetty</artifactId>
+			<version>1.31.2</version>
+		</dependency>
+  </dependencies>
 
 	<build>
 		<plugins>
