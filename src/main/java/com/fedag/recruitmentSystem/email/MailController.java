@@ -1,8 +1,11 @@
 package com.fedag.recruitmentSystem.email;
 
+import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,17 +21,23 @@ public class MailController {
     private final CompanyServiceImpl companyService;
 
     @GetMapping("/activate/{code}")
-    public String activate(@PathVariable String code) {
+    public ResponseEntity<?> activate(@PathVariable String code) {
 
         boolean isActivatedUser = userService.activateUser(code);
         if (isActivatedUser) {
-            return "Activation success. Go to login page."; // redirect на страницу ввода логина и парол
+            return new ResponseEntity<>("Activation success. Go to login page.",
+                    HttpStatus.OK); // redirect на страницу ввода логина и пароля
         }
-        boolean isActivatedCompany = companyService.activateCompany(code);
-        if (isActivatedCompany) {
-            return "Activation success. Go to login page."; // redirect на страницу ввода логина и парол
+        try {
+            boolean isActivatedCompany = companyService.activateCompany(code);
+            if (isActivatedCompany) {
+                return new ResponseEntity<>("Activation success. Go to login page.",
+                        HttpStatus.OK); // redirect на страницу ввода логина и пароля
+            }
+        } catch (ActivationException e) {
+            return new ResponseEntity<>(e.getMessage(),
+                    HttpStatus.FORBIDDEN);
         }
-
-        return "Activation is failed"; // redirect на страницу о том что активация не прошла
+        return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

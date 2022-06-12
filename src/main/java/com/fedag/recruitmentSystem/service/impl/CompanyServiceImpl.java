@@ -9,6 +9,7 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -91,10 +92,10 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     }
 
     @Override
-    public boolean activateCompany(String code) {
+    public boolean activateCompany(String code) throws ActivationException {
         Optional<Company> companyOptional = companyRepository.findByActivationCode(code);
         if (!companyOptional.isPresent()) {
-            return false;
+            throw new ActivationException("Activation is failed");
         }
         Company company = companyOptional.get();
         company.setActivationCode(null);
