@@ -38,13 +38,18 @@ public class Company {
     @Column(name = "location")
     private String location;
 
+
+    @Schema(description = "Роль")
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NotBlank
+    @Schema(description = "Пароль")
     @Column(name = "password")
     private String password;
 
+    @Schema(description = "Код активации")
     @Column(name = "activation_code")
     private String activationCode;
 

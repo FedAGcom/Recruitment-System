@@ -1,6 +1,13 @@
 package com.fedag.recruitmentSystem.security;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,9 +25,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/auth")
+@Tag(name = "Контроллер безопасности", description = "Работа с безопасностью")
 public class AuthenticationRestControllerV1 {
 
+    @Schema(name = "Менеджер аутентефикации")
     private final AuthenticationManager authenticationManager;
+
+    @Schema(name = "Сервис безопасности", description = "Содержит методы проверки данных")
     private final SecurityService securityService;
 
     public AuthenticationRestControllerV1(AuthenticationManager authenticationManager, SecurityService securityService) {
@@ -28,6 +39,13 @@ public class AuthenticationRestControllerV1 {
         this.securityService = securityService;
     }
 
+    @Operation(summary = "Ввод и проверка данных для аутентификации и авторизации пользователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
@@ -44,6 +62,13 @@ public class AuthenticationRestControllerV1 {
         }
     }
 
+    @Operation(summary = "Выход из учетной записи")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Выход выполнен",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @PostMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler =
