@@ -12,7 +12,8 @@ CREATE TABLE users
     email varchar(128) UNIQUE NOT NULL,
     birthday date NOT NULL,
     role enum_role_type DEFAULT 'USER' NOT NULL,
-    password varchar(128) NOT NULL
+    password varchar(128) NOT NULL,
+    activation_code varchar(60)
 );
 
 CREATE TABLE entrance_exams
@@ -86,7 +87,8 @@ CREATE TABLE companies
     email varchar(128) UNIQUE NOT NULL,
     location varchar(128) NOT NULL,
     role enum_role_type DEFAULT 'USER' NOT NULL,
-    password varchar(128) NOT NULL
+    password varchar(128) NOT NULL,
+    activation_code varchar(60)
 );
 
 CREATE TABLE company_feedback
