@@ -88,7 +88,7 @@ public class UserController {
             userService.save(user);
         } catch (EntityIsExestsException e) {
             return new ResponseEntity<>(e.getMessage(),
-                    HttpStatus.FORBIDDEN);
+                    HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>("User is added successfully." +
                 " To your email was spend letter for confirm the registration.",
