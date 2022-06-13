@@ -26,7 +26,7 @@ public class ResumeCriteriaRepositoryImpl implements ResumeCriteriaRepository {
     private final EntityManager entityManager;
 
     @Override
-    public List<Resume> findByDateCreated(LocalDateTime dateCreated) {
+    public List<Resume> findByDateCreated() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Resume> cr = cb.createQuery(Resume.class);
 
