@@ -4,6 +4,7 @@ import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExestsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
@@ -88,7 +89,12 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
 
     @Override
     public void deleteById(Long id) {
-        companyRepository.deleteById(id);
+       Company company = companyRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Company with id: " + id + " not found")
+                );
+       company.setActiveStatus(ActiveStatus.INACTIVE);
+       companyRepository.save(company);
     }
 
     @Override

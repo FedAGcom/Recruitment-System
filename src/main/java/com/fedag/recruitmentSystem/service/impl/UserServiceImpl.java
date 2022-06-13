@@ -4,9 +4,11 @@ import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExestsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
+import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
@@ -94,7 +96,12 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void deleteById(Long id) {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
+                );
+        user.setActiveStatus(ActiveStatus.INACTIVE);
+        userRepository.save(user);
     }
 
     @Override
