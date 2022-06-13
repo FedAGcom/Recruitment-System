@@ -15,5 +15,7 @@ public class MessageRequest {
     private LocalDateTime dateCreated;
     private String status;
     private String message;
+    private Long userId;
+    private Long companyId;
 
 }

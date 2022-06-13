@@ -48,8 +48,8 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponse, Vacan
         ));
   }
 
-  public List<VacancyResponse> findByDateCreated(LocalDateTime dateCreated) {
-    return vacancyMapper.toDto(vacancyRepository.findByDateCreated(dateCreated));
+  public List<VacancyResponse> findByDateCreated() {
+    return vacancyMapper.toDto(vacancyRepository.findByDateCreated());
   }
 
   @Override

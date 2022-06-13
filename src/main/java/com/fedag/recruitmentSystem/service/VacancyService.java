@@ -11,5 +11,5 @@ public interface VacancyService<T, S, U> extends AbstractServiceInterface<T, S, 
 
   Page<T> getAllVacancies(Pageable pageable);
 
-  List<T> findByDateCreated(LocalDateTime dateCreated);
+  List<T> findByDateCreated();
 }

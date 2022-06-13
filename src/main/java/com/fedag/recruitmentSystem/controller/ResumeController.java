@@ -136,7 +136,7 @@ public class ResumeController {
     @Operation(summary = "Фильтрация резюме по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/date")
-    public List<ResumeResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false) LocalDateTime dateCreated) {
-        return resumeService.findByDateCreated(dateCreated);
+    public List<ResumeResponse> findByDateCreated() {
+        return resumeService.findByDateCreated();
     }
 }

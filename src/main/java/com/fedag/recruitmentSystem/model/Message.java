@@ -30,6 +30,7 @@ public class Message {
     @Enumerated(EnumType.STRING)
     private FeedbackSentFromEntity entityType;
 
+    @NotBlank
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
