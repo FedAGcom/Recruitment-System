@@ -89,12 +89,12 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
 
     @Override
     public void deleteById(Long id) {
-       Company company = companyRepository.findById(id)
+        Company company = companyRepository.findById(id)
                 .orElseThrow(
                         () -> new ObjectNotFoundException("Company with id: " + id + " not found")
                 );
-       company.setActiveStatus(ActiveStatus.INACTIVE);
-       companyRepository.save(company);
+        company.setActiveStatus(ActiveStatus.INACTIVE);
+        companyRepository.save(company);
     }
 
     @Override

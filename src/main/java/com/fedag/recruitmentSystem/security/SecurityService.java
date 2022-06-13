@@ -18,7 +18,6 @@ public class SecurityService {
     private UserRepository userRepository;
     private JwtTokenProvider jwtTokenProvider;
     private final CompanyRepository companyRepository;
-
     private final MailSendlerService mailSendler;
 
     public SecurityService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider,

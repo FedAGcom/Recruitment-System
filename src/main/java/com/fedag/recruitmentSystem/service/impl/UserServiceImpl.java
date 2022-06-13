@@ -8,7 +8,6 @@ import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExestsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
-import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
@@ -107,7 +106,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public boolean activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
-        if(!userOptional.isPresent()) {
+        if (!userOptional.isPresent()) {
             return false;
         }
         User user = userOptional.get();
