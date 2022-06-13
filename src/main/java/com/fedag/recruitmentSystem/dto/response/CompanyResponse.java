@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.dto.response;
 
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +15,6 @@ public class CompanyResponse {
   private String email;
   private String location;
   private String activationCode;
+  private ActiveStatus activeStatus;
 
 }

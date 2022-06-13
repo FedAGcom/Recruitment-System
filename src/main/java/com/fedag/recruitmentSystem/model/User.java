@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.model;
 
 
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -60,6 +61,11 @@ public class User {
     @Schema(description = "Код активации")
     @Column(name = "activation_code")
     private String activationCode;
+
+    @Schema(description = "Статус")
+    @Column(name = "active_status")
+    @Enumerated(EnumType.STRING)
+    private ActiveStatus activeStatus;
 
     @OneToOne(
             cascade = CascadeType.ALL,

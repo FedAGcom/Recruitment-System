@@ -1,10 +1,10 @@
 ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
-INSERT INTO users(first_name, last_name,email, birthday, role, password,activation_code)
+INSERT INTO users(first_name, last_name,email, birthday, role, password,activation_code, active_status)
 VALUES
-    ('Ivan','Ivanov','ivanov@mail.ru', '1993-10-12', 'ADMIN','$2a$12$b/NkRaQe8WMapsg2KpGDH.0sOXyPwwAB5ucOId6M3vSAkpg4e1x1i', NULL),
-    ('Petr','Petrov','petrov@mail.ru', '1994-11-17', 'ADMIN', '$2a$12$klPFBHwuzchLqQrJaAi9qOD7WJVcVMtw952u8xxa6ceAtrBs05/5e', NULL),
-    ('Aleksandr','Aleksandrov','aleksandrov@mail.ru', '1990-01-12', 'USER', '$2a$12$BijtK3QuZPxXbggSp5IfS.zy4yZZUKiFwjkBpBTz9yzt0.hNfOxoa', NULL);
+    ('Ivan','Ivanov','ivanov@mail.ru', '1993-10-12', 'ADMIN','$2a$12$b/NkRaQe8WMapsg2KpGDH.0sOXyPwwAB5ucOId6M3vSAkpg4e1x1i', NULL,'ACTIVE'),
+    ('Petr','Petrov','petrov@mail.ru', '1994-11-17', 'ADMIN', '$2a$12$klPFBHwuzchLqQrJaAi9qOD7WJVcVMtw952u8xxa6ceAtrBs05/5e', NULL, 'ACTIVE'),
+    ('Aleksandr','Aleksandrov','aleksandrov@mail.ru', '1990-01-12', 'USER', '$2a$12$BijtK3QuZPxXbggSp5IfS.zy4yZZUKiFwjkBpBTz9yzt0.hNfOxoa', NULL, 'ACTIVE');
 
 ALTER SEQUENCE entrance_exams_id_seq RESTART WITH 1;
 
@@ -51,10 +51,10 @@ VALUES(1,1),(1,2),(1,3),
 
 ALTER SEQUENCE companies_id_seq RESTART WITH 1;
 
-INSERT INTO companies(company_name, email, location, role, password,activation_code)
-VALUES('FedAG', 'fedag@mail.ru', 'SPB', 'ADMIN', '$2a$12$H/i3lZQBo2Ob82g.ois0TOawpEnqqou7CsfgYwxDghqP2OlwbDuPi', NULL),
-      ('Epam', 'epam@mail.ru', 'SPB', 'USER', '$2a$12$1IYavMxyi/k1HbLX9jBoQ.QCmOhHZWo3qT/mRAcKPN5NfDOGZBIDq', NULL),
-      ('SomeCompany', 'somecompany@mail.ru', 'Moscow', 'USER', '$2a$12$L7.dCU8RHMFaR7Wbyu/GsuyQtZvGevjvQcW4TzydKsiKOA4BXUJm2', NULL);
+INSERT INTO companies(company_name, email, location, role, password,activation_code, active_status)
+VALUES('FedAG', 'fedag@mail.ru', 'SPB', 'ADMIN', '$2a$12$H/i3lZQBo2Ob82g.ois0TOawpEnqqou7CsfgYwxDghqP2OlwbDuPi', NULL, 'ACTIVE'),
+      ('Epam', 'epam@mail.ru', 'SPB', 'USER', '$2a$12$1IYavMxyi/k1HbLX9jBoQ.QCmOhHZWo3qT/mRAcKPN5NfDOGZBIDq', NULL, 'ACTIVE'),
+      ('SomeCompany', 'somecompany@mail.ru', 'Moscow', 'USER', '$2a$12$L7.dCU8RHMFaR7Wbyu/GsuyQtZvGevjvQcW4TzydKsiKOA4BXUJm2', NULL, 'ACTIVE');
 
 ALTER SEQUENCE company_feedback_id_seq RESTART WITH 1;
 

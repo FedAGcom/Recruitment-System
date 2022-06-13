@@ -3,6 +3,16 @@ CREATE DATABASE recruitment_system_test;
 -- ENUM в таблицу users в столбец role
 -- и в таблице companies в стобец role
 CREATE TYPE enum_role_type AS ENUM('USER', 'ADMIN');
+-- ENUM в таблицу resume и vacancies в столбец status
+CREATE TYPE enum_resume_vacancy_status_type AS ENUM('ACTIVE', 'INACTIVE');
+-- ENUM в таблицу user_feedback в столбец entity_from_type
+-- и в таблице messages в стобец from_entity_message
+CREATE TYPE enum_user_company_type AS ENUM('USER', 'COMPANY');
+-- ENUM в таблицу vacancy_responses в столбец status
+CREATE TYPE enum_vacancy_responses_status_type AS ENUM
+    ('INVITE', 'REFUSAL', 'VIEWED','NOT_VIEWED');
+-- ENUM в таблицу messages в столбец is_read
+CREATE TYPE enum_messages_is_read_type  AS ENUM ('READ','NO_READ');
 
 CREATE TABLE users
 (
@@ -13,7 +23,8 @@ CREATE TABLE users
     birthday date NOT NULL,
     role enum_role_type DEFAULT 'USER' NOT NULL,
     password varchar(128) NOT NULL,
-    activation_code varchar(60)
+    activation_code varchar(60),
+    active_status enum_resume_vacancy_status_type NOT NULL
 );
 
 CREATE TABLE entrance_exams
@@ -23,10 +34,6 @@ CREATE TABLE entrance_exams
     score smallint CHECK (score>=0 AND score<=100) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
--- ENUM в таблицу user_feedback в столбец entity_from_type
--- и в таблице messages в стобец from_entity_message
-CREATE TYPE enum_user_company_type AS ENUM('USER', 'COMPANY');
 
 CREATE TABLE user_feedback
 (
@@ -39,9 +46,6 @@ CREATE TABLE user_feedback
     UNIQUE (user_to_id, entity_from_id,entity_from_type),
     FOREIGN KEY (user_to_id) REFERENCES users(id)
 );
-
--- ENUM в таблицу resume и vacancies в столбец status
-CREATE TYPE enum_resume_vacancy_status_type AS ENUM('ACTIVE', 'INACTIVE');
 
 CREATE TABLE resume
 (
@@ -88,7 +92,8 @@ CREATE TABLE companies
     location varchar(128) NOT NULL,
     role enum_role_type DEFAULT 'USER' NOT NULL,
     password varchar(128) NOT NULL,
-    activation_code varchar(60)
+    activation_code varchar(60),
+    active_status enum_resume_vacancy_status_type NOT NULL
 );
 
 CREATE TABLE company_feedback
@@ -127,10 +132,6 @@ CREATE TABLE vacancies_skill_link
     FOREIGN KEY (skill_id) REFERENCES skills(id)
 );
 
--- ENUM в таблицу vacancy_responses в столбец status
-CREATE TYPE enum_vacancy_responses_status_type AS ENUM
-    ('INVITE', 'REFUSAL', 'VIEWED','NOT_VIEWED');
-
 CREATE TABLE vacancy_responses
 (
     id bigserial PRIMARY KEY,
@@ -142,9 +143,6 @@ CREATE TABLE vacancy_responses
     FOREIGN KEY (vacancy_id) REFERENCES vacancies(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
-
--- ENUM в таблицу messages в столбец is_read
-CREATE TYPE enum_messages_is_read_type  AS ENUM ('READ','NO_READ');
 
 CREATE TABLE messages
 (

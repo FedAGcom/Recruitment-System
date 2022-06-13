@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.dto.request;
 
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +17,5 @@ public class CompanyUpdateRequest {
     private String location;
     private Role role;
     private String password;
+    private ActiveStatus activeStatus;
 }
