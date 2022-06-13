@@ -18,7 +18,7 @@ public class VacancyCriteriaRepositoryImpl implements VacancyCriteriaRepository 
     private final EntityManager entityManager;
 
     @Override
-    public List<Vacancy> findByDateCreated(LocalDateTime dateCreated) {
+    public List<Vacancy> findByDateCreated() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Vacancy> cr = cb.createQuery(Vacancy.class);
 
