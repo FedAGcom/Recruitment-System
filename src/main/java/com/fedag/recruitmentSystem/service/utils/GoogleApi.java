@@ -32,7 +32,7 @@ import org.springframework.stereotype.Service;
 public class GoogleApi {
 
   private static final String APPLICATION_NAME = "Google Calendar API Java Quickstart1";
-  private static final JsonFactory JSON_FACTORY = new GsonFactory();
+  private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
   private static final String TOKENS_PATH = "tokens/";
   private static final String TOKENS_PATH_JAR = "/tmp/tokens/";
   private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
