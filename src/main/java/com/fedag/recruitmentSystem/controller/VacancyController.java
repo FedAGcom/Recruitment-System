@@ -97,7 +97,7 @@ public class VacancyController {
       vacancyService.update(vacancyUpdateRequest);
     }
   
-    @Operation(summary = "Фильтр вакансий по дате")
+    @Operation(summary = "Фильтр вакансий по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/date")
     public List<VacancyResponse> findByDateCreated() {
