@@ -87,8 +87,8 @@ public class ResumeServiceImpl implements ResumeService<ResumeResponse, ResumeRe
   }
 
   @Override
-  public List<ResumeResponse> findByDateCreated(LocalDateTime dateCreated) {
-    return resumeMapper.modelToDto(resumeRepository.findByDateCreated(dateCreated));
+  public List<ResumeResponse> findByDateCreated() {
+    return resumeMapper.modelToDto(resumeRepository.findByDateCreated());
   }
   
   @Override

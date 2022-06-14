@@ -11,4 +11,6 @@ public class VacancyResponseRequest {
     private Long id;
     private String message;
     private String status;
+    private Long vacancyId;
+    private Long userId;
 }

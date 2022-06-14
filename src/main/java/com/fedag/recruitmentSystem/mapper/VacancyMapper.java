@@ -25,12 +25,10 @@ public class VacancyMapper {
   public void setupMapper() {
     mapper.createTypeMap(VacancyRequest.class, Vacancy.class)
         .addMappings(m -> m.skip(Vacancy::setCompany))
-        .addMappings(m -> m.skip(Vacancy::setId))
         .setPostConverter(toEntityConverterFromRequest());
 
     mapper.createTypeMap(VacancyUpdateRequest.class, Vacancy.class)
         .addMappings(m -> m.skip(Vacancy::setCompany))
-        .addMappings(m -> m.skip(Vacancy::setId))
         .setPostConverter(toEntityConverterFromUpdateRequest());
 
     mapper.createTypeMap(Vacancy.class, VacancyResponse.class)
