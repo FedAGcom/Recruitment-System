@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyFeedbackUpdateRequest {
     private Long id;
-    private String stars;
+    private byte stars;
     private String comment;
+    private Long companyToId;
+    private Long userFromId;
 }

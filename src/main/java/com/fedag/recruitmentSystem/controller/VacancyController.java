@@ -100,7 +100,7 @@ public class VacancyController {
     @Operation(summary = "Фильтр вакансий по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/date")
-    public List<VacancyResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false) LocalDateTime dateCreated) {
-        return vacancyService.findByDateCreated(dateCreated);
+    public List<VacancyResponse> findByDateCreated() {
+      return vacancyService.findByDateCreated();
     }
 }

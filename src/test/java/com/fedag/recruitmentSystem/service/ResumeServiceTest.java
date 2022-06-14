@@ -141,9 +141,9 @@ class ResumeServiceTest {
         resumeList.add(new ResumeResponse(1L, "Java developer", ActiveStatus.ACTIVE
                 , LocalDateTime.now(),null, null));
         Page<ResumeResponse> resumePage = new PageImpl<>(resumeList, pageable, resumeList.size());
-        Mockito.when(resumeService.getAllResumesByPosition("Java developer", pageable)).thenReturn(resumePage);
-        assertEquals(resumeService.getAllResumesByPosition("Java developer", pageable), resumePage);
-    }
+        Mockito.when(resumeService.findByTextFilter("Java developer", pageable)).thenReturn(resumePage);
+        assertEquals(resumeService.findByTextFilter("Java developer", pageable), resumePage);
+    }  
 
     static Stream<Arguments> dataForTest() {
         // set one
