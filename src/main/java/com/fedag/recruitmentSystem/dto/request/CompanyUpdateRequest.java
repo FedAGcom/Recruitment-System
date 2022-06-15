@@ -13,4 +13,5 @@ public class CompanyUpdateRequest {
   private String companyName;
   private String email;
   private String location;
+  private String calendarId;
 }

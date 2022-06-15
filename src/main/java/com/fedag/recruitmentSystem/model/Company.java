@@ -44,6 +44,9 @@ public class Company {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "calendar_id")
+    private String calendarId;
+
     @OneToMany(
         cascade = CascadeType.ALL,
         mappedBy = "company")

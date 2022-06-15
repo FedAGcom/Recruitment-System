@@ -19,4 +19,5 @@ public class UserRequest {
     private LocalDateTime birthday;
     private Role role;
     private String password;
+    private String calendarId;
 }

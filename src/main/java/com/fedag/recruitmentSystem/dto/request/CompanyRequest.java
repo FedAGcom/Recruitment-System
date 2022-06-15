@@ -16,4 +16,5 @@ public class CompanyRequest {
   private String location;
   private Role role;
   private String password;
+  private String calendarId;
 }
