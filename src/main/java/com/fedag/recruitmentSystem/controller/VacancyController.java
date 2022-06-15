@@ -51,57 +51,57 @@ public class VacancyController {
   private final VacancyServiceImpl vacancyService;
   private final CompanyServiceImpl companyService;
 
-    @Operation(summary = "Получение списка вакансий", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список загружен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping
-    public Page<VacancyResponse> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
-        return vacancyService.getAllVacancies(pageable);
-    }
+  @Operation(summary = "Получение списка вакансий", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список загружен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping
+  public Page<VacancyResponse> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
+    return vacancyService.getAllVacancies(pageable);
+  }
 
-    @Operation(summary = "Получение вакансии по id", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Вакансий найдена",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
-    public VacancyResponse getById(@PathVariable Long id) {
-        return vacancyService.findById(id);
-    }
+  @Operation(summary = "Получение вакансии по id", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Вакансий найдена",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/{id}")
+  public VacancyResponse getById(@PathVariable Long id) {
+    return vacancyService.findById(id);
+  }
 
-    @Operation(summary = "Удаление вакансии", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Вакансия удалена",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
-    public void deleteVacancy(@PathVariable Long id) {
-        vacancyService.deleteById(id);
-    }
+  @Operation(summary = "Удаление вакансии", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Вакансия удалена",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @DeleteMapping("/{id}")
+  public void deleteVacancy(@PathVariable Long id) {
+    vacancyService.deleteById(id);
+  }
 
-    @Operation(summary = "Добавление вакансии", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Вакансия добавлена",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PostMapping("/add")
-    public void addVacancy(@RequestBody VacancyRequest vacancyRequest) {
-        vacancyService.save(vacancyRequest);
-    }
+  @Operation(summary = "Добавление вакансии", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Вакансия добавлена",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PostMapping("/add")
+  public void addVacancy(@RequestBody VacancyRequest vacancyRequest) {
+    vacancyService.save(vacancyRequest);
+  }
 
   @Operation(summary = "Изменение вакансии", security = @SecurityRequirement(name = "bearerAuth"))
   @ApiResponses(value = {
@@ -120,16 +120,10 @@ public class VacancyController {
   @Operation(summary = "Фильтр вакансий по дате", security = @SecurityRequirement(name = "bearerAuth"))
   @PreAuthorize("hasAuthority('READ')")
   @GetMapping("/filter/date")
-  public List<VacancyResponse> findByDateCreated(@RequestParam(defaultValue = "0", required = false) LocalDateTime dateCreated) {
+  public List<VacancyResponse> findByDateCreated() {
     return vacancyService.findByDateCreated();
   }
 
-  @Operation(summary = "Фильтр вакансий по дате", security = @SecurityRequirement(name = "bearerAuth"))
-  @PreAuthorize("hasAuthority('READ')")
-  @GetMapping("/filter/date")
-  public List<VacancyResponse> findByDateCreated() {
-        return vacancyService.findByDateCreated();
-    }
   /**
    * @description Google Calendar API methods below:
    */
