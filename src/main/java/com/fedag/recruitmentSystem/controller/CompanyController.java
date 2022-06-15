@@ -87,11 +87,10 @@ public class CompanyController {
             return new ResponseEntity<>(e.getReason(),
                     HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Company is added successfully." +
-                " To your email was spend letter for confirm the registration.",
+        return new ResponseEntity<>("Company has been added successfully." +
+                " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
     }
-
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
