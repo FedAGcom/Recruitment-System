@@ -22,6 +22,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/companies")
@@ -78,7 +80,7 @@ public class CompanyController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PostMapping
-    public ResponseEntity<?> addCompany(@RequestBody CompanyRequest companyRequest) {
+    public ResponseEntity<?> addCompany(@Valid @RequestBody CompanyRequest companyRequest) {
         try {
             companyService.save(companyRequest);
         } catch (ResponseStatusException e) {
@@ -100,7 +102,8 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+    public void updateCompany(@PathVariable Long id,  @Valid @RequestBody CompanyRequest companyRequest) {
+        companyRequest.setId(id);
         companyService.save(companyRequest);
     }
 }
