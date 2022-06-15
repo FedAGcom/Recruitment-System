@@ -133,10 +133,6 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponse, Vacan
     DateTime eventEndTime = new DateTime(customCalendarEvent.getEventEndTime());
     event.setEnd(new EventDateTime().setDateTime(eventEndTime));
 
-//    EventDateTime eventEndTime = new EventDateTime();
-//    eventEndTime.setDateTime(customCalendarEvent.getEventEndTime());
-//    event.setStart(eventEndTime);
-
     Event eventCreate = calendar.events().insert(calendarId, event).execute();
   }
 }
