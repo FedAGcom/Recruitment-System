@@ -14,13 +14,16 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Permission;
 import com.google.api.services.drive.model.PermissionList;
 import com.google.api.services.forms.v1.Forms;
-import com.google.api.services.forms.v1.model.Form;
-import com.google.api.services.forms.v1.model.Info;
+import com.google.api.services.forms.v1.model.*;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import static com.fedag.recruitmentSystem.util.GoogleFormConstants.*;
 @Service
@@ -64,15 +67,36 @@ public class GoogleFormServiceImpl implements GoogleFormService {
     @Override
     public String createForm() {
         Form form = new Form();
+        String token = getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken();
         form.setInfo(new Info());
         form.getInfo().setTitle("FedAG test");
         form = formsService.forms().create(form)
-                .setAccessToken(getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken())
+                .setAccessToken(token)
                 .execute();
         String formId = form.getFormId();
 
-        return formId;
+        transformInQuiz(formId, token);
+
+        addItemToQuiz(
+                "Which of these singers was not a member of Destiny's Child?",
+                Arrays.asList("Kelly Rowland", "Beyoncè", "Rihanna", "Michelle Williams"),
+                "Rihanna",
+                formId,
+                token
+        );
+
+        addItemToQuiz(
+                "Кто наконец разобрался с формами",
+                Arrays.asList("Вряд ли он", "И не он", "Точно не он", "Андрей"),
+                "Андрей",
+                formId,
+                token
+        );
+
+        return "https://docs.google.com/forms/d/" + formId;
     }
+
+
 
     public boolean publishForm(String formId, String token) throws GeneralSecurityException, IOException {
 
@@ -89,7 +113,77 @@ public class GoogleFormServiceImpl implements GoogleFormService {
         return false;
     }
 
-        private Form getForm(String formId, String token) throws IOException {
-        return formsService.forms().get(formId).setAccessToken(token).execute();
+    @SneakyThrows
+    public Form getForm(String formId) throws IOException {
+        return formsService.forms().get(formId).setAccessToken(getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken()).execute();
     }
+
+    private void addItemToQuiz(
+            String questionText,
+            List<String> answers,
+            String correctAnswer,
+            String formId, String token) throws IOException {
+
+        BatchUpdateFormRequest batchRequest = new BatchUpdateFormRequest();
+        Request request = new Request();
+
+        Item item = new Item();
+        item.setTitle(questionText);
+
+        item.setQuestionItem(new QuestionItem());
+        Question question = new Question();
+        question.setRequired(true);
+        question.setChoiceQuestion(new ChoiceQuestion());
+        question.getChoiceQuestion().setType("RADIO");
+
+        List<Option> options = new ArrayList<>();
+        for (String answer : answers) {
+            Option option = new Option();
+            option.setValue(answer);
+            options.add(option);
+        }
+        question.getChoiceQuestion().setOptions(options);
+
+        Grading grading = new Grading();
+        grading.setPointValue(2);
+        grading.setCorrectAnswers(new CorrectAnswers());
+        grading.getCorrectAnswers().setAnswers(new ArrayList<>());
+        grading.getCorrectAnswers().getAnswers().add(new CorrectAnswer());
+        grading.getCorrectAnswers().getAnswers().get(0).setValue(correctAnswer);
+        Feedback whenRight = new Feedback();
+        whenRight.setText("Yeah!");
+        Feedback whenWrong = new Feedback();
+        whenWrong.setText("Wrong Answer");
+        grading.setWhenRight(whenRight);
+        grading.setWhenWrong(whenWrong);
+        question.setGrading(grading);
+
+        item.getQuestionItem().setQuestion(question);
+        request.setCreateItem(new CreateItemRequest());
+        request.getCreateItem().setItem(item);
+        request.getCreateItem().setLocation(new Location());
+        request.getCreateItem().getLocation().setIndex(0);
+
+        batchRequest.setRequests(Collections.singletonList(request));
+
+        formsService.forms().batchUpdate(formId, batchRequest)
+                .setAccessToken(token).execute();
+    }
+
+
+    private void transformInQuiz(String formId, String token) throws IOException {
+        BatchUpdateFormRequest batchRequest = new BatchUpdateFormRequest();
+        Request request = new Request();
+        request.setUpdateSettings(new UpdateSettingsRequest());
+        request.getUpdateSettings().setSettings(new FormSettings());
+        request.getUpdateSettings().getSettings().setQuizSettings(new QuizSettings());
+        request.getUpdateSettings().getSettings().getQuizSettings().setIsQuiz(true);
+        request.getUpdateSettings().setUpdateMask("quizSettings.isQuiz");
+        batchRequest.setRequests(Collections.singletonList(request));
+        formsService.forms().batchUpdate(formId, batchRequest)
+                .setAccessToken(token).execute();
+    }
+
+
+
 }
