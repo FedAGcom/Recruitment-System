@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.dto.response;
 
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

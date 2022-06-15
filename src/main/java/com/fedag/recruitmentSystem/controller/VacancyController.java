@@ -5,6 +5,7 @@ import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.exception.EventAttendeeAlreadyExists;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.CustomCalendarEvent;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
