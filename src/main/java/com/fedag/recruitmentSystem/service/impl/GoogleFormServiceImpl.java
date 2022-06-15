@@ -17,12 +17,13 @@ import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.model.Form;
 import com.google.api.services.forms.v1.model.Info;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.security.GeneralSecurityException;
 
 import static com.fedag.recruitmentSystem.util.GoogleFormConstants.*;
-
+@Service
 public class GoogleFormServiceImpl implements GoogleFormService {
 
     Forms formsService = new Forms.Builder(GoogleNetHttpTransport.newTrustedTransport(),
@@ -61,17 +62,16 @@ public class GoogleFormServiceImpl implements GoogleFormService {
 
     @SneakyThrows
     @Override
-    public void createForm() {
+    public String createForm() {
         Form form = new Form();
         form.setInfo(new Info());
-        form.getInfo().setTitle("New Form Quiz Created from Java");
+        form.getInfo().setTitle("FedAG test");
         form = formsService.forms().create(form)
                 .setAccessToken(getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken())
                 .execute();
         String formId = form.getFormId();
 
-        publishForm(formId, getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken());
-        System.out.println(formId);
+        return formId;
     }
 
     public boolean publishForm(String formId, String token) throws GeneralSecurityException, IOException {

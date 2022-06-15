@@ -10,8 +10,10 @@ import com.google.api.services.forms.v1.Forms;
 import com.google.api.services.forms.v1.FormsScopes;
 import com.google.api.services.forms.v1.model.*;
 import com.google.auth.oauth2.GoogleCredentials;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,14 +23,15 @@ import java.security.GeneralSecurityException;
 import java.util.*;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "/api/forms")
 public class FormController {
 
-    private GoogleFormServiceImpl googleFormService;
-    @PostMapping
-    public ResponseEntity<?> createForm() {
-        googleFormService.createForm();
-        return new ResponseEntity<>(HttpStatus.OK);
+    private final GoogleFormServiceImpl googleFormService;
+
+    @GetMapping
+    public String createForm() {
+        return googleFormService.createForm();
     }
 
 
