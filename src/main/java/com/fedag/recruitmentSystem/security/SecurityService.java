@@ -7,6 +7,7 @@ import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,10 @@ public class SecurityService {
     private JwtTokenProvider jwtTokenProvider;
     private final CompanyRepository companyRepository;
     private final MailSendlerService mailSendler;
+    @Value("${activation.url}")
+    private String activationURL;
+
+
 
     public SecurityService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider,
                            CompanyRepository companyRepository, MailSendlerService mailSendler) {
@@ -35,7 +40,8 @@ public class SecurityService {
             Company company = optionalCompany.get();
             token = jwtTokenProvider.createToken(email, company.getRole().name());
             if (company.getActivationCode() != null) {
-                sentMessage(company.getName(), company.getEmail(), company.getActivationCode());
+                sentMessage(company.getName(), company.getEmail(), company.getActivationCode(),
+                        "company");
                 throw new ActivationException("Email not confirm. " +
                         "A letter has been re-sent to your email address.");
             }
@@ -43,7 +49,8 @@ public class SecurityService {
             User user = userRepository.findByEmail(email).orElseThrow(
                     () -> new UsernameNotFoundException("User doesn't exists"));
             if (user.getActivationCode() != null) {
-                sentMessage(user.getFirstname(), user.getEmail(), user.getActivationCode());
+                sentMessage(user.getFirstname(), user.getEmail(), user.getActivationCode(),
+                        "user");
                 throw new ActivationException("Email not confirm. " +
                         "A letter has been re-sent to your email address");
             }
@@ -52,11 +59,11 @@ public class SecurityService {
         return token;
     }
 
-    public void sentMessage(String name, String email, String activationCode) {
+    public void sentMessage(String name, String email, String activationCode, String entity) {
         String message = String.format("Hello, %s \n" +
-                        "Welcome to FedAG. Please, visit next link: " +
-                        "http://localhost:8080/api/activate/%s",
-                name, activationCode);
+                        "Welcome to FedAG. Please, visit next link: "
+                        + activationURL + entity + activationCode,
+                name);
 
         mailSendler.send(email, "Activation code", message);
     }

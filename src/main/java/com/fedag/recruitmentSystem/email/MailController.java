@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.email;
 
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RestController
@@ -37,22 +35,15 @@ public class MailController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @GetMapping("/activate/user/{code}")
     public ResponseEntity<?> activateUser(@PathVariable String code) {
-
-        try {
-            boolean isActivatedUser = userService.activateUser(code);
-            if (isActivatedUser) {
-                return new ResponseEntity<>("Activation success. Go to login page.",
-                        HttpStatus.OK); // redirect на страницу ввода логина и пароля
-            }
-        }catch (ResponseStatusException e) {
-            log.error("Activation is failed");
+        boolean isActivatedUser = userService.activateUser(code);
+        if (isActivatedUser) {
+            return new ResponseEntity<>("Activation success. Go to login page.",
+                    HttpStatus.OK); // redirect на страницу ввода логина и пароля
         }
         return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -61,22 +52,15 @@ public class MailController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @GetMapping("/activate/company/{code}")
     public ResponseEntity<?> activateCompany(@PathVariable String code) {
-
-        try {
-            boolean isActivatedCompany = companyService.activateCompany(code);
-            if (isActivatedCompany) {
-                return new ResponseEntity<>("Activation success. Go to login page.",
-                        HttpStatus.OK); // redirect на страницу ввода логина и пароля
-            }
-        } catch (ResponseStatusException e) {
-            log.error("Activation is failed");
+        boolean isActivatedCompany = companyService.activateCompany(code);
+        if (isActivatedCompany) {
+            return new ResponseEntity<>("Activation success. Go to login page.",
+                    HttpStatus.OK); // redirect на страницу ввода логина и пароля
         }
         return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
