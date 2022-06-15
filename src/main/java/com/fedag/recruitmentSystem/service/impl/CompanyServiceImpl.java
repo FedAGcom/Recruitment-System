@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -67,20 +68,25 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         Company company = companyMapper.toEntity(element);
         Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
-        if (companyFromDB.isPresent()) {
+        if(companyFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Company with this email exists");
         }
         company.setPassword(encoder.encode(company.getPassword()));
         company.setActivationCode(UUID.randomUUID().toString());
         companyRepository.save(company);
 
-        String message = String.format("Hello, %s \n" +
-                        "Welcome to FedAG. Please, visit next link: " +
-                        activationURL + "company/%s",
+        String link = String.format("%suser/%s", activationURL, company.getActivationCode());
+        String button = String.format("<form action=\"%s\"><input type=\"submit\" value=\"activate\" /></form>", link);
+        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\" target=\"_blank\">activate</a> your account.</div>%s",
                 company.getName(),
-                company.getActivationCode());
+                link,
+                button);
 
-        mailSendler.send(company.getEmail(), "Activation code", message);
+        try {
+            mailSendler.sendHtmlEmail(company.getEmail(), "Activation code", message);
+        } catch(MessagingException e) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @Override
