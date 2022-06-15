@@ -77,3 +77,10 @@ CREATE TABLE user_project_link
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );
+
+--Изменения 11.06.22
+ALTER TABLE users
+    ADD activation_code varchar(60);
+
+ALTER TABLE users
+    ADD activation_code varchar(60);

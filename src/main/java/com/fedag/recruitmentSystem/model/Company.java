@@ -1,11 +1,13 @@
 package com.fedag.recruitmentSystem.model;
 
 
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -37,24 +39,38 @@ public class Company {
     @Column(name = "location")
     private String location;
 
-    @Column(name="role")
+
+    @Schema(description = "Роль")
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @NotBlank
+    @Schema(description = "Пароль")
     @Column(name = "password")
     private String password;
 
+    @Schema(description = "Идентификатор календаря")
     @Column(name = "calendar_id")
     private String calendarId;
 
+    @Schema(description = "Код активации")
+    @Column(name = "activation_code")
+    private String activationCode;
+
+    @Schema(description = "Статус")
+    @Column(name = "active_status")
+    @Enumerated(EnumType.STRING)
+    private ActiveStatus activeStatus;
+
     @OneToMany(
-        cascade = CascadeType.ALL,
-        mappedBy = "company")
+            cascade = CascadeType.ALL,
+            mappedBy = "company")
     private List<CompanyFeedBack> companyFeedBackList;
 
     @OneToMany(
-        cascade = CascadeType.ALL,
-        mappedBy = "company")
+            cascade = CascadeType.ALL,
+            mappedBy = "company")
     private List<Vacancy> vacancyList;
 
     @OneToMany(mappedBy = "company")

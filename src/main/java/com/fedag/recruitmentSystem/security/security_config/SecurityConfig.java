@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.security.security_config;
 import com.fedag.recruitmentSystem.security.jwt.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -32,8 +33,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
+                .antMatchers("/api/activate/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/users", "/api/companies").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

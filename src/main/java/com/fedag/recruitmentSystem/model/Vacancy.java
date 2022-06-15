@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,7 +46,7 @@ public class Vacancy {
     @Schema(description = "Статус")
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private ResumeStatus status;
+    private ActiveStatus status;
 
     @NotBlank
     @Schema(description = "Дата размещения")

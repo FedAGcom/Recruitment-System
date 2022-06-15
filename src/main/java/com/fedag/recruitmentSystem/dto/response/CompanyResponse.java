@@ -14,4 +14,6 @@ public class CompanyResponse {
   private String email;
   private String location;
   private String calendarId;
+  private String activationCode;
+  private ActiveStatus activeStatus;
 }
