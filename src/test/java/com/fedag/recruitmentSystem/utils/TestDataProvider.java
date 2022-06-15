@@ -5,8 +5,9 @@ import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponse;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
+
 import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.model.Skill;
@@ -21,7 +22,7 @@ public class TestDataProvider {
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
-        return new Resume(resumeId, "Ivan CV", ResumeStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
+        return new Resume(resumeId, "Ivan CV", ActiveStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
     }
 
     public static ResumeResponse getTestResumeResponse(Resume resume) {
