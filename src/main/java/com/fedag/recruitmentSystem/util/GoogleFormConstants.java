@@ -30,6 +30,6 @@ public interface GoogleFormConstants {
      * Global instance of the scopes required by start of calendar.
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
-    List<String> SCOPES = singletonList("https://www.googleapis.com/auth/forms");
+    List<String> SCOPES = singletonList(FormsScopes.FORMS_BODY);
     String CREDENTIALS_FILE_PATH = "/cred.json";
 }

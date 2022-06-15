@@ -1,12 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "fedag-228",
-  "private_key_id": "a99cfae72c8e132006578e59d6d465adc11b87d3",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDeOs2FG0GLCTjH\ng/mvmjprq2JHJPebfBuqO6v11aVyrvEKpq06IxTytwA0KlvbUKbvIIl+KJtiEIHA\n15Rr2H4asQPNPkkElnJj5ppCmgyB8mExHjEGkSodFbMl3PKdtzcCaZ7z54AAgcn6\nUReDRe9h8DKozR1+45E6WIsb94SeeBKbbdMn/WOge7UpIe+QcaSkXFRp1ir19jSH\nW0srkAY4XC2G+3nhAu5Kte1/zQ3HC5nilY+e7PC4K5q0EY7iUPYFlDnwty0Ir6it\noF2JnvLqmaXkYcn5gDw7Uy0l0HpAGHVkvmw6o1oAoCG/p2szhBMDDkwjCY9B3jzV\nKEsjGUPJAgMBAAECggEAGWOvel8gUGG31neaDbl5pjZ47nbnQSDfSkYyAc6sbdtV\n16kuTl+Ws5o70Dnsr7RZtiVKABtkkUIgiOc4Yk/kLGl/7TGKBxenLwm4IxbVif0m\npIV2BXGNVbBWfONu5pz5kHF/ww72XVh2un4MSSeyz0Yxi36PuaEHRRq7nfDb+ny3\n5Uo6vCdlbIBSoWSGe1gNtYoXc/7Tyz6vkrLa8akziyPGABnjPhQggVJcYZkSL548\nVDzC59F1yoG+gmP9pU4n1giCVGG8kkN+aF6VRAwtHoDoSoIdHYHcTVq9F2OIuDet\nMp2SSI81tbDg+u2wkgiQ+vtrWgxohSmh51PzVeeaHwKBgQDybknohakMqNKHCm8r\nIQP1aAuqaMDHZuG60Cpub0vNH64UmrhNMm3QW4RKf5pvYXz75t4V4DakC5qlyrIt\nYHtLWxA9AzNPFQVCkdVjPYSbu+B5iLDcLLLec3Mb+oLkryUsxRxtitvZRAVZHSyc\nmYssJK5QbhCA4Qc7uHAKOwf7KwKBgQDqqw8YAjYyw209cmhxHjDozxV2u53IAfFr\nZM/O40XOTvJEn1aIF0cXfcFHyExWVYqnIU5NH7byBQPwK/DthgM8zl6SRls7wMEG\n6Qmk2ejCRwyAiaELFHLnv5mNJ+5X6ZefUfo1l4EhR+A36eXBH3JUCWPItpIodoul\niOcj1SUy2wKBgCzSkV2pYMETcaFAH5+0wfucmhOOvJ3herjEhiPW9gfd5JywooS7\nXyxXz1TK1O3k82vLmqImy1N3RceDe4ACR6l+E7mEHvdvJoLRXce0dxEoIm+2AyUi\nKowQgmbY4VyQuWnWo9PpCY7ZEbgROc9WYDHwMj5yqyB4+pJjHmv10BrzAoGBAN2L\ngUR5UhG6zncke9XPWv1wBCOEHQGmU/W/xzDbABw2DCMdCuSQlV1oLAFI6EjZmX0P\nxIyrVFxIv98OnPahfoz5h+8w3REceR+9Ao3P7B7+VJ9FT/TV6WVBTgYlnK8CqVKQ\nYlgWIKL66IPhHjelKJqOAtaLBpGM2Wn+RblekS/hAoGAP1/jJa3MykF52mBT1FSP\n9oG2XBEkgYAbuLzDOsq6y80jpgL8fr9lQgUm7qQrTvvJabyOaZhOH7/8uyVc07gt\nQRTUejIWpC6iaEsHm6yID8FM4KhLRHnqXNC26l21Vqswatiuk6ooVCwOc3x3YNTK\nCDX9rwSxogRrSooq+u5YqyE=\n-----END PRIVATE KEY-----\n",
-  "client_email": "fedag-228@fedag-228.iam.gserviceaccount.com",
-  "client_id": "103441013250381062640",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fedag-228%40fedag-228.iam.gserviceaccount.com"
-}
+{"web":{"client_id":"885907892267-fg6c0666r45710gm2qggv4t2h7jqufdo.apps.googleusercontent.com","project_id":"fedag-228","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost:8000/api/callback"]}}
