@@ -9,7 +9,9 @@ import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,8 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
     private final MailSendlerService mailSendler;
+
+    private final UserRepository userRepository;
     @Value("${activation.url}")
     private String activationURL;
 
@@ -69,6 +73,10 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
         if (companyFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Company with this email exists");
+        }
+        if(userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList()).contains(company.getEmail())){
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists. Please, " +
+                    "create new email for new role");
         }
         company.setPassword(encoder.encode(company.getPassword()));
         company.setActivationCode(UUID.randomUUID().toString());
