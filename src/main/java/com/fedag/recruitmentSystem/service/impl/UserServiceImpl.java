@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     private String portURL;
     @Value("${activation.url}")
     private String activationURL;
-    @Value("${changepass.url}")
+    @Value("${change.user.pass.url}")
     private String changePassURL;
     private final PasswordEncoder encoder;
 
