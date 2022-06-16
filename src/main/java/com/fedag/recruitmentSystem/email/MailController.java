@@ -80,4 +80,11 @@ public class MailController {
         }
         return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @GetMapping("/activate/password/{id}/{password}")
+    public ResponseEntity<?> confirmPasswordChange(@PathVariable Long id, @PathVariable String password) {
+        userService.confirmPasswordChange(id, password);
+        return new ResponseEntity<>("Password has been changed successfully.",
+                HttpStatus.OK);
+    }
 }
