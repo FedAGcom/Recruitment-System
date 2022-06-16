@@ -84,7 +84,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         company.setActivationCode(UUID.randomUUID().toString());
         companyRepository.save(company);
 
-        String link = String.format("%suser/%s", activationURL, company.getActivationCode());
+        String link = String.format("%s:%s%scompany/%s", hostURL, portURL, activationURL, company.getActivationCode());
         String button = String.format("<form action=\"%s\"><input type=\"submit\" value=\"activate\" /></form>", link);
         String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\" target=\"_blank\">activate</a> your account.</div>%s",
                 company.getName(),
