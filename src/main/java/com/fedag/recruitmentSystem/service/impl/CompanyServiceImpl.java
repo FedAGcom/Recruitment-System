@@ -10,10 +10,8 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -68,7 +66,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         Company company = companyMapper.toEntity(element);
         Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
         if (companyFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Company with this email exists");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exists");
         }
         company.setPassword(encoder.encode(company.getPassword()));
         company.setActivationCode(UUID.randomUUID().toString());
@@ -102,14 +100,13 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     }
 
     @Override
-    public boolean activateCompany(String code) {
+    public void activateCompany(String code) {
         Optional<Company> companyOptional = companyRepository.findByActivationCode(code);
         if (!companyOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         Company company = companyOptional.get();
         company.setActivationCode(null);
         companyRepository.save(company);
-        return true;
     }
 }

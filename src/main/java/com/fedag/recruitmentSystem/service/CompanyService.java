@@ -11,5 +11,5 @@ public interface CompanyService<T, S, U> extends AbstractServiceInterface<T, S, 
 
     Page<T> getAllCompanies(Pageable pageable);
 
-    boolean activateCompany(String code);
+    void activateCompany(String code);
 }

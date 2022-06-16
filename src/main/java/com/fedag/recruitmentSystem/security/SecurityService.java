@@ -24,7 +24,6 @@ public class SecurityService {
     private String activationURL;
 
 
-
     public SecurityService(UserRepository userRepository, JwtTokenProvider jwtTokenProvider,
                            CompanyRepository companyRepository, MailSendlerService mailSendler) {
         this.userRepository = userRepository;
@@ -62,7 +61,7 @@ public class SecurityService {
     public void sentMessage(String name, String email, String activationCode, String entity) {
         String message = String.format("Hello, %s \n" +
                         "Welcome to FedAG. Please, visit next link: "
-                        + activationURL + entity + activationCode,
+                        + activationURL + entity + "/" + activationCode,
                 name);
 
         mailSendler.send(email, "Activation code", message);

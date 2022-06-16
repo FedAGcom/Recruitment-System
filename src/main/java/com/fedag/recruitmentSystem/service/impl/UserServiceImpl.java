@@ -10,7 +10,6 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -108,14 +107,13 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public boolean activateUser(String code) {
+    public void activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
         if (!userOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         User user = userOptional.get();
         user.setActivationCode(null);
         userRepository.save(user);
-        return true;
     }
 }

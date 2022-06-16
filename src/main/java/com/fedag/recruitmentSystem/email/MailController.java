@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @RestController
@@ -35,33 +36,39 @@ public class MailController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @GetMapping("/activate/user/{code}")
     public ResponseEntity<?> activateUser(@PathVariable String code) {
-        boolean isActivatedUser = userService.activateUser(code);
-        if (isActivatedUser) {
+        try {
+            userService.activateUser(code);
             return new ResponseEntity<>("Activation success. Go to login page.",
                     HttpStatus.OK); // redirect на страницу ввода логина и пароля
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @Operation(summary = "Активация учетной записи компании")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @GetMapping("/activate/company/{code}")
     public ResponseEntity<?> activateCompany(@PathVariable String code) {
-        boolean isActivatedCompany = companyService.activateCompany(code);
-        if (isActivatedCompany) {
+        try {
+            companyService.activateCompany(code);
             return new ResponseEntity<>("Activation success. Go to login page.",
                     HttpStatus.OK); // redirect на страницу ввода логина и пароля
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

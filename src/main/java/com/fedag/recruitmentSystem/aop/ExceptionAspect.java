@@ -3,9 +3,7 @@ package com.fedag.recruitmentSystem.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -17,32 +15,23 @@ import org.springframework.stereotype.Component;
 public class ExceptionAspect {
 
     @Pointcut("execution(* com.fedag.recruitmentSystem.service..* (..))")
-    private void AllExceptionEntityService() {
+    private void allExceptionEntityService() {
     }
 
     @Pointcut("execution(* com.fedag.recruitmentSystem.security.SecurityService..* (..))")
-    private void AllExceptionSecurityService() {
+    private void allExceptionSecurityService() {
     }
 
     @Pointcut("execution(* com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider.validateToken (String))")
-    private void AllJWTException() {
+    private void allJWTException() {
     }
 
-    @Around("execution(* com.fedag.recruitmentSystem.service..* (..))")
-    public void LoggingAllExceptionEntityServiceAdvice(ProceedingJoinPoint joinPoint)
-            throws Throwable {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-        try {
-            joinPoint.proceed();
-        } catch (Throwable exception) {
-            log.error("Было выброшено исключение " + exception.getClass().getSimpleName()
-                    + "(" + exception.getMessage() + ")"
-                    + " из метода " + methodSignature.getName()
-                    + " из пакета " + methodSignature.getDeclaringTypeName());
-        }
+    @Pointcut("execution(* com.fedag.recruitmentSystem.email.MailSendlerService..* (..))")
+    private void allEmailServiceMethods() {
     }
 
-    @AfterThrowing(pointcut = "AllExceptionSecurityService() || AllJWTException()",
+    @AfterThrowing(pointcut = "allExceptionSecurityService() || allJWTException() " +
+            "|| allExceptionEntityService() || allEmailServiceMethods()",
             throwing = "exception")
     public void LoggingAllExceptionSecurityServiceAdvice(JoinPoint joinPoint, Throwable exception) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
@@ -52,13 +41,4 @@ public class ExceptionAspect {
                 + " из пакета " + methodSignature.getDeclaringTypeName());
     }
 
-//    @AfterThrowing(pointcut = "execution(* com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider.validateToken (String))",
-//            throwing = "exception")
-//    public void LoggingAllJWTExceptionAdvice(JoinPoint joinPoint, Throwable exception){
-//        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
-//        log.error("Было выброшено исключение " + exception.getClass().getSimpleName()
-//                + "(" + exception.getMessage() + ")"
-//                + " из метода " + methodSignature.getName()
-//                + " из пакета " + methodSignature.getDeclaringTypeName());
-//    }
 }

@@ -15,10 +15,19 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
 
     @Pointcut("execution(* com.fedag.recruitmentSystem.service.impl..* (..))")
-    private void allServiceMethods() {
+    private void allEntityServiceMethods() {
     }
 
-    @Before("allServiceMethods()")
+    @Pointcut("execution(* com.fedag.recruitmentSystem.security.SecurityService..* (..))")
+    private void allSecurityServiceMethods() {
+    }
+
+    @Pointcut("execution(* com.fedag.recruitmentSystem.email.MailSendlerService..* (..))")
+    private void allEmailServiceMethods() {
+    }
+
+    @Before("allEntityServiceMethods() || allSecurityServiceMethods() " +
+            "|| allEmailServiceMethods()")
     public void beforeLoggingAdvice(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         log.info("Начинается выполнение метода " +
@@ -26,7 +35,8 @@ public class LoggingAspect {
                 + methodSignature.getDeclaringTypeName());
     }
 
-    @After("allServiceMethods()")
+    @After("allEntityServiceMethods() || allSecurityServiceMethods() " +
+            "|| allEmailServiceMethods()")
     public void afterLoggingAdvice(JoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         log.info("Метод " + methodSignature.getName() +

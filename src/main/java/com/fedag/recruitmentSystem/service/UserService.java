@@ -11,5 +11,5 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
 
     Page<T> getAllUsers(Pageable pageable);
 
-    boolean activateUser(String code);
+    void activateUser(String code);
 }
