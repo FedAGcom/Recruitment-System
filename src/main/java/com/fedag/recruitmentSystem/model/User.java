@@ -73,6 +73,9 @@ public class User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Exam exam;
 
+    @Column(name = "calendar_id")
+    private String calendarId;
+
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "user")
