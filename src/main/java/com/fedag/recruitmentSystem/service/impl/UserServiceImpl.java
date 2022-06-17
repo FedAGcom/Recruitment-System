@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.service.impl;
 
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
@@ -19,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +32,15 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final MailSendlerService mailSendler;
+    @Value("${host.url}")
+    private String hostURL;
+    @Value("${server.port}")
+    private String portURL;
     @Value("${activation.url}")
     private String activationURL;
+    @Value("${change.user.pass.url}")
+    private String changePassURL;
+    private final PasswordEncoder encoder;
 
     @Override
     public List<UserResponse> getAllUsers() {
@@ -69,7 +76,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void save(UserRequest element) throws EntityIsExistsException {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
@@ -81,9 +87,9 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        String link = String.format("%suser/%s", activationURL, user.getActivationCode());
+        String link = String.format("%s:%s%suser/%s", hostURL, portURL, activationURL, user.getActivationCode());
         String button = String.format("<form action=\"%s\"><input type=\"submit\" value=\"activate\" /></form>", link);
-        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\" target=\"_blank\">activate</a> your account.</div>%s",
+        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\">activate</a> your account.</div>%s",
                 user.getFirstname(),
                 link,
                 button);
@@ -93,6 +99,34 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         } catch(MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
+    }
+
+    @Override
+    public void changePassword(UserChangePasswordRequest userRequest) throws EntityIsExistsException {
+        User user = userRepository.findById(userRequest.getId()).orElseThrow(
+                () -> new ObjectNotFoundException("User with id: " + userRequest.getId() + " not found")
+        );
+        if(user.getPassword().equals(userRequest.getPassword())) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Password is the same");
+        }
+
+        String link = String.format("%s:%s%s%s/%s", hostURL, portURL, changePassURL, userRequest.getId(), userRequest.getPassword());
+        String message = String.format("<div>Request to change password</div><div>Please <a href=\"%s\">confirm</a></div>", link);
+
+        try {
+            mailSendler.sendHtmlEmail(user.getEmail(), "Password change", message);
+        } catch(MessagingException e) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
+    }
+
+    @Override
+    public void confirmPasswordChange(Long id, String password) {
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("User with id: " + id + " not found")
+        );
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
     }
 
     @Override

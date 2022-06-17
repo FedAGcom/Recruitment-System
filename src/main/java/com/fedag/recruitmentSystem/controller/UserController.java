@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
@@ -91,6 +92,19 @@ public class UserController {
         return new ResponseEntity<>("User has been added successfully." +
                 " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
+    }
+
+    @PostMapping("/pass/change")
+    public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
+        try {
+            userService.changePassword(user);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Request to user password change has been added successfully." +
+                " Please check user email to confirm the change.",
+                HttpStatus.OK);
     }
 
     @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))

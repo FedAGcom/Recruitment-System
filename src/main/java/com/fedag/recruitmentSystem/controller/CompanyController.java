@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
@@ -90,6 +92,19 @@ public class CompanyController {
         return new ResponseEntity<>("Company has been added successfully." +
                 " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
+    }
+
+    @PostMapping("/pass/change")
+    public ResponseEntity<?> changeCompanyPassword(@Valid @RequestBody CompanyChangePasswordRequest company) {
+        try {
+            companyService.changePassword(company);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Request to company password change has been added successfully." +
+                " Please check company email to confirm the change.",
+                HttpStatus.OK);
     }
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))

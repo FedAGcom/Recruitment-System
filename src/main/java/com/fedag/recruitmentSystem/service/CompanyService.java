@@ -1,5 +1,7 @@
 package com.fedag.recruitmentSystem.service;
 
+import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -12,4 +14,8 @@ public interface CompanyService<T, S, U> extends AbstractServiceInterface<T, S, 
     Page<T> getAllCompanies(Pageable pageable);
 
     boolean activateCompany(String code);
+
+    void changePassword(CompanyChangePasswordRequest company);
+
+    void confirmPasswordChange(Long id, String password);
 }
