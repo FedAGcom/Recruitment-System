@@ -50,6 +50,10 @@ public class Company {
     @Column(name = "password")
     private String password;
 
+    @Schema(description = "Идентификатор календаря")
+    @Column(name = "calendar_id")
+    private String calendarId;
+
     @Schema(description = "Код активации")
     @Column(name = "activation_code")
     private String activationCode;

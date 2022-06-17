@@ -8,21 +8,23 @@ import java.util.List;
 
 public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> {
 
-    List<T> getAllUsers();
+  List<T> getAllUsers();
 
-    Page<T> getAllUsers(Pageable pageable);
+  Page<T> getAllUsers(Pageable pageable);
 
-    boolean activateUser(String code);
+  T findByEmail(String email);
 
-    List<UserResponse> getByEntranceExamScore(int score);
+  List<UserResponse> getByEntranceExamScore(int score);
 
-    List<UserResponse> getByStars(byte stars);
+  List<UserResponse> getByStars(byte stars);
 
-    List<UserResponse> getByExperience(int max);
+  List<UserResponse> getByExperience(int max);
 
-    void changePassword(UserChangePasswordRequest user);
+  void changePassword(UserChangePasswordRequest user);
 
-    void confirmPasswordChange(Long id, String password);
+  void confirmPasswordChange(Long id, String password);
 
-    void disableById(Long id);
+  void disableById(Long id);
+  
+  boolean activateUser(String code);
 }

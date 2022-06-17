@@ -79,6 +79,16 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
+    public UserResponse findByEmail(String email) {
+        User user = userRepository
+            .findByEmail(email)
+            .orElseThrow(
+                () -> new ObjectNotFoundException("User with email: " + email + " not found")
+            );
+        return userMapper.modelToDto(user);
+    }
+
+    @Override
     public void save(UserRequest element) throws EntityIsExistsException {
         User user = userMapper.dtoToModel(element);
 
