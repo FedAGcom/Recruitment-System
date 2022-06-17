@@ -10,18 +10,19 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 @Configuration
 public class ElasticsearchConfig {
-    @Bean
-    public RestHighLevelClient client() {
-        ClientConfiguration clientConfiguration
-                = ClientConfiguration.builder()
-                .connectedTo("localhost:9200")
-                .build();
 
-        return RestClients.create(clientConfiguration).rest();
-    }
+  @Bean
+  public RestHighLevelClient client() {
+    ClientConfiguration clientConfiguration
+        = ClientConfiguration.builder()
+        .connectedTo("localhost:9200")
+        .build();
 
-    @Bean
-    public ElasticsearchOperations elasticsearchTemplate() {
-        return new ElasticsearchRestTemplate(client());
-    }
+    return RestClients.create(clientConfiguration).rest();
+  }
+
+  @Bean
+  public ElasticsearchOperations elasticsearchTemplate() {
+    return new ElasticsearchRestTemplate(client());
+  }
 }

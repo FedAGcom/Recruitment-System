@@ -5,7 +5,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class EntityIsExistsException extends ResponseStatusException {
 
-    public EntityIsExistsException(HttpStatus status, String reason) {
-        super(status, reason);
-    }
+  public EntityIsExistsException(HttpStatus status, String reason) {
+    super(status, reason);
+  }
 }

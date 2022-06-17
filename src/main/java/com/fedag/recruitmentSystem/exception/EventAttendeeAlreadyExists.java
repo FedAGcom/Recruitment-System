@@ -4,7 +4,7 @@ package com.fedag.recruitmentSystem.exception;
  * @author koilng
  * @created 15/06/2022 - 17:24
  */
-public class EventAttendeeAlreadyExists extends RuntimeException{
+public class EventAttendeeAlreadyExists extends RuntimeException {
 
   public EventAttendeeAlreadyExists() {
   }

@@ -1,10 +1,19 @@
 package com.fedag.recruitmentSystem.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "experience")
@@ -12,27 +21,28 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Experience {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
 
-    @NotBlank
-    @Schema(description = "Описание")
-    @Column(name = "description")
-    private String description;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
 
-    @NotBlank
-    @Schema(description = "Дата начала работы")
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
+  @NotBlank
+  @Schema(description = "Описание")
+  @Column(name = "description")
+  private String description;
 
-    @NotBlank
-    @Schema(description = "Дата окончания работы")
-    @Column(name = "end_date")
-    private LocalDateTime endDate;
+  @NotBlank
+  @Schema(description = "Дата начала работы")
+  @Column(name = "start_date")
+  private LocalDateTime startDate;
 
-    @ManyToOne
-    @JoinColumn(name = "resume_id")
-    private Resume resume;
+  @NotBlank
+  @Schema(description = "Дата окончания работы")
+  @Column(name = "end_date")
+  private LocalDateTime endDate;
+
+  @ManyToOne
+  @JoinColumn(name = "resume_id")
+  private Resume resume;
 }

@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacancyResponseRequest {
-    private Long id;
-    private String message;
-    private String status;
-    private Long vacancyId;
-    private Long userId;
+
+  private Long id;
+  private String message;
+  private String status;
+  private Long vacancyId;
+  private Long userId;
 }

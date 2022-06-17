@@ -2,41 +2,40 @@ package com.fedag.recruitmentSystem.dto.request;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyRequest {
-  
-    @Null
-    private Long id;
 
-    @NotNull
-    private String companyName;
+  @Null
+  private Long id;
 
-    @Email
-    @NotNull
-    private String email;
+  @NotNull
+  private String companyName;
 
-    @NotNull
-    private String location;
+  @Email
+  @NotNull
+  private String email;
 
-    @NotNull
-    private Role role;
+  @NotNull
+  private String location;
 
-    @NotNull
-    private String password;
-  
-    @NotNull
-    private String calendarId;
+  @NotNull
+  private Role role;
 
-    @NotNull
-    private ActiveStatus activeStatus;
+  @NotNull
+  private String password;
+
+  @NotNull
+  private String calendarId;
+
+  @NotNull
+  private ActiveStatus activeStatus;
 }

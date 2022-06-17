@@ -7,14 +7,14 @@ import org.springframework.security.core.AuthenticationException;
 @Getter
 public class ActivationException extends AuthenticationException {
 
-    private HttpStatus httpStatus;
+  private HttpStatus httpStatus;
 
-    public ActivationException(String msg, HttpStatus httpStatus) {
-        super(msg);
-        this.httpStatus = httpStatus;
-    }
+  public ActivationException(String msg, HttpStatus httpStatus) {
+    super(msg);
+    this.httpStatus = httpStatus;
+  }
 
-    public ActivationException(String msg) {
-        super(msg);
-    }
+  public ActivationException(String msg) {
+    super(msg);
+  }
 }

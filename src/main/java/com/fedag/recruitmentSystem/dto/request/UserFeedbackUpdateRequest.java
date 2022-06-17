@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserFeedbackUpdateRequest {
 
-    private Long id;
-    private byte stars;
-    private String comment;
-    private Long entityFromId;
-    private FeedbackSentFromEntity entityType;
-    private Long userId;
+  private Long id;
+  private byte stars;
+  private String comment;
+  private Long entityFromId;
+  private FeedbackSentFromEntity entityType;
+  private Long userId;
 }

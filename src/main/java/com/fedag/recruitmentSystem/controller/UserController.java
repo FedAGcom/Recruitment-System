@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +22,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,133 +39,133 @@ import java.util.List;
 @Tag(name = "Контроллер пользователей", description = "Работа с пользователями")
 public class UserController {
 
-    @Schema(name = "Сервис пользователей", description = "Содержит имплементацию методов для работы с репозиторием")
-    private final UserServiceImpl userService;
+  @Schema(name = "Сервис пользователей", description = "Содержит имплементацию методов для работы с репозиторием")
+  private final UserServiceImpl userService;
 
-    @Operation(summary = "Получение списка пользователей", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список загружен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping
-    public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
-        return userService.getAllUsers(pageable);
-    }
+  @Operation(summary = "Получение списка пользователей", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список загружен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping
+  public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
+    return userService.getAllUsers(pageable);
+  }
 
-    @Operation(summary = "Сортировка списка пользователей по вступительным экзаменам",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список отсортирован",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/filter")
-    public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
-        return userService.getByEntranceExamScore(score);
-    }
+  @Operation(summary = "Сортировка списка пользователей по вступительным экзаменам",
+      security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список отсортирован",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/filter")
+  public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
+    return userService.getByEntranceExamScore(score);
+  }
 
-    @Operation(summary = "Получение пользователя по id", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь получен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable Long id) {
-        return userService.findById(id);
-    }
+  @Operation(summary = "Получение пользователя по id", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Пользователь получен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/{id}")
+  public UserResponse getUser(@PathVariable Long id) {
+    return userService.findById(id);
+  }
 
-    @Operation(summary = "Добавление пользователя")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Пользователь добавлен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PostMapping
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
-        try {
-            userService.save(user);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(),
-                    HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("User has been added successfully." +
-                " Please check your email to confirm the registration.",
-                HttpStatus.OK); //redirect /api/success-registration
+  @Operation(summary = "Добавление пользователя")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Пользователь добавлен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PostMapping
+  public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
+    try {
+      userService.save(user);
+    } catch (ResponseStatusException e) {
+      return new ResponseEntity<>(e.getReason(),
+          HttpStatus.BAD_REQUEST);
     }
+    return new ResponseEntity<>("User has been added successfully." +
+        " Please check your email to confirm the registration.",
+        HttpStatus.OK); //redirect /api/success-registration
+  }
 
-    @PostMapping("/pass/change")
-    public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
-        try {
-            userService.changePassword(user);
-        } catch (ResponseStatusException e) {
-            return new ResponseEntity<>(e.getReason(),
-                    HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity<>("Request to user password change has been added successfully." +
-                " Please check user email to confirm the change.",
-                HttpStatus.OK);
+  @PostMapping("/pass/change")
+  public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
+    try {
+      userService.changePassword(user);
+    } catch (ResponseStatusException e) {
+      return new ResponseEntity<>(e.getReason(),
+          HttpStatus.BAD_REQUEST);
     }
+    return new ResponseEntity<>("Request to user password change has been added successfully." +
+        " Please check user email to confirm the change.",
+        HttpStatus.OK);
+  }
 
-    @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь изменен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
-        user.setId(id);
-        userService.update(user);
-    }
+  @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Пользователь изменен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PutMapping("/{id}")
+  public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
+    user.setId(id);
+    userService.update(user);
+  }
 
-    @Operation(summary = "Удаление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь удален",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
-    }
+  @Operation(summary = "Удаление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Пользователь удален",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @DeleteMapping("/{id}")
+  public void deleteUser(@PathVariable Long id) {
+    userService.deleteById(id);
+  }
 
-    @Operation(summary = "Сортировка списка пользователей по рейтингу",
-            security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список отсортирован",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/filter/stars")
-    public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
-        return userService.getByStars(stars);
-    }
+  @Operation(summary = "Сортировка списка пользователей по рейтингу",
+      security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список отсортирован",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/filter/stars")
+  public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
+    return userService.getByStars(stars);
+  }
 
-    @Operation(summary = "Сортировка списка пользователей по опыту работы")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список отсортирован",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/filter/exp={max}")
-    public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
-        return userService.getByExperience(max);
-    }
+  @Operation(summary = "Сортировка списка пользователей по опыту работы")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список отсортирован",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/filter/exp={max}")
+  public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
+    return userService.getByExperience(max);
+  }
 }

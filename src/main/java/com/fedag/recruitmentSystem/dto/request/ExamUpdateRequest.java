@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ExamUpdateRequest {
 
-    private Long id;
-    private int score;
-    private Long userId;
+  private Long id;
+  private int score;
+  private Long userId;
 }

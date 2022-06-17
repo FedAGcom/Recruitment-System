@@ -4,12 +4,11 @@ import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
 import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.exception.EventAttendeeAlreadyExists;
-import com.fedag.recruitmentSystem.mapper.VacancyMapper;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.mapper.VacancyMapper;
 import com.fedag.recruitmentSystem.model.CustomCalendarEvent;
 import com.fedag.recruitmentSystem.repository.VacancyRepository;
 import com.fedag.recruitmentSystem.service.VacancyService;
-
 import com.fedag.recruitmentSystem.service.utils.GoogleApi;
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.Calendar;
@@ -60,7 +59,6 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponse, Vacan
             () -> new ObjectNotFoundException("Vacancy with id: " + id + " not found")
         ));
   }
-
 
   public List<VacancyResponse> findByDateCreated() {
     return vacancyMapper.toDto(vacancyRepository.findByDateCreated());

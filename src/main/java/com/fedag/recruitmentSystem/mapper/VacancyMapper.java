@@ -5,14 +5,13 @@ import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -42,9 +41,9 @@ public class VacancyMapper {
 
   public List<VacancyResponse> toDto(List<Vacancy> user) {
     return user
-            .stream()
-            .map(this::toDto)
-            .collect(Collectors.toList());
+        .stream()
+        .map(this::toDto)
+        .collect(Collectors.toList());
   }
 
   public Vacancy toEntity(VacancyRequest vacancyRequest) {

@@ -1,19 +1,20 @@
 package com.fedag.recruitmentSystem.dto.response;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ExperienceShortResponse {
-    private Long id;
 
-    private String description;
+  private Long id;
 
-    private LocalDateTime StartDate;
+  private String description;
 
-    private LocalDateTime EndDate;
+  private LocalDateTime StartDate;
+
+  private LocalDateTime EndDate;
 }

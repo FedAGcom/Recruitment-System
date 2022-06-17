@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionUpdateRequest {
-    private String id;
-    private String title;
-    private String question;
-    private String answer;
-    private String correct;
+
+  private String id;
+  private String title;
+  private String question;
+  private String answer;
+  private String correct;
 }
