@@ -38,5 +38,8 @@ public class UserRequest {
     private String password;
 
     @NotNull
+    private String calendarId;
+
+    @NotNull
     private ActiveStatus activeStatus;
 }

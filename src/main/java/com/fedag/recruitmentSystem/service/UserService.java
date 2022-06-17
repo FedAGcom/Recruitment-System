@@ -7,13 +7,15 @@ import java.util.List;
 
 public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> {
 
-    List<T> getAllUsers();
+  List<T> getAllUsers();
 
-    Page<T> getAllUsers(Pageable pageable);
+  Page<T> getAllUsers(Pageable pageable);
 
-    boolean activateUser(String code);
+  T findByEmail(String email);
 
-    void changePassword(UserChangePasswordRequest user);
+  boolean activateUser(String code);
 
-    void confirmPasswordChange(Long id, String password);
+  void changePassword(UserChangePasswordRequest user);
+
+  void confirmPasswordChange(Long id, String password);
 }

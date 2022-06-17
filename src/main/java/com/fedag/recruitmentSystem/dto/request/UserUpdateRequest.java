@@ -32,6 +32,9 @@ public class UserUpdateRequest {
 
     @NotNull
     private LocalDateTime birthday;
+  
+    @NotNull
+    private String calendarId;
 
     @NotNull
     private Role role;
