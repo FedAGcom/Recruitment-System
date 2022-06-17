@@ -1,22 +1,17 @@
 package com.fedag.recruitmentSystem.service;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.fedag.recruitmentSystem.model.Question;
 
-import java.io.IOException;
 import java.util.List;
 
-public interface QuestionService<T, S, U> {
+public interface QuestionService {
 
-    T findById(String id);
+    void addQuestion(String id, String title, String question, String answer, String correct);
 
-    void save(S element);
+    void updateQuestion(String id, String title, String question, String answer, String correct);
 
-    void update(U element) throws IOException;
+    List<Question> searchQuestionsByTitle(String title);
 
-    void deleteById(String id);
+    void deleteQuestionById(String id);
 
-    List<T> getAllQuestions();
-
-    Page<T> getAllQuestions(Pageable pageable);
 }
