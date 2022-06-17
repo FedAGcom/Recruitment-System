@@ -22,6 +22,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/companies")
@@ -78,18 +80,17 @@ public class CompanyController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PostMapping
-    public ResponseEntity<?> addCompany(@RequestBody CompanyRequest companyRequest) {
+    public ResponseEntity<?> addCompany(@Valid @RequestBody CompanyRequest companyRequest) {
         try {
             companyService.save(companyRequest);
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(e.getReason(),
                     HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Company is added successfully." +
-                " To your email was spend letter for confirm the registration.",
+        return new ResponseEntity<>("Company has been added successfully." +
+                " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
     }
-
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -100,7 +101,8 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+    public void updateCompany(@PathVariable Long id,  @Valid @RequestBody CompanyRequest companyRequest) {
+        companyRequest.setId(id);
         companyService.save(companyRequest);
     }
 }

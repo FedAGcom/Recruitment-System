@@ -1,10 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
-
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
-import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,7 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -47,7 +45,6 @@ public class UserController {
     public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
         return userService.getAllUsers(pageable);
     }
-
 
     @Operation(summary = "Сортировка списка пользователей по вступительным экзаменам",
             security = @SecurityRequirement(name = "bearerAuth"))
@@ -84,18 +81,17 @@ public class UserController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PostMapping
-    public ResponseEntity<?> addNewUser(@RequestBody UserRequest user) {
+    public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
         try {
             userService.save(user);
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(e.getReason(),
                     HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("User is added successfully." +
-                " To your email was spend letter for confirm the registration.",
+        return new ResponseEntity<>("User has been added successfully." +
+                " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
     }
-
 
     @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -106,7 +102,7 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @RequestBody UserUpdateRequest user) {
+    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
         user.setId(id);
         userService.update(user);
     }
@@ -137,7 +133,6 @@ public class UserController {
     public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
         return userService.getByStars(stars);
     }
-
 
     @Operation(summary = "Сортировка списка пользователей по опыту работы")
     @ApiResponses(value = {

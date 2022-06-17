@@ -10,7 +10,6 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,22 +71,28 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public void save(UserRequest element) throws EntityIsExistsException {
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
+
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
-        if (userFromDB.isPresent()) {
+        if(userFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
         }
+
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        String message = String.format("Hello, %s \n" +
-                        "Welcome to FedAG. Please, visit next link: " +
-                        activationURL + "user/%s",
+        String link = String.format("%suser/%s", activationURL, user.getActivationCode());
+        String button = String.format("<form action=\"%s\"><input type=\"submit\" value=\"activate\" /></form>", link);
+        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\" target=\"_blank\">activate</a> your account.</div>%s",
                 user.getFirstname(),
-                user.getActivationCode());
+                link,
+                button);
 
-        mailSendler.send(user.getEmail(), "Activation code", message);
-
+        try {
+            mailSendler.sendHtmlEmail(user.getEmail(), "Activation code", message);
+        } catch(MessagingException e) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @Override
