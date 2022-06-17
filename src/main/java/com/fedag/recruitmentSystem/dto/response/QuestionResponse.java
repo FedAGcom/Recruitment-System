@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QuestionResponse {
-    private String title;
-    private String question;
-    private String answer;
-    private String correct;
+
+  private String title;
+  private String question;
+  private String answer;
+  private String correct;
 }

@@ -9,25 +9,25 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
 @OpenAPIDefinition(
-        info = @Info(
-                title = "Recruitment System",
-                version = "1.0",
-                license = @License(
-                        name = "Все права защищены компанией FedAG"
-                ),
-                //TODO измените контактные данные name = "Ссылка на проект в JIRA" url = "ссылка на страницу confluence команды"
-                contact = @Contact(
-                        name = "https://proektorium.atlassian.net/jira/software/projects/RS/boards/5",
-                        url = "",
-                        email = "fedagedu@gmail.com"
-                )
+    info = @Info(
+        title = "Recruitment System",
+        version = "1.0",
+        license = @License(
+            name = "Все права защищены компанией FedAG"
+        ),
+        //TODO измените контактные данные name = "Ссылка на проект в JIRA" url = "ссылка на страницу confluence команды"
+        contact = @Contact(
+            name = "https://proektorium.atlassian.net/jira/software/projects/RS/boards/5",
+            url = "",
+            email = "fedagedu@gmail.com"
         )
+    )
 )
 @SecurityScheme(
-        name = "bearerAuth",
-        type = SecuritySchemeType.HTTP,
-        bearerFormat = "JWT",
-        scheme = "bearer"
+    name = "bearerAuth",
+    type = SecuritySchemeType.HTTP,
+    bearerFormat = "JWT",
+    scheme = "bearer"
 )
 @Configuration
 public class SwaggerConfig {

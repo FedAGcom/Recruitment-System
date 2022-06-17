@@ -1,20 +1,21 @@
 package com.fedag.recruitmentSystem.dto.response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResumeShortResponse {
-    private Long id;
 
-    private String resumeName;
+  private Long id;
 
-    private ActiveStatus status;
+  private String resumeName;
 
-    private LocalDateTime dateCreated;
+  private ActiveStatus status;
+
+  private LocalDateTime dateCreated;
 }

@@ -16,7 +16,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,73 +31,73 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Контроллер тестов", description = "Работа с тестами")
 public class ExamController {
 
-    private final ExamServiceImpl examService;
+  private final ExamServiceImpl examService;
 
-    @Operation(summary = "Получение списка тестов", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Тесты загружены",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping
-    public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
-        return examService.getAllExams(pageable);
-    }
+  @Operation(summary = "Получение списка тестов", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Тесты загружены",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping
+  public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
+    return examService.getAllExams(pageable);
+  }
 
-    @Operation(summary = "Получение теста по id", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Тест найден",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
-    public ExamResponse getExam(@PathVariable Long id) {
-        return examService.findById(id);
-    }
+  @Operation(summary = "Получение теста по id", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Тест найден",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/{id}")
+  public ExamResponse getExam(@PathVariable Long id) {
+    return examService.findById(id);
+  }
 
-    @Operation(summary = "Добавление теста", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Тест добавлен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PostMapping
-    public void addNewExam(@RequestBody ExamRequest exam) {
-        examService.save(exam);
-    }
+  @Operation(summary = "Добавление теста", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Тест добавлен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PostMapping
+  public void addNewExam(@RequestBody ExamRequest exam) {
+    examService.save(exam);
+  }
 
-    @Operation(summary = "Изменение теста", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Тест изменен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
+  @Operation(summary = "Изменение теста", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Тест изменен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
 
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
-    public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
-      exam.setId(id);
-      examService.update(exam);
-    }
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PutMapping("/{id}")
+  public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
+    exam.setId(id);
+    examService.update(exam);
+  }
 
 
-    @Operation(summary = "Удаление теста", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Тест удален",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
-    public void deleteExam(@PathVariable Long id) {
-        examService.deleteById(id);
-    }
+  @Operation(summary = "Удаление теста", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Тест удален",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @DeleteMapping("/{id}")
+  public void deleteExam(@PathVariable Long id) {
+    examService.deleteById(id);
+  }
 }

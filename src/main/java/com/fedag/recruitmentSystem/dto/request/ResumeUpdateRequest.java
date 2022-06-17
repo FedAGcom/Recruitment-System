@@ -14,15 +14,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResumeUpdateRequest {
-    private Long id;
 
-    private String resumeName;
+  private Long id;
 
-    private ActiveStatus status;
+  private String resumeName;
 
-    private LocalDateTime dateCreated;
+  private ActiveStatus status;
 
-    private List<ExperienceShortResponse> experiences = new ArrayList<>();
+  private LocalDateTime dateCreated;
 
-    private UserResponse user;
+  private List<ExperienceShortResponse> experiences = new ArrayList<>();
+
+  private UserResponse user;
 }

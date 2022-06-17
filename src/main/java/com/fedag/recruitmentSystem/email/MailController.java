@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.email;
 
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,71 +26,71 @@ import org.springframework.web.server.ResponseStatusException;
 @Tag(name = "Контроллер для активации по email", description = "Работа с почтой")
 public class MailController {
 
-    @Schema(name = "Сервис пользователей", description = "Содержит имплементацию методов для работы с репозиторием")
-    private final UserServiceImpl userService;
+  @Schema(name = "Сервис пользователей", description = "Содержит имплементацию методов для работы с репозиторием")
+  private final UserServiceImpl userService;
 
-    @Schema(name = "Сервис компаний", description = "Содержит имплементацию методов для работы с репозиторием")
-    private final CompanyServiceImpl companyService;
+  @Schema(name = "Сервис компаний", description = "Содержит имплементацию методов для работы с репозиторием")
+  private final CompanyServiceImpl companyService;
 
-    @Operation(summary = "Активация учетной записи пользователя")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @GetMapping("/activate/user/{code}")
-    public ResponseEntity<?> activateUser(@PathVariable String code) {
+  @Operation(summary = "Активация учетной записи пользователя")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @GetMapping("/activate/user/{code}")
+  public ResponseEntity<?> activateUser(@PathVariable String code) {
 
-        try {
-            boolean isActivatedUser = userService.activateUser(code);
-            if (isActivatedUser) {
-                return new ResponseEntity<>("Activation success. Go to login page.",
-                        HttpStatus.OK); // redirect на страницу ввода логина и пароля
-            }
-        }catch (ResponseStatusException e) {
-            log.error("Activation is failed");
-        }
-        return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
+    try {
+      boolean isActivatedUser = userService.activateUser(code);
+      if (isActivatedUser) {
+        return new ResponseEntity<>("Activation success. Go to login page.",
+            HttpStatus.OK); // redirect на страницу ввода логина и пароля
+      }
+    } catch (ResponseStatusException e) {
+      log.error("Activation is failed");
     }
+    return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 
-    @Operation(summary = "Активация учетной записи компании")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @GetMapping("/activate/company/{code}")
-    public ResponseEntity<?> activateCompany(@PathVariable String code) {
+  @Operation(summary = "Активация учетной записи компании")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "403", description = "Ошибка ввода данных",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @GetMapping("/activate/company/{code}")
+  public ResponseEntity<?> activateCompany(@PathVariable String code) {
 
-        try {
-            boolean isActivatedCompany = companyService.activateCompany(code);
-            if (isActivatedCompany) {
-                return new ResponseEntity<>("Activation success. Go to login page.",
-                        HttpStatus.OK); // redirect на страницу ввода логина и пароля
-            }
-        } catch (ResponseStatusException e) {
-            log.error("Activation is failed");
-        }
-        return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
+    try {
+      boolean isActivatedCompany = companyService.activateCompany(code);
+      if (isActivatedCompany) {
+        return new ResponseEntity<>("Activation success. Go to login page.",
+            HttpStatus.OK); // redirect на страницу ввода логина и пароля
+      }
+    } catch (ResponseStatusException e) {
+      log.error("Activation is failed");
     }
+    return new ResponseEntity<>("Ошибка", HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 
-    @GetMapping("/activate/user/password/{id}/{password}")
-    public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
-        userService.confirmPasswordChange(id, password);
-        return new ResponseEntity<>("Password has been changed successfully.",
-                HttpStatus.OK);
-    }
+  @GetMapping("/activate/user/password/{id}/{password}")
+  public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
+    userService.confirmPasswordChange(id, password);
+    return new ResponseEntity<>("Password has been changed successfully.",
+        HttpStatus.OK);
+  }
 
-    @GetMapping("/activate/company/password/{id}/{password}")
-    public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
-        companyService.confirmPasswordChange(id, password);
-        return new ResponseEntity<>("Password has been changed successfully.",
-                HttpStatus.OK);
-    }
+  @GetMapping("/activate/company/password/{id}/{password}")
+  public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
+    companyService.confirmPasswordChange(id, password);
+    return new ResponseEntity<>("Password has been changed successfully.",
+        HttpStatus.OK);
+  }
 }

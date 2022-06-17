@@ -9,12 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageUpdateRequest {
-    private Long id;
-    private String entityType;
-    private LocalDateTime dateCreated;
-    private String status;
-    private String message;
-    private Long userId;
-    private Long companyId;
+
+  private Long id;
+  private String entityType;
+  private LocalDateTime dateCreated;
+  private String status;
+  private String message;
+  private Long userId;
+  private Long companyId;
 
 }

@@ -17,7 +17,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,72 +32,72 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Контроллер откликов", description = "Работа с откликами")
 public class VacancyResponseController {
 
-    @Schema(name = "Сервис откликов", description = "Содержит имплементацию методов для работы с репозиторием")
-    private final VacancyResponseServiceImpl vacancyResponseService;
+  @Schema(name = "Сервис откликов", description = "Содержит имплементацию методов для работы с репозиторием")
+  private final VacancyResponseServiceImpl vacancyResponseService;
 
-    @Operation(summary = "Получение списка откликов", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Список загружен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping
-    public Page<VacancyResponseResponse> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
-        return vacancyResponseService.getAllVacanciesResponses(pageable);
-    }
+  @Operation(summary = "Получение списка откликов", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Список загружен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping
+  public Page<VacancyResponseResponse> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
+    return vacancyResponseService.getAllVacanciesResponses(pageable);
+  }
 
-    @Operation(summary = "Получение отклика по id", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Отклик найден",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
-    public VacancyResponseResponse getVacancyResponseById(@PathVariable Long id) {
-        return vacancyResponseService.findById(id);
-    }
+  @Operation(summary = "Получение отклика по id", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Отклик найден",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('READ')")
+  @GetMapping("/{id}")
+  public VacancyResponseResponse getVacancyResponseById(@PathVariable Long id) {
+    return vacancyResponseService.findById(id);
+  }
 
-    @Operation(summary = "Добавление отклика", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Отклик добавлен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PostMapping
-    public void addVacancyResponse(@RequestBody VacancyResponseRequest vacancyResponse) {
-        vacancyResponseService.save(vacancyResponse);
-    }
+  @Operation(summary = "Добавление отклика", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "201", description = "Отклик добавлен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PostMapping
+  public void addVacancyResponse(@RequestBody VacancyResponseRequest vacancyResponse) {
+    vacancyResponseService.save(vacancyResponse);
+  }
 
-    @Operation(summary = "Изменение отклика", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Отклик изменен",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
-    public void updateVacancyResponse(@PathVariable Long id, @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
-      vacancyResponse.setId(id);
-      vacancyResponseService.update(vacancyResponse);
-    }
+  @Operation(summary = "Изменение отклика", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Отклик изменен",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @PutMapping("/{id}")
+  public void updateVacancyResponse(@PathVariable Long id, @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
+    vacancyResponse.setId(id);
+    vacancyResponseService.update(vacancyResponse);
+  }
 
-    @Operation(summary = "Удаление отклика", security = @SecurityRequirement(name = "bearerAuth"))
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Отклик удален",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
-            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
-                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
-    })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
-    public void addVacancyResponse(@PathVariable Long id) {
-        vacancyResponseService.deleteById(id);
-    }
+  @Operation(summary = "Удаление отклика", security = @SecurityRequirement(name = "bearerAuth"))
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "200", description = "Отклик удален",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+      @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+          content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+  })
+  @PreAuthorize("hasAuthority('WRITE')")
+  @DeleteMapping("/{id}")
+  public void addVacancyResponse(@PathVariable Long id) {
+    vacancyResponseService.deleteById(id);
+  }
 }

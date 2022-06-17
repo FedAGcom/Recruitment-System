@@ -9,14 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Question {
 
-    private String id;
+  private String id;
 
-    private String title;
+  private String title;
 
-    private String question;
+  private String question;
 
-    private String answer;
+  private String answer;
 
-    private String correct;
+  private String correct;
 
 }

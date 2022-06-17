@@ -38,10 +38,10 @@ public class ExperienceServiceImpl implements ExperienceService<ExperienceRespon
   @Override
   public ExperienceResponse findById(Long id) {
     Experience experience = experienceRepository
-            .findById(id)
-            .orElseThrow(
-                    () -> new ObjectNotFoundException("Experience with id: " + id + " not found")
-            );
+        .findById(id)
+        .orElseThrow(
+            () -> new ObjectNotFoundException("Experience with id: " + id + " not found")
+        );
     return experienceMapper.modelToDto(experience);
   }
 
@@ -49,9 +49,10 @@ public class ExperienceServiceImpl implements ExperienceService<ExperienceRespon
   public void save(ExperienceRequest element) {
     Experience experience = experienceMapper.dtoToModel(element);
     Optional<Resume> resume = Optional.ofNullable(experience.getResume());
-    resume.ifPresent(r->{
-      if(r.getId()!=null)
+    resume.ifPresent(r -> {
+      if (r.getId() != null) {
         experience.setResume(r);
+      }
     });
     experienceRepository.save(experience);
   }
@@ -60,9 +61,10 @@ public class ExperienceServiceImpl implements ExperienceService<ExperienceRespon
   public void update(ExperienceUpdateRequest element) {
     Experience experience = experienceMapper.dtoToModel(element);
     Optional<Resume> resume = Optional.ofNullable(experience.getResume());
-    resume.ifPresent(r->{
-      if(r.getId()!=null)
+    resume.ifPresent(r -> {
+      if (r.getId() != null) {
         experience.setResume(r);
+      }
     });
     experienceRepository.save(experience);
   }
