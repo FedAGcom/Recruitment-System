@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.email;
 
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
+import com.fedag.recruitmentSystem.security.SecurityService;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +33,9 @@ public class MailController {
     @Schema(name = "Сервис компаний", description = "Содержит имплементацию методов для работы с репозиторием")
     private final CompanyServiceImpl companyService;
 
+    @Schema(name = "Сервис безопастности", description = "Содержит имплементацию методов для работы с авторизацией")
+    private final SecurityService securityService;
+
     @Operation(summary = "Активация учетной записи пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь зашел в учетную запись",
@@ -44,7 +47,6 @@ public class MailController {
     })
     @GetMapping("/activate/user/{code}")
     public ResponseEntity<?> activateUser(@PathVariable String code) {
-
         try {
             boolean isActivatedUser = userService.activateUser(code);
             if (isActivatedUser) {
@@ -68,7 +70,6 @@ public class MailController {
     })
     @GetMapping("/activate/company/{code}")
     public ResponseEntity<?> activateCompany(@PathVariable String code) {
-
         try {
             boolean isActivatedCompany = companyService.activateCompany(code);
             if (isActivatedCompany) {
@@ -93,5 +94,10 @@ public class MailController {
         companyService.confirmPasswordChange(id, password);
         return new ResponseEntity<>("Password has been changed successfully.",
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/activate/restore/{email}")
+    public ResponseEntity<?> accountRestore(@PathVariable String email) {
+       return securityService.reactivateAccount(email);
     }
 }
