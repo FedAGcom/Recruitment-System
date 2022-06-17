@@ -6,14 +6,13 @@ import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
-import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
-import com.fedag.recruitmentSystem.exception.WrongRoleTypeException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
+import com.fedag.recruitmentSystem.utilites.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -54,14 +53,17 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         return userMapper.modelToDto(userRepository.findAll(pageable));
     }
 
+    @Override
     public List<UserResponse> getByEntranceExamScore(int score) {
         return userMapper.modelToDto(userRepository.findByEntranceExamScore(score));
     }
 
+    @Override
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
 
+    @Override
     public List<UserResponse> getByExperience(int max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
     }
@@ -155,7 +157,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
                 .orElseThrow(
                         () -> new ObjectNotFoundException("User with id: " + id + " not found")
                 );
-        user.setRole(switchRoleToOpposite(user.getRole()));
+        user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
         userRepository.save(user);
     }
 
@@ -169,20 +171,5 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         user.setActivationCode(null);
         userRepository.save(user);
         return true;
-    }
-
-    public Role switchRoleToOpposite(Role role) {
-        switch(role) {
-            case ADMIN:
-               return Role.ADMIN_INACTIVE;
-            case USER:
-               return Role.USER_INACTIVE;
-            case USER_INACTIVE:
-               return Role.USER;
-            case ADMIN_INACTIVE:
-               return Role.ADMIN;
-            default:
-               throw new WrongRoleTypeException("invalid role type");
-        }
     }
 }

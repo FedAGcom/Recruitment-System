@@ -4,6 +4,8 @@ import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
+import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -70,8 +72,14 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @DeleteMapping("/{id}")
-    public void deleteCompany(@PathVariable Long id) {
-        companyService.deleteById(id);
+    public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
+        CompanyResponse company = companyService.findById(id);
+        if(company.getRole().equals(Role.ADMIN_INACTIVE)
+        || company.getRole().equals(Role.USER_INACTIVE) ) {
+            return new ResponseEntity<>("Company already in inactive state.", HttpStatus.OK);
+        }
+        companyService.disableById(id);
+        return new ResponseEntity<>("Company set to inactive state successfully.", HttpStatus.OK);
     }
 
     @Operation(summary = "Добавление компании")
