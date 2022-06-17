@@ -1,6 +1,8 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
@@ -21,6 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -78,18 +82,30 @@ public class CompanyController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
     @PostMapping
-    public ResponseEntity<?> addCompany(@RequestBody CompanyRequest companyRequest) {
+    public ResponseEntity<?> addCompany(@Valid @RequestBody CompanyRequest companyRequest) {
         try {
             companyService.save(companyRequest);
         } catch (ResponseStatusException e) {
             return new ResponseEntity<>(e.getReason(),
                     HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Company is added successfully." +
-                " To your email was spend letter for confirm the registration.",
+        return new ResponseEntity<>("Company has been added successfully." +
+                " Please check your email to confirm the registration.",
                 HttpStatus.OK); //redirect /api/success-registration
     }
 
+    @PostMapping("/pass/change")
+    public ResponseEntity<?> changeCompanyPassword(@Valid @RequestBody CompanyChangePasswordRequest company) {
+        try {
+            companyService.changePassword(company);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Request to company password change has been added successfully." +
+                " Please check company email to confirm the change.",
+                HttpStatus.OK);
+    }
 
     @Operation(summary = "Изменение компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -100,7 +116,8 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateCompany(@PathVariable Long id, @RequestBody CompanyRequest companyRequest) {
+    public void updateCompany(@PathVariable Long id,  @Valid @RequestBody CompanyRequest companyRequest) {
+        companyRequest.setId(id);
         companyService.save(companyRequest);
     }
 }

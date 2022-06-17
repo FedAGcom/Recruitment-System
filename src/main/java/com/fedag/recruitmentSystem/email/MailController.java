@@ -71,4 +71,18 @@ public class MailController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/activate/user/password/{id}/{password}")
+    public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
+        userService.confirmPasswordChange(id, password);
+        return new ResponseEntity<>("Password has been changed successfully.",
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/activate/company/password/{id}/{password}")
+    public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
+        companyService.confirmPasswordChange(id, password);
+        return new ResponseEntity<>("Password has been changed successfully.",
+                HttpStatus.OK);
+    }
 }
