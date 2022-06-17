@@ -4,6 +4,7 @@ import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -130,8 +131,14 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        UserResponse user = userService.findById(id);
+        if(user.getRole().equals(Role.ADMIN_INACTIVE)
+        || user.getRole().equals(Role.USER_INACTIVE) ) {
+            return new ResponseEntity<>("User already in inactive state.", HttpStatus.OK);
+        }
+        userService.disableById(id);
+        return new ResponseEntity<>("User set to inactive state successfully.", HttpStatus.OK);
     }
 
     @Operation(summary = "Сортировка списка пользователей по рейтингу",

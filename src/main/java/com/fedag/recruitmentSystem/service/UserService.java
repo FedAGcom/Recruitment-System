@@ -16,4 +16,6 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
     void changePassword(UserChangePasswordRequest user);
 
     void confirmPasswordChange(Long id, String password);
+
+    void disableById(Long id);
 }

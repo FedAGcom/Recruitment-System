@@ -38,6 +38,7 @@ public class TestDataProvider {
                 resume.getUser().getLastname(),
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
+                resume.getUser().getRole(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));
@@ -57,6 +58,7 @@ public class TestDataProvider {
                 resume.getUser().getLastname(),
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
+                resume.getUser().getRole(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));
@@ -76,6 +78,7 @@ public class TestDataProvider {
                 resume.getUser().getLastname(),
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
+                resume.getUser().getRole(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));

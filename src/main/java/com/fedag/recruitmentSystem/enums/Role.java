@@ -1,13 +1,14 @@
 package com.fedag.recruitmentSystem.enums;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Role {
     USER(Set.of(Permission.DEVELOPERS_READ)),
-    ADMIN(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE));
+    ADMIN(Set.of(Permission.DEVELOPERS_READ, Permission.DEVELOPERS_WRITE)),
+    USER_INACTIVE(Set.of(Permission.NO_PERMISSIONS)),
+    ADMIN_INACTIVE(Set.of(Permission.NO_PERMISSIONS));
 
     private final Set<Permission> permissions;
 

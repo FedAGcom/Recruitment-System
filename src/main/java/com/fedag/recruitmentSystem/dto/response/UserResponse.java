@@ -17,6 +17,7 @@ public class UserResponse {
     private String lastname;
     private String email;
     private LocalDateTime birthday;
+    private Role role;
     private String activationCode;
     private ActiveStatus activeStatus;
 

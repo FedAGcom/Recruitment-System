@@ -6,8 +6,10 @@ import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
+import com.fedag.recruitmentSystem.exception.WrongRoleTypeException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.UserRepository;
@@ -148,6 +150,16 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
+    public void disableById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
+                );
+        user.setRole(switchRoleToOpposite(user.getRole()));
+        userRepository.save(user);
+    }
+
+    @Override
     public boolean activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
         if (!userOptional.isPresent()) {
@@ -157,5 +169,20 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         user.setActivationCode(null);
         userRepository.save(user);
         return true;
+    }
+
+    public Role switchRoleToOpposite(Role role) {
+        switch(role) {
+            case ADMIN:
+               return Role.ADMIN_INACTIVE;
+            case USER:
+               return Role.USER_INACTIVE;
+            case USER_INACTIVE:
+               return Role.USER;
+            case ADMIN_INACTIVE:
+               return Role.ADMIN;
+            default:
+               throw new WrongRoleTypeException("invalid role type");
+        }
     }
 }
