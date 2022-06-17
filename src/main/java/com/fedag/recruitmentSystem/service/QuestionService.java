@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.service;
 
 import com.fedag.recruitmentSystem.model.Question;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface QuestionService {
@@ -13,6 +12,6 @@ public interface QuestionService {
 
     List<Question> searchQuestionsByTitle(String title);
 
-    void deleteQuestion();
+    void deleteQuestionById(String id);
 
 }

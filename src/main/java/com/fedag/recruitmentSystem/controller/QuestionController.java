@@ -49,10 +49,23 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
     @GetMapping
     public List<Question> search(@RequestParam("query") String query) {
         return questionService.searchQuestionsByTitle(query);
+    }
+
+    @Operation(summary = "Удаление вопроса по ID", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Вопрос удалён",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
+    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
+    @DeleteMapping
+    public void deleteById(@RequestParam("id") String id) {
+        questionService.deleteQuestionById(id);
     }
 
 }

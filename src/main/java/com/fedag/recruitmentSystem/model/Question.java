@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Question {
 
+    private String id;
+
     private String title;
 
     private String question;

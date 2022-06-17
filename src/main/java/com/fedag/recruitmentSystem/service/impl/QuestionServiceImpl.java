@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fedag.recruitmentSystem.model.Question;
 import com.fedag.recruitmentSystem.service.QuestionService;
 import lombok.RequiredArgsConstructor;
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
@@ -29,10 +31,10 @@ public class QuestionServiceImpl implements QuestionService {
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestHighLevelClient esClient;
 
-
     @Override
     public void addQuestion(String id, String title, String question, String answer, String correct) {
         Question q = new Question();
+        q.setId(id);
         q.setTitle(title);
         q.setQuestion(question);
         q.setAnswer(answer);
@@ -74,6 +76,7 @@ public class QuestionServiceImpl implements QuestionService {
         for (SearchHit hit : searchResponse.getHits().getHits()) {
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             Question q = new Question();
+            q.setId(hit.getId());
             q.setTitle((String) sourceAsMap.get("title"));
             q.setQuestion((String) sourceAsMap.get("question"));
             q.setAnswer((String) sourceAsMap.get("answer"));
@@ -84,8 +87,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestion() {
-        // The code will be later...
+    public void deleteQuestionById(String id) {
+        DeleteRequest deleteRequest = new DeleteRequest(INDEX_NAME);
+        deleteRequest.id(id);
+        try {
+            DeleteResponse deleteResponse = esClient.delete(deleteRequest, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
