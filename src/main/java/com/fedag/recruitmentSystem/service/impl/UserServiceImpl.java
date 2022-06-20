@@ -9,7 +9,9 @@ import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
+import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
+import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
 import com.fedag.recruitmentSystem.utilites.MainUtilites;
@@ -25,6 +27,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,10 +36,13 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final MailSendlerService mailSendler;
+
+    private final CompanyRepository companyRepository;
     @Value("${host.url}")
     private String hostURL;
     @Value("${server.port}")
     private String portURL;
+
     @Value("${activation.url}")
     private String activationURL;
     @Value("${change.user.pass.url}")
@@ -62,9 +68,9 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-
+  
     @Override
-    public List<UserResponse> getByExperience(int max) {
+    public List<UserResponse> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
     }
 
@@ -96,6 +102,13 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         if(userFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
         }
+
+        if(companyRepository.findAll().stream().map(Company::getEmail).collect(Collectors.toList()).contains(user.getEmail())){
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exist. Please, " +
+                    "create new email for new role.");
+        }
+
+
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());

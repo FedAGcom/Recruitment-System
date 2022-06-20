@@ -164,7 +164,7 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/exp={max}")
-    public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
+    public List<UserResponse> findByExperience(@PathVariable(name = "max") String max) { //если max то максимальный опыт. если sum, то общий опыт
         return userService.getByExperience(max);
     }
 }
