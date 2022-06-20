@@ -14,10 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -30,9 +27,9 @@ public class FormController {
 
     private final GoogleFormServiceImpl googleFormService;
 
-    @GetMapping
-    public String createForm() {
-        return googleFormService.createForm();
+    @GetMapping("/{language}")
+    public String createForm(@PathVariable(name = "language") String language) {
+        return googleFormService.createForm(language);
     }
 
 

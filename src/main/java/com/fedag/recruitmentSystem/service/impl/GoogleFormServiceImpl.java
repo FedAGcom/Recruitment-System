@@ -24,10 +24,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.fedag.recruitmentSystem.util.GoogleFormConstants.*;
 @Service
 public class GoogleFormServiceImpl implements GoogleFormService {
+
+    private final QuestionServiceImpl questionService;
 
     Forms formsService = new Forms.Builder(GoogleNetHttpTransport.newTrustedTransport(),
             JSON_FACTORY, getCredentials(GoogleNetHttpTransport.newTrustedTransport()))
@@ -36,7 +39,8 @@ public class GoogleFormServiceImpl implements GoogleFormService {
     Drive driveService = new Drive.Builder(GoogleNetHttpTransport.newTrustedTransport(),
                         JSON_FACTORY, getCredentials(GoogleNetHttpTransport.newTrustedTransport()))
                   .setApplicationName(APPLICATION_NAME).build();
-    public GoogleFormServiceImpl() throws GeneralSecurityException, IOException {
+    public GoogleFormServiceImpl(QuestionServiceImpl questionService) throws GeneralSecurityException, IOException {
+        this.questionService = questionService;
     }
 
     @SneakyThrows
@@ -65,11 +69,11 @@ public class GoogleFormServiceImpl implements GoogleFormService {
 
     @SneakyThrows
     @Override
-    public String createForm() {
+    public String createForm(String language) {
         Form form = new Form();
         String token = getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken();
         form.setInfo(new Info());
-        form.getInfo().setTitle("FedAG test");
+        form.getInfo().setTitle("FedAG test " + language);
         form = formsService.forms().create(form)
                 .setAccessToken(token)
                 .execute();
@@ -77,21 +81,14 @@ public class GoogleFormServiceImpl implements GoogleFormService {
 
         transformInQuiz(formId, token);
 
-        addItemToQuiz(
-                "Which of these singers was not a member of Destiny's Child?",
-                Arrays.asList("Kelly Rowland", "Beyoncè", "Rihanna", "Michelle Williams"),
-                "Rihanna",
-                formId,
-                token
-        );
+        List<com.fedag.recruitmentSystem.model.Question> questions = questionService.searchQuestionsByTitle(language);
 
-        addItemToQuiz(
-                "Кто наконец разобрался с формами",
-                Arrays.asList("Вряд ли он", "И не он", "Точно не он", "Андрей"),
-                "Андрей",
-                formId,
-                token
-        );
+        for(com.fedag.recruitmentSystem.model.Question question : questions){
+            addItemToQuiz(question.getQuestion(),
+                    Arrays.stream(question.getAnswer().split(", ")).collect(Collectors.toList()),
+                    question.getCorrect(), formId, token);
+        }
+
 
         return "https://docs.google.com/forms/d/" + formId;
     }
@@ -111,11 +108,6 @@ public class GoogleFormServiceImpl implements GoogleFormService {
         }
 
         return false;
-    }
-
-    @SneakyThrows
-    public Form getForm(String formId) throws IOException {
-        return formsService.forms().get(formId).setAccessToken(getCredentials(GoogleNetHttpTransport.newTrustedTransport()).getAccessToken()).execute();
     }
 
     private void addItemToQuiz(
@@ -145,7 +137,7 @@ public class GoogleFormServiceImpl implements GoogleFormService {
         question.getChoiceQuestion().setOptions(options);
 
         Grading grading = new Grading();
-        grading.setPointValue(2);
+        grading.setPointValue(1);
         grading.setCorrectAnswers(new CorrectAnswers());
         grading.getCorrectAnswers().setAnswers(new ArrayList<>());
         grading.getCorrectAnswers().getAnswers().add(new CorrectAnswer());
