@@ -58,11 +58,6 @@ public class Company {
     @Column(name = "activation_code")
     private String activationCode;
 
-    @Schema(description = "Статус")
-    @Column(name = "active_status")
-    @Enumerated(EnumType.STRING)
-    private ActiveStatus activeStatus;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "company")

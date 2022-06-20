@@ -23,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -58,7 +59,8 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter")
-    public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0", required = false) int score) {
+    public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0",
+            required = false) int score) {
         return userService.getByEntranceExamScore(score);
     }
 
@@ -95,6 +97,16 @@ public class UserController {
                 HttpStatus.OK); //redirect /api/success-registration
     }
 
+    @Operation(summary = "Изменение пароля пользователя", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Пароль пользователя изменен",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
+    @PreAuthorize("hasAuthority('READ')")
     @PostMapping("/pass/change")
     public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
         try {
@@ -133,11 +145,11 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         UserResponse user = userService.findById(id);
-        if(user.getRole().equals(Role.ADMIN_INACTIVE)
-        || user.getRole().equals(Role.USER_INACTIVE) ) {
+        if (user.getRole().equals(Role.ADMIN_INACTIVE)
+                || user.getRole().equals(Role.USER_INACTIVE)) {
             return new ResponseEntity<>("User already in inactive state.", HttpStatus.OK);
         }
-        userService.disableById(id);
+        userService.deleteById(id);
         return new ResponseEntity<>("User set to inactive state successfully.", HttpStatus.OK);
     }
 
@@ -155,7 +167,8 @@ public class UserController {
         return userService.getByStars(stars);
     }
 
-    @Operation(summary = "Сортировка списка пользователей по опыту работы")
+    @Operation(summary = "Сортировка списка пользователей по опыту работы",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список отсортирован",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),

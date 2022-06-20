@@ -2,11 +2,8 @@ package com.fedag.recruitmentSystem.controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
-import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.enums.Role;
-import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -74,17 +71,19 @@ public class CompanyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
         CompanyResponse company = companyService.findById(id);
-        if(company.getRole().equals(Role.ADMIN_INACTIVE)
-        || company.getRole().equals(Role.USER_INACTIVE) ) {
+        if (company.getRole().equals(Role.ADMIN_INACTIVE)
+                || company.getRole().equals(Role.USER_INACTIVE)) {
             return new ResponseEntity<>("Company already in inactive state.", HttpStatus.OK);
         }
-        companyService.disableById(id);
+        companyService.deleteById(id);
         return new ResponseEntity<>("Company set to inactive state successfully.", HttpStatus.OK);
     }
 
     @Operation(summary = "Добавление компании")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Компания добавлена",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
@@ -102,6 +101,16 @@ public class CompanyController {
                 HttpStatus.OK); //redirect /api/success-registration
     }
 
+    @Operation(summary = "Изменение пароля компании", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Компания изменена",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "400", description = "Некорректный запрос",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
+    @PreAuthorize("hasAuthority('READ')")
     @PostMapping("/pass/change")
     public ResponseEntity<?> changeCompanyPassword(@Valid @RequestBody CompanyChangePasswordRequest company) {
         try {
@@ -124,7 +133,7 @@ public class CompanyController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateCompany(@PathVariable Long id,  @Valid @RequestBody CompanyRequest companyRequest) {
+    public void updateCompany(@PathVariable Long id, @Valid @RequestBody CompanyRequest companyRequest) {
         companyRequest.setId(id);
         companyService.save(companyRequest);
     }

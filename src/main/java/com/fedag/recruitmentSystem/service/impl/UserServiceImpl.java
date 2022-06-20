@@ -5,7 +5,6 @@ import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
@@ -23,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-  
+
     @Override
     public List<UserResponse> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
@@ -87,43 +87,42 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public UserResponse findByEmail(String email) {
         User user = userRepository
-            .findByEmail(email)
-            .orElseThrow(
-                () -> new ObjectNotFoundException("User with email: " + email + " not found")
-            );
+                .findByEmail(email)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with email: " + email + " not found")
+                );
         return userMapper.modelToDto(user);
     }
 
     @Override
-    public void save(UserRequest element) throws EntityIsExistsException {
+    public void save(UserRequest element) {
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
-        if(userFromDB.isPresent()) {
+        if (userFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
         }
 
-        if(companyRepository.findAll().stream().map(Company::getEmail).collect(Collectors.toList()).contains(user.getEmail())){
+        if (companyRepository.findAll().stream().map(Company::getEmail).collect(Collectors.toList())
+                .contains(user.getEmail())) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exist. Please, " +
                     "create new email for new role.");
         }
-
-
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
 
-        String link = String.format("%s:%s%suser/%s", hostURL, portURL, activationURL, user.getActivationCode());
-        String button = String.format("<form action=\"%s\"><input type=\"submit\" value=\"activate\" /></form>", link);
-        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div><div>Please <a href=\"%s\">activate</a> your account.</div>%s",
+        String link = String.format("%s:%s%suser/%s", hostURL, portURL, activationURL,
+                user.getActivationCode());
+        String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div>" +
+                        "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
                 user.getFirstname(),
-                link,
-                button);
+                link, link);
 
         try {
             mailSendler.sendHtmlEmail(user.getEmail(), "Activation code", message);
-        } catch(MessagingException e) {
+        } catch (MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -133,16 +132,18 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         User user = userRepository.findById(userRequest.getId()).orElseThrow(
                 () -> new ObjectNotFoundException("User with id: " + userRequest.getId() + " not found")
         );
-        if(user.getPassword().equals(userRequest.getPassword())) {
+        if (user.getPassword().equals(userRequest.getPassword())) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Password is the same");
         }
 
-        String link = String.format("%s:%s%s%s/%s", hostURL, portURL, changePassURL, userRequest.getId(), userRequest.getPassword());
-        String message = String.format("<div>Request to change password</div><div>Please <a href=\"%s\">confirm</a></div>", link);
+        String link = hostURL + ":" + portURL + changePassURL + userRequest.getId() + "/" +
+                userRequest.getPassword();
+        String message = String.format("<div>Request to change password</div><div>Please" +
+                " follow the link: <a href=\"%s\">%s</a></div>", link, link);
 
         try {
             mailSendler.sendHtmlEmail(user.getEmail(), "Password change", message);
-        } catch(MessagingException e) {
+        } catch (MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -166,16 +167,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void deleteById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(
-                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
-                );
-        user.setActiveStatus(ActiveStatus.INACTIVE);
-        userRepository.save(user);
-    }
-
-    @Override
-    public void disableById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(
                         () -> new ObjectNotFoundException("User with id: " + id + " not found")

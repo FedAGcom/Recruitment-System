@@ -62,11 +62,6 @@ public class User {
     @Column(name = "activation_code")
     private String activationCode;
 
-    @Schema(description = "Статус")
-    @Column(name = "active_status")
-    @Enumerated(EnumType.STRING)
-    private ActiveStatus activeStatus;
-
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")

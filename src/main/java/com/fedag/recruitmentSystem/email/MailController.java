@@ -76,6 +76,13 @@ public class MailController {
         }
     }
 
+    @Operation(summary = "Подтверждение пароля польователя")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @GetMapping("/activate/user/password/{id}/{password}")
     public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
         userService.confirmPasswordChange(id, password);
@@ -83,6 +90,13 @@ public class MailController {
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Подтверждение пароля компании")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @GetMapping("/activate/company/password/{id}/{password}")
     public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
         companyService.confirmPasswordChange(id, password);
@@ -90,8 +104,15 @@ public class MailController {
                 HttpStatus.OK);
     }
 
+    @Operation(summary = "Подтверждение восстановления аккаунта")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
+            @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
+    })
     @GetMapping("/activate/restore/{email}")
     public ResponseEntity<?> accountRestore(@PathVariable String email) {
-       return securityService.reactivateAccount(email);
+        return securityService.reactivateAccount(email);
     }
 }

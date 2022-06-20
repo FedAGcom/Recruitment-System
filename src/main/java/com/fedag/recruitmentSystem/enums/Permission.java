@@ -2,8 +2,8 @@ package com.fedag.recruitmentSystem.enums;
 
 public enum Permission {
     NO_PERMISSIONS("NONE"),
-    DEVELOPERS_READ("READ"),
-    DEVELOPERS_WRITE("WRITE");
+    READ("READ"),
+    WRITE("WRITE");
 
     private final String permission;
 

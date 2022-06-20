@@ -36,7 +36,4 @@ public class CompanyRequest {
   
     @NotNull
     private String calendarId;
-
-    @NotNull
-    private ActiveStatus activeStatus;
 }

@@ -39,7 +39,4 @@ public class UserRequest {
 
     @NotNull
     private String calendarId;
-
-    @NotNull
-    private ActiveStatus activeStatus;
 }

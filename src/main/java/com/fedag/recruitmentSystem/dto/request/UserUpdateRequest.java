@@ -41,7 +41,4 @@ public class UserUpdateRequest {
 
     @NotNull
     private String password;
-
-    @NotNull
-    private ActiveStatus activeStatus;
 }
