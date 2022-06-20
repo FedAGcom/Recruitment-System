@@ -1,10 +1,10 @@
 package com.fedag.recruitmentSystem.dto.response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
-import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
 @Data
@@ -19,5 +19,6 @@ public class UserResponse {
     private LocalDateTime birthday;
     private String activationCode;
     private ActiveStatus activeStatus;
-
+    private String image;
+    private String imageType;
 }

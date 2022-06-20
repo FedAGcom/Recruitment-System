@@ -39,4 +39,9 @@ public class UserRequest {
 
     @NotNull
     private ActiveStatus activeStatus;
+
+    private byte[] image;
+
+    private String imageType;
+
 }

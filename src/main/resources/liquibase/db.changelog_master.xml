@@ -14,7 +14,7 @@
     <include file="db_changelog/v1.0/v_1.7_create_table_skills.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/v_1.8_create_table_resume_skill_link.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/v_1.9_create_table_companies.sql" relativeToChangelogFile="true"/>
-	
+
     <include file="db_changelog/v2.0/v_2.0_create_table_company_feedback.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v2.0/v_2.1_create_table_vacancies.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v2.0/v_2.2_create_table_vacancies_skill_link.sql" relativeToChangelogFile="true"/>
@@ -23,4 +23,5 @@
     <include file="db_changelog/v2.0/v_2.5_fill_all_tables.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v2.0/v_2.6_create_table_projects.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v2.0/v_2.7_create_table_user_project_link.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v2.0/v_2.8_fill_tables_project_and_project_link.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

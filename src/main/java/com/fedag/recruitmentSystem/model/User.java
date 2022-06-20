@@ -67,6 +67,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActiveStatus activeStatus;
 
+    @Schema(description = "Фотография пользователя")
+    @Column(name = "image")
+    private byte[] image;
+
+    @Schema(description = "Тип фотографии")
+    @Column(name = "image_type")
+    private String imageType;
+
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")

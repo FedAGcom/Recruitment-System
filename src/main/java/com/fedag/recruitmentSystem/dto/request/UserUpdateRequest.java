@@ -1,7 +1,5 @@
 package com.fedag.recruitmentSystem.dto.request;
 
-import java.time.LocalDateTime;
-
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
@@ -11,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -41,4 +40,8 @@ public class UserUpdateRequest {
 
     @NotNull
     private ActiveStatus activeStatus;
+
+    private byte[] image;
+
+    private String imageType;
 }

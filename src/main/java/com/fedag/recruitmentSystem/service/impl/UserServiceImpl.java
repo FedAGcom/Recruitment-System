@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,12 +69,12 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public void save(UserRequest element) throws EntityIsExistsException {
+    public void save(UserRequest element) {
         PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
-        if(userFromDB.isPresent()) {
+        if (userFromDB.isPresent()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
         }
 
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
         try {
             mailSendler.sendHtmlEmail(user.getEmail(), "Activation code", message);
-        } catch(MessagingException e) {
+        } catch (MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -117,7 +118,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public boolean activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
         if (!userOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         User user = userOptional.get();
         user.setActivationCode(null);
