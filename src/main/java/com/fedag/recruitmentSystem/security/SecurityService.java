@@ -101,7 +101,7 @@ public class SecurityService {
             company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
             companyRepository.save(company);
             return new ResponseEntity<>("Company set to active state successfully.", HttpStatus.OK);
-            } else {
+        } else {
             User user = userRepository.findByEmail(email).orElseThrow(
                     () -> new UsernameNotFoundException("User doesn't exists"));
             user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
