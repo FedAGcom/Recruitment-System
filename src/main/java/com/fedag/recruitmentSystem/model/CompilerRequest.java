@@ -16,6 +16,11 @@ public class CompilerRequest {
   private String clientId;
   private String clientSecret;
   private String script;
+
+  /**
+   * More details about language and versionIndex:
+   * https://docs.jdoodle.com/compiler-api/compiler-api#what-languages-and-versions-are-supported
+   */
   private String language;
   private String versionIndex;
 }
