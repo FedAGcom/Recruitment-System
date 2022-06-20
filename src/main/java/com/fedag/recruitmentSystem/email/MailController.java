@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.email;
 
+import com.fedag.recruitmentSystem.security.SecurityService;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +32,9 @@ public class MailController {
 
     @Schema(name = "Сервис компаний", description = "Содержит имплементацию методов для работы с репозиторием")
     private final CompanyServiceImpl companyService;
+
+    @Schema(name = "Сервис безопастности", description = "Содержит имплементацию методов для работы с авторизацией")
+    private final SecurityService securityService;
 
     @Operation(summary = "Активация учетной записи пользователя")
     @ApiResponses(value = {
@@ -84,5 +88,10 @@ public class MailController {
         companyService.confirmPasswordChange(id, password);
         return new ResponseEntity<>("Password has been changed successfully.",
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/activate/restore/{email}")
+    public ResponseEntity<?> accountRestore(@PathVariable String email) {
+       return securityService.reactivateAccount(email);
     }
 }

@@ -16,6 +16,7 @@ import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
+import com.fedag.recruitmentSystem.utilites.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -159,6 +160,16 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         }
         Company company = companyOptional.get();
         company.setActivationCode(null);
+        companyRepository.save(company);
+    }
+
+    @Override
+    public void disableById(Long id) {
+        Company company = companyRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Company with id: " + id + " not found")
+                );
+        company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
         companyRepository.save(company);
     }
 }

@@ -14,6 +14,7 @@ import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
+import com.fedag.recruitmentSystem.utilites.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -58,14 +59,17 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         return userMapper.modelToDto(userRepository.findAll(pageable));
     }
 
+    @Override
     public List<UserResponse> getByEntranceExamScore(int score) {
         return userMapper.modelToDto(userRepository.findByEntranceExamScore(score));
     }
 
+    @Override
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-
+  
+    @Override
     public List<UserResponse> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
     }
@@ -167,6 +171,16 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
                         () -> new ObjectNotFoundException("User with id: " + id + " not found")
                 );
         user.setActiveStatus(ActiveStatus.INACTIVE);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void disableById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
+                );
+        user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
         userRepository.save(user);
     }
 
