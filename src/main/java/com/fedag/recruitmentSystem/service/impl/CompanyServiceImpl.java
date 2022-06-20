@@ -18,7 +18,6 @@ import com.fedag.recruitmentSystem.security.security_exception.ActivationExcepti
 import com.fedag.recruitmentSystem.service.CompanyService;
 import com.fedag.recruitmentSystem.utilites.MainUtilites;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -82,8 +81,8 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     public void save(CompanyRequest element) throws EntityIsExistsException {
         Company company = companyMapper.toEntity(element);
         Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
-        if(companyFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Company with this email exists");
+        if (companyFromDB.isPresent()) {
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exists");
         }
         if(userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList()).contains(company.getEmail())){
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists. Please, " +
@@ -154,15 +153,14 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     }
 
     @Override
-    public boolean activateCompany(String code) {
+    public void activateCompany(String code) {
         Optional<Company> companyOptional = companyRepository.findByActivationCode(code);
         if (!companyOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         Company company = companyOptional.get();
         company.setActivationCode(null);
         companyRepository.save(company);
-        return true;
     }
 
     @Override

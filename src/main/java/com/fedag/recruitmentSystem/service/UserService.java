@@ -12,6 +12,8 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
 
   Page<T> getAllUsers(Pageable pageable);
 
+  void activateUser(String code);
+
   T findByEmail(String email);
 
   List<UserResponse> getByEntranceExamScore(int score);
@@ -20,11 +22,11 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
 
   List<UserResponse> getByExperience(int max);
 
+  boolean activateUser(String code);
+
   void changePassword(UserChangePasswordRequest user);
 
   void confirmPasswordChange(Long id, String password);
 
   void disableById(Long id);
-  
-  boolean activateUser(String code);
 }

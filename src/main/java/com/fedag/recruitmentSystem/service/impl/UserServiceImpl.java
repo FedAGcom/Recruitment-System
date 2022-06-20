@@ -185,14 +185,13 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public boolean activateUser(String code) {
+    public void activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
         if (!userOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST ,"Activation is failed");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         User user = userOptional.get();
         user.setActivationCode(null);
         userRepository.save(user);
-        return true;
     }
 }
