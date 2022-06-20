@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface ResumeCriteriaRepository {
 
-    List<Resume> findByDateCreated(LocalDateTime dateCreated);
+    List<Resume> findByDateCreated();
 
     Page<Resume> findByTextFilter(String text, Pageable pageable);
 

@@ -1,6 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
@@ -29,8 +29,7 @@ public class Resume {
     @Schema(description = "Статус поиска (Да/Нет)")
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private ResumeStatus status;
-
+    private ActiveStatus status;
 
     @NotBlank
     @Schema(description = "Дата размещения")

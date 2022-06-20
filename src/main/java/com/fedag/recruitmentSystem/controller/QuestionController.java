@@ -11,6 +11,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +34,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
     @PostMapping
     public String addQuestion(@RequestParam("title") String title, @RequestParam("question") String question,
                               @RequestParam("answer") String answer, @RequestParam("correct") String correct) {
@@ -47,6 +50,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
     @GetMapping
     public List<Question> search(@RequestParam("query") String query) {
         return questionService.searchQuestionsByTitle(query);
@@ -59,6 +63,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
     @DeleteMapping
     public void deleteById(@RequestParam("id") String id) {
         questionService.deleteQuestionById(id);

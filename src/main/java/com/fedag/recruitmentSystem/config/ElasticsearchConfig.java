@@ -14,7 +14,8 @@ public class ElasticsearchConfig {
     public RestHighLevelClient client() {
         ClientConfiguration clientConfiguration
                 = ClientConfiguration.builder()
-                .connectedTo("localhost:55000")
+
+                .connectedTo("localhost:9200")
                 .build();
 
         return RestClients.create(clientConfiguration).rest();
@@ -24,4 +25,7 @@ public class ElasticsearchConfig {
     public ElasticsearchOperations elasticsearchTemplate() {
         return new ElasticsearchRestTemplate(client());
     }
+
+
 }
+

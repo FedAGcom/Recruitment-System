@@ -2,14 +2,11 @@ package com.fedag.recruitmentSystem.service;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
-import com.fedag.recruitmentSystem.enums.ResumeStatus;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExperienceMapper;
 import com.fedag.recruitmentSystem.mapper.ResumeMapper;
-import com.fedag.recruitmentSystem.model.Experience;
 import com.fedag.recruitmentSystem.model.Resume;
-import com.fedag.recruitmentSystem.model.Skill;
-import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.ResumeRepository;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import com.fedag.recruitmentSystem.utils.TestDataProvider;
@@ -26,6 +23,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,6 +133,17 @@ class ResumeServiceTest {
         Mockito.doNothing().when(resumeRepository).deleteById(resumeId);
         assertDoesNotThrow(() -> resumeService.deleteById(resumeId));
     }
+
+    @Test
+    void testFindResumeByPosition() {
+        List<ResumeResponse> resumeList = new ArrayList<>();
+        Pageable pageable = Mockito.mock(Pageable.class);
+        resumeList.add(new ResumeResponse(1L, "Java developer", ActiveStatus.ACTIVE
+                , LocalDateTime.now(),null, null));
+        Page<ResumeResponse> resumePage = new PageImpl<>(resumeList, pageable, resumeList.size());
+        Mockito.when(resumeService.findByTextFilter("Java developer", pageable)).thenReturn(resumePage);
+        assertEquals(resumeService.findByTextFilter("Java developer", pageable), resumePage);
+    }  
 
     static Stream<Arguments> dataForTest() {
         // set one
