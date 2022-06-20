@@ -108,8 +108,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
                     "create new email for new role.");
         }
 
-
-
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
@@ -187,7 +185,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public void activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         User user = userOptional.get();
