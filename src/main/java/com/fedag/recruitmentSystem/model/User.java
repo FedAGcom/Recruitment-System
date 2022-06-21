@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -67,6 +68,25 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActiveStatus activeStatus;
 
+    @Schema(description = "О себе")
+    @Column(name = "himself_description")
+    private String himselfDescription;
+
+    @Schema(description = "Уровень образования")
+    @Column(name = "level")
+    @Enumerated(EnumType.STRING)
+    private LevelEducation levelEducation;               // ??????
+
+    @NotBlank
+    @Schema(description = "Город")
+    @Column(name = "city")
+    private String city;
+
+    @NotBlank
+    @Schema(description = "Возраст")
+    @Column(name = "age")
+    private byte age;
+
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")
@@ -98,5 +118,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "project_id"))
     private List<Project> projects;
+
+    @OneToMany(mappedBy = "user")
+    private List<Education> educationList;
 }
 
