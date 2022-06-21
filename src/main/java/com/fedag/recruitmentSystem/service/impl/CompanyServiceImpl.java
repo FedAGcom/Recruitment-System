@@ -3,7 +3,6 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
-import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
@@ -14,9 +13,8 @@ import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
-import com.fedag.recruitmentSystem.utilites.MainUtilites;
+import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -130,7 +128,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
         Company company = companyRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("User with id: " + id + " not found")
         );
-        company.setPassword(encoder.encode(password));
+        company.setPassword(password);
         companyRepository.save(company);
     }
 
