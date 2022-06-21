@@ -108,8 +108,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
                     "create new email for new role.");
         }
 
-
-
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);

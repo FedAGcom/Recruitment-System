@@ -67,14 +67,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActiveStatus activeStatus;
 
+    @Column(name = "calendar_id")
+    private String calendarId;
+
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Exam exam;
-
-    @Column(name = "calendar_id")
-    private String calendarId;
 
     @OneToMany(
             cascade = CascadeType.ALL,
