@@ -105,7 +105,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @SneakyThrows
     public void initDB(){
-        FileReader fileReader = new FileReader("C:\\Users\\Gemius\\Documents\\GitHub\\Recruitment-System\\src\\main\\resources\\questions.json");
+        FileReader fileReader = new FileReader("questions.json");
         JSONParser jsonParser = new JSONParser();
 
         JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);
@@ -116,13 +116,13 @@ public class QuestionServiceImpl implements QuestionService {
 
         while (i.hasNext()){
             JSONObject innerObj = (JSONObject) i.next();
-            String title = String.valueOf(innerObj.get("title"));
-            String question = String.valueOf(innerObj.get("question"));
-            String answer = String.valueOf(innerObj.get("answer"));
-            String correct = String.valueOf(innerObj.get("correct"));
+            JSONObject title = (JSONObject) innerObj.get("title");
+            JSONObject question = (JSONObject) innerObj.get("question");
+            JSONObject answer = (JSONObject) innerObj.get("answer");
+            JSONObject correct = (JSONObject) innerObj.get("correct");
             String id = UUID.randomUUID().toString();
 
-            addQuestion(id, title, question, answer, correct);
+            addQuestion(id, title.get("type").toString(), question.get("type").toString(), answer.get("type").toString(), correct.get("type").toString());
         }
     }
 }
