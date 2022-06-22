@@ -14,7 +14,7 @@ import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
-import com.fedag.recruitmentSystem.utilites.MainUtilites;
+import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -108,8 +108,6 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
                     "create new email for new role.");
         }
 
-
-
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
@@ -152,7 +150,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("User with id: " + id + " not found")
         );
-        user.setPassword(encoder.encode(password));
+        user.setPassword(password);
         userRepository.save(user);
     }
 
@@ -187,7 +185,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public void activateUser(String code) {
         Optional<User> userOptional = userRepository.findByActivationCode(code);
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
         }
         User user = userOptional.get();
