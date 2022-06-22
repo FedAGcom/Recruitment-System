@@ -4,7 +4,7 @@ package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
 import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExamResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExamResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExamMapper;
 import com.fedag.recruitmentSystem.model.Exam;

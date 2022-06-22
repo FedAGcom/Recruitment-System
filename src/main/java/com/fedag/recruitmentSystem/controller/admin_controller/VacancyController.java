@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
 import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.VacancyResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.model.CustomCalendarEvent;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.VacancyServiceImpl;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/vacancies")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.VACANCY_URL)
 @Tag(name = "Контроллер вакансий", description = "Работа с вакансиями")
 public class VacancyController {
 
@@ -49,7 +50,7 @@ public class VacancyController {
       @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
           content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PreAuthorize("hasAuthority('READ')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping
   public Page<VacancyResponse> getAllVacancies(@PageableDefault(size = 5) Pageable pageable) {
     return vacancyService.getAllVacancies(pageable);
@@ -62,8 +63,8 @@ public class VacancyController {
       @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
           content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PreAuthorize("hasAuthority('READ')")
-  @GetMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @GetMapping(UrlConstants.ID)
   public VacancyResponse getById(@PathVariable Long id) {
     return vacancyService.findById(id);
   }
@@ -75,8 +76,8 @@ public class VacancyController {
       @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
           content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PreAuthorize("hasAuthority('WRITE')")
-  @DeleteMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @DeleteMapping(UrlConstants.ID)
   public void deleteVacancy(@PathVariable Long id) {
     vacancyService.deleteById(id);
   }
@@ -88,8 +89,8 @@ public class VacancyController {
       @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
           content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PreAuthorize("hasAuthority('WRITE')")
-  @PostMapping("/add")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @PostMapping
   public void addVacancy(@RequestBody VacancyRequest vacancyRequest) {
     vacancyService.save(vacancyRequest);
   }
@@ -101,15 +102,15 @@ public class VacancyController {
       @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
           content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
   })
-  @PreAuthorize("hasAuthority('WRITE')")
-  @PutMapping("/{id}")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @PutMapping(UrlConstants.ID)
   public void updateVacancy(@PathVariable Long id, @RequestBody VacancyUpdateRequest vacancyUpdateRequest) {
     vacancyUpdateRequest.setId(id);
     vacancyService.update(vacancyUpdateRequest);
   }
 
   @Operation(summary = "Фильтр вакансий по дате", security = @SecurityRequirement(name = "bearerAuth"))
-  @PreAuthorize("hasAuthority('READ')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping("/filter/date")
   public List<VacancyResponse> findByDateCreated() {
     return vacancyService.findByDateCreated();
@@ -120,8 +121,8 @@ public class VacancyController {
    */
   @SneakyThrows
   @Operation(summary = "Получение всех собеседований в календаре", security = @SecurityRequirement(name = "bearerAuth"))
-  @PreAuthorize("hasAuthority('READ')")
-  @GetMapping("/{id}/events")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @GetMapping(UrlConstants.ID + "/events")
   public List<String> findCalendarEvents(@PathVariable String id) {
     VacancyResponse vacancy = vacancyService.findById(Long.parseLong(id));
     String companyCalendarId = companyService.findById(vacancy.getCompanyId()).getCalendarId();
@@ -130,8 +131,8 @@ public class VacancyController {
 
   @SneakyThrows
   @Operation(summary = "Создание собеседования в календаре", security = @SecurityRequirement(name = "bearerAuth"))
-  @PreAuthorize("hasAuthority('READ')")
-  @PostMapping("/{id}/events")
+  @PreAuthorize("hasAuthority('ADMIN')")
+  @PostMapping(UrlConstants.ID + "/events")
   public void createCalendarEvents(
       @PathVariable String id,
       @RequestBody CustomCalendarEvent customCalendarEvent) {
@@ -144,7 +145,7 @@ public class VacancyController {
 
   @SneakyThrows
   @Operation(summary = "Запись на собеседование в календаре", security = @SecurityRequirement(name = "bearerAuth"))
-  @PreAuthorize("hasAuthority('READ')")
+  @PreAuthorize("hasAuthority('ADMIN')")
   @GetMapping("/{vacancyId}/events/signup")
   public void signForEvent(
       @PathVariable String vacancyId,

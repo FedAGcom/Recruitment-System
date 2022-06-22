@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.MessageRequest;
 import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.MessageResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.MessageResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.MessageMapper;
 import com.fedag.recruitmentSystem.model.Message;

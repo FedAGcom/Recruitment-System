@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponse;
 import com.fedag.recruitmentSystem.model.Resume;
 import java.util.List;
 import java.util.function.Function;

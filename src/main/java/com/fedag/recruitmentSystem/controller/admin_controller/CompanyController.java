@@ -1,9 +1,10 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
-import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyResponse;
 import com.fedag.recruitmentSystem.enums.Role;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,7 +28,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/companies")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.COMPANY_URL)
 @Tag(name = "Контроллер компаний", description = "Работа с компаниями")
 public class CompanyController {
 
@@ -41,7 +42,7 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<CompanyResponse> getAllCompanies(@PageableDefault(size = 5) Pageable pageable) {
         return companyService.getAllCompanies(pageable);
@@ -54,8 +55,8 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public CompanyResponse getById(@PathVariable Long id) {
         return companyService.findById(id);
     }
@@ -67,8 +68,8 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public ResponseEntity<?> deleteCompany(@PathVariable Long id) {
         CompanyResponse company = companyService.findById(id);
         if (company.getRole().equals(Role.ADMIN_INACTIVE)
@@ -79,7 +80,7 @@ public class CompanyController {
         return new ResponseEntity<>("Company set to inactive state successfully.", HttpStatus.OK);
     }
 
-    @Operation(summary = "Добавление компании")
+    @Operation(summary = "Добавление компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Компания добавлена",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -88,6 +89,7 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> addCompany(@Valid @RequestBody CompanyRequest companyRequest) {
         try {
@@ -110,7 +112,7 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/pass/change")
     public ResponseEntity<?> changeCompanyPassword(@Valid @RequestBody CompanyChangePasswordRequest company) {
         try {
@@ -131,8 +133,8 @@ public class CompanyController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateCompany(@PathVariable Long id, @Valid @RequestBody CompanyRequest companyRequest) {
         companyRequest.setId(id);
         companyService.save(companyRequest);

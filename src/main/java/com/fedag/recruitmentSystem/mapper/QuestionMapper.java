@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.QuestionRequest;
 import com.fedag.recruitmentSystem.dto.request.QuestionUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.QuestionResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.QuestionResponse;
 import com.fedag.recruitmentSystem.model.Question;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

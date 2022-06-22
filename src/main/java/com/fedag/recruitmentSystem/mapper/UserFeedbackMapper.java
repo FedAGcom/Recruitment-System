@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserFeedbackResponse;
 import com.fedag.recruitmentSystem.model.UserFeedback;
 import java.util.List;
 import java.util.function.Function;

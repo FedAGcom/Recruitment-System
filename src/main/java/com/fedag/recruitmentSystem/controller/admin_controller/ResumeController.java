@@ -1,10 +1,10 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponse;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,12 +21,11 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/resumes")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.RESUME_URL)
 @Tag(name = "Контроллер резюме", description = "Работа с резюме")
 public class ResumeController {
 
@@ -41,7 +40,7 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter/{position}")
     public Page<ResumeResponse> getAllResumesByPosition(
             @PageableDefault(size = 1) Pageable pageable
@@ -56,14 +55,14 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<ResumeResponse> getAllResumes(@PageableDefault(size = 5) Pageable pageable) {
         return resumeService.getAllResumes(pageable);
     }
 
     @Operation(summary = "Поиск определенного списка резюме", security = @SecurityRequirement(name = "bearerAuth"))
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/search")
     public Page<ResumeResponse> getAllResumesByTextFilter(@RequestParam("text") String text,
                                                           @PageableDefault(size = 15) Pageable pageable) {
@@ -77,15 +76,15 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public ResumeResponse getById(@PathVariable Long id) {
         return resumeService.findById(id);
     }
 
     @Operation(summary = "Получение списка опыта по id", security = @SecurityRequirement(name = "bearerAuth"))
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}/experiences")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID + "/experiences")
     public List<ExperienceResponse> GetExperiencesByResume(@PathVariable("id") Long id) {
         return resumeService.listExperiencesByResume(id);
     }
@@ -97,7 +96,7 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addVacancy(@RequestBody ResumeRequest resume) {
         resumeService.save(resume);
@@ -111,8 +110,8 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody ResumeUpdateRequest resume) {
       resume.setId(id);
       resumeService.update(resume);
@@ -126,15 +125,15 @@ public class ResumeController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteById(@PathVariable Long id) {
         resumeService.deleteById(id);
     }
 
 
     @Operation(summary = "Фильтрация резюме по дате", security = @SecurityRequirement(name = "bearerAuth"))
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter/date")
     public List<ResumeResponse> findByDateCreated() {
         return resumeService.findByDateCreated();

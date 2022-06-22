@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.MessageRequest;
 import com.fedag.recruitmentSystem.dto.request.MessageUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.MessageResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.MessageResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.MessageServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/messages")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.MESSAGE_URL)
 @Tag(name = "Контроллер сообщений", description = "Работа с сообщениями")
 public class MessageController {
 
@@ -35,7 +36,7 @@ public class MessageController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<MessageResponse> getAllMessage(@PageableDefault(size = 5) Pageable pageable) {
         return messageService.getAllMessages(pageable);
@@ -48,8 +49,8 @@ public class MessageController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public MessageResponse getMessageById(@PathVariable Long id) {
         return messageService.findById(id);
     }
@@ -61,7 +62,7 @@ public class MessageController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addMessage(@RequestBody MessageRequest messageResponse) {
         messageService.save(messageResponse);
@@ -74,8 +75,8 @@ public class MessageController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateMessage(@PathVariable Long id, @RequestBody MessageUpdateRequest messageResponse) {
       messageResponse.setId(id);
       messageService.update(messageResponse);
@@ -89,8 +90,8 @@ public class MessageController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteMessage(@PathVariable Long id) {
         messageService.deleteById(id);
     }

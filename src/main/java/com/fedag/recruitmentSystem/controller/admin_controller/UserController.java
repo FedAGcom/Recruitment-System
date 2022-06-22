@@ -1,10 +1,11 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponse;
 import com.fedag.recruitmentSystem.enums.Role;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +30,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.USER_URL)
 @Tag(name = "Контроллер пользователей", description = "Работа с пользователями")
 public class UserController {
 
@@ -43,7 +44,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<UserResponse> getAllUsers(@PageableDefault(size = 5) Pageable pageable) {
         return userService.getAllUsers(pageable);
@@ -57,7 +58,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter")
     public List<UserResponse> findByEntranceExamScore(@RequestParam(defaultValue = "0",
             required = false) int score) {
@@ -71,19 +72,20 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public UserResponse getUser(@PathVariable Long id) {
         return userService.findById(id);
     }
 
-    @Operation(summary = "Добавление пользователя")
+    @Operation(summary = "Добавление пользователя", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Пользователь добавлен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
         try {
@@ -106,7 +108,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/pass/change")
     public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
         try {
@@ -127,8 +129,8 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
         user.setId(id);
         userService.update(user);
@@ -141,8 +143,8 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         UserResponse user = userService.findById(id);
         if (user.getRole().equals(Role.ADMIN_INACTIVE)
@@ -161,7 +163,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter/stars")
     public List<UserResponse> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
         return userService.getByStars(stars);
@@ -175,7 +177,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter/exp={max}")
     public List<UserResponse> findByExperience(@PathVariable(name = "max") String max) { //если max то максимальный опыт. если sum, то общий опыт
         return userService.getByExperience(max);

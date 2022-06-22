@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.SkillRequest;
 import com.fedag.recruitmentSystem.dto.request.SkillUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.SkillResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.SkillResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.SkillServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/skills")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.SKILL_URL)
 @Tag(name = "Контроллер ключевых навыков", description = "Работа с ключевыми навыками")
 public class SkillController {
 
@@ -35,7 +36,7 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<SkillResponse> getAllSkills(@PageableDefault(size = 5) Pageable pageable) {
         return skillService.getAllSkills(pageable);
@@ -48,8 +49,8 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public SkillResponse getById(@PathVariable Long id) {
         return skillService.findById(id);
     }
@@ -61,8 +62,8 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteVacancy(@PathVariable Long id) {
         skillService.deleteById(id);
     }
@@ -74,7 +75,7 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addVacancy(@RequestBody SkillRequest skillRequest) {
         skillService.save(skillRequest);
@@ -88,8 +89,8 @@ public class SkillController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody SkillUpdateRequest skillUpdateRequest) {
       skillUpdateRequest.setId(id);
       skillService.update(skillUpdateRequest);

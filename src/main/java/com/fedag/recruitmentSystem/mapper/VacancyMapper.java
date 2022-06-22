@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyRequest;
 import com.fedag.recruitmentSystem.dto.request.VacancyUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.VacancyResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.VacancyResponse;
 import com.fedag.recruitmentSystem.model.Vacancy;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import javax.annotation.PostConstruct;

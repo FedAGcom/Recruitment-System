@@ -1,5 +1,6 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.model.Question;
 import com.fedag.recruitmentSystem.service.impl.QuestionServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +20,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/questions")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.QUESTION_URL)
 @Tag(name = "Контроллер вопросов", description = "Все CRUD операции с вопросами")
 public class QuestionController {
 
@@ -33,7 +34,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
+    @PreAuthorize("hasAuthority('ADMIN')") // поменять статус на WRITE в релизе
     @PostMapping
     public String addQuestion(@RequestParam("title") String title, @RequestParam("question") String question,
                               @RequestParam("answer") String answer, @RequestParam("correct") String correct) {
@@ -49,7 +50,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
+    @PreAuthorize("hasAuthority('ADMIN')") // поменять статус на WRITE в релизе
     @GetMapping
     public List<Question> search(@RequestParam("query") String query) {
         return questionService.searchQuestionsByTitle(query);
@@ -62,7 +63,7 @@ public class QuestionController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')") // поменять статус на WRITE в релизе
+    @PreAuthorize("hasAuthority('ADMIN')") // поменять статус на WRITE в релизе
     @DeleteMapping
     public void deleteById(@RequestParam("id") String id) {
         questionService.deleteQuestionById(id);

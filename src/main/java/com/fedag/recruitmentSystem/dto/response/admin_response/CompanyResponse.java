@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto.response;
+package com.fedag.recruitmentSystem.dto.response.admin_response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
@@ -17,4 +17,5 @@ public class CompanyResponse {
   private Role role;
   private String calendarId;
   private String activationCode;
+  private String password;
 }

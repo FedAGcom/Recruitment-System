@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserFeedbackResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users/feedbacks")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.USER_FEEDBACK_URL)
 @Tag(name = "Контроллер отзывов о пользователях", description = "Работа с отзывами")
 public class UserFeedbackController {
 
@@ -35,7 +36,7 @@ public class UserFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<UserFeedbackResponse> showAllFeedback(@PageableDefault(size = 5) Pageable pageable) {
         return userFeedbackService.getAllUserFeedbacks(pageable);
@@ -48,8 +49,8 @@ public class UserFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public UserFeedbackResponse getUserFeedback(@PathVariable Long id) {
         return userFeedbackService.findById(id);
     }
@@ -61,7 +62,7 @@ public class UserFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addNewUserFeedback(@RequestBody UserFeedbackRequest userFeedback) {
         userFeedbackService.save(userFeedback);
@@ -75,8 +76,8 @@ public class UserFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateUserFeedback(@PathVariable Long id, @RequestBody UserFeedbackUpdateRequest userFeedback) {
       userFeedback.setId(id);
       userFeedbackService.update(userFeedback);
@@ -89,8 +90,8 @@ public class UserFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteUserFeedback(@PathVariable Long id) {
         userFeedbackService.deleteById(id);
     }

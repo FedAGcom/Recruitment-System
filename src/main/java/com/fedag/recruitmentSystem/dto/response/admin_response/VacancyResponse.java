@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto.response;
+package com.fedag.recruitmentSystem.dto.response.admin_response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import lombok.AllArgsConstructor;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class VacancyResponse {
 
+  private Long id;
   private String header;
   private String description;
   private int salary;

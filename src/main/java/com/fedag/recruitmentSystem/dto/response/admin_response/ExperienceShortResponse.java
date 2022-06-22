@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.dto.response;
+package com.fedag.recruitmentSystem.dto.response.admin_response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExperienceResponse {
+public class ExperienceShortResponse {
     private Long id;
 
     private String description;
@@ -16,6 +16,4 @@ public class ExperienceResponse {
     private LocalDateTime StartDate;
 
     private LocalDateTime EndDate;
-
-    private ResumeShortResponse resume;
 }

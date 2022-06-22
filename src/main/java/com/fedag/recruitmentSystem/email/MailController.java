@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.email;
 
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.security.SecurityService;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
@@ -23,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping(UrlConstants.EMAIL_ACTIVATION_URL)
 @Tag(name = "Контроллер для активации по email", description = "Работа с почтой")
 public class MailController {
 
@@ -45,7 +46,7 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/activate/user/{code}")
+    @GetMapping("/user/{code}")
     public ResponseEntity<?> activateUser(@PathVariable String code) {
         try {
             userService.activateUser(code);
@@ -65,7 +66,7 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/activate/company/{code}")
+    @GetMapping("/company/{code}")
     public ResponseEntity<?> activateCompany(@PathVariable String code) {
         try {
             companyService.activateCompany(code);
@@ -76,14 +77,14 @@ public class MailController {
         }
     }
 
-    @Operation(summary = "Подтверждение пароля польователя")
+    @Operation(summary = "Подтверждение пароля пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/activate/user/password/{id}/{password}")
+    @GetMapping("/user/password" + UrlConstants.ID + "/{password}")
     public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
         userService.confirmPasswordChange(id, password);
         return new ResponseEntity<>("Password has been changed successfully.",
@@ -97,7 +98,7 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/activate/company/password/{id}/{password}")
+    @GetMapping("/company/password" + UrlConstants.ID + "/{password}")
     public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
         companyService.confirmPasswordChange(id, password);
         return new ResponseEntity<>("Password has been changed successfully.",
@@ -111,7 +112,7 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/activate/restore/{email}")
+    @GetMapping("/restore/{email}")
     public ResponseEntity<?> accountRestore(@PathVariable String email) {
         return securityService.reactivateAccount(email);
     }

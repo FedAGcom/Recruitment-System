@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
 import com.fedag.recruitmentSystem.dto.request.VacancyResponseUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.VacancyResponseResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.VacancyResponseResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.VacancyResponseServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/vacancies/responses")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.VACANCY_RESPONSE_URL)
 @Tag(name = "Контроллер откликов", description = "Работа с откликами")
 public class VacancyResponseController {
 
@@ -35,7 +36,7 @@ public class VacancyResponseController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<VacancyResponseResponse> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
         return vacancyResponseService.getAllVacanciesResponses(pageable);
@@ -48,8 +49,8 @@ public class VacancyResponseController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public VacancyResponseResponse getVacancyResponseById(@PathVariable Long id) {
         return vacancyResponseService.findById(id);
     }
@@ -61,7 +62,7 @@ public class VacancyResponseController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addVacancyResponse(@RequestBody VacancyResponseRequest vacancyResponse) {
         vacancyResponseService.save(vacancyResponse);
@@ -74,8 +75,8 @@ public class VacancyResponseController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateVacancyResponse(@PathVariable Long id, @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
       vacancyResponse.setId(id);
       vacancyResponseService.update(vacancyResponse);
@@ -88,8 +89,8 @@ public class VacancyResponseController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void addVacancyResponse(@PathVariable Long id) {
         vacancyResponseService.deleteById(id);
     }

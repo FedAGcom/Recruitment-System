@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
 import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExamResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExamResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ExamServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/exams")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.EXAM_URL)
 @Tag(name = "Контроллер тестов", description = "Работа с тестами")
 public class ExamController {
 
@@ -33,7 +34,7 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<ExamResponse> showAllExams(@PageableDefault(size = 5) Pageable pageable) {
         return examService.getAllExams(pageable);
@@ -46,8 +47,8 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public ExamResponse getExam(@PathVariable Long id) {
         return examService.findById(id);
     }
@@ -59,7 +60,7 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addNewExam(@RequestBody ExamRequest exam) {
         examService.save(exam);
@@ -73,8 +74,8 @@ public class ExamController {
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
 
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
       exam.setId(id);
       examService.update(exam);
@@ -88,8 +89,8 @@ public class ExamController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteExam(@PathVariable Long id) {
         examService.deleteById(id);
     }

@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyFeedbackResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyFeedbackMapper;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;

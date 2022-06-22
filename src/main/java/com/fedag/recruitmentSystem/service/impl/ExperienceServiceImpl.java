@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
 import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponse;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExperienceMapper;
 import com.fedag.recruitmentSystem.model.Experience;

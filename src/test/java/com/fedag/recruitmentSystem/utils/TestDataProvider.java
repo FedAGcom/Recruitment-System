@@ -2,9 +2,9 @@ package com.fedag.recruitmentSystem.utils;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponse;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceShortResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponse;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.Experience;

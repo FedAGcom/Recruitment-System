@@ -1,8 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.CompanyFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyFeedbackResponse;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/companies/feedbacks")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.COMPANY_FEEDBACK_URL)
 @Tag(name = "Контроллер отзывов о компаниях", description = "Работа с отзывами")
 public class CompanyFeedbackController {
 
@@ -34,7 +35,7 @@ public class CompanyFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public Page<CompanyFeedbackResponse> getAllCompanyFeedBack(Pageable pageable) {
         return companyFeedBackService.getAllCompanyFeedbacks(pageable);
@@ -47,8 +48,8 @@ public class CompanyFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('READ')")
-    @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping(UrlConstants.ID)
     public CompanyFeedbackResponse getCompanyFeedBackById(@PathVariable Long id) {
         return companyFeedBackService.findById(id);
     }
@@ -60,7 +61,7 @@ public class CompanyFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public void addCompanyFeedBack(@RequestBody CompanyFeedbackRequest companyFeedBack) {
         companyFeedBackService.save(companyFeedBack);
@@ -73,8 +74,8 @@ public class CompanyFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
       companyFeedBack.setId(id);
       companyFeedBackService.update(companyFeedBack);
@@ -87,8 +88,8 @@ public class CompanyFeedbackController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PreAuthorize("hasAuthority('WRITE')")
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping(UrlConstants.ID)
     public void deleteCompanyFeedBack(@PathVariable Long id) {
         companyFeedBackService.deleteById(id);
     }
