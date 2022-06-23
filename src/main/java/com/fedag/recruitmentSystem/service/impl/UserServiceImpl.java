@@ -23,7 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,7 +70,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-  
+
     @Override
     public List<UserResponse> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
@@ -96,6 +98,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
     @Override
     public void save(UserRequest element) throws EntityIsExistsException {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());

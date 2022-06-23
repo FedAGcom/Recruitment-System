@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -33,7 +34,7 @@ public class UserUpdateRequest {
 
     @NotNull
     private LocalDateTime birthday;
-  
+
     @NotNull
     private String calendarId;
 
@@ -45,6 +46,10 @@ public class UserUpdateRequest {
 
     @NotNull
     private ActiveStatus activeStatus;
+
+    private byte[] image;
+
+    private String imageType;
     private String himselfDescription;
     private LevelEducation levelEducation;
     private String city;

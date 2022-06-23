@@ -90,3 +90,15 @@
     (2,1,'USER', '2022-05-27 06:15:20','NO_READ','Есть у вас перспективы трудоустройства?'),
     (3,2,'COMPANY', '2022-05-20 14:25:20','READ','Не хотели бы вы рассмотреть наши вакансии?');
 
+    INSERT INTO projects(project_name, description,requirement, date_start, date_end,company_id)
+    VALUES
+    ('Java project','project1','Java','2022-06-01','2022-06-22',2),
+    ('C# project','project2','C#','2022-06-01','2022-06-22',2),
+    ('C++ project','project1','C++','2022-06-01','2022-06-22',1);
+
+    INSERT INTO user_project_link
+    VALUES
+    (1,1),
+    (1,2),
+    (2,2);
+

@@ -43,8 +43,14 @@ public class UserRequest {
 
     @NotNull
     private ActiveStatus activeStatus;
+
+    private byte[] image;
+
+    private String imageType;
+
     private String himselfDescription;
     private LevelEducation levelEducation;
     private String city;
     private byte age;
+
 }

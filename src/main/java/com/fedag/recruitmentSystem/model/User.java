@@ -68,6 +68,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private ActiveStatus activeStatus;
 
+    @Schema(description = "Фотография пользователя")
+    @Column(name = "image")
+    private byte[] image;
+
+    @Schema(description = "Тип фотографии")
+    @Column(name = "image_type")
+    private String imageType;
+
     @Schema(description = "О себе")
     @Column(name = "himself_description")
     private String himselfDescription;
@@ -87,14 +95,14 @@ public class User {
     @Column(name = "age")
     private byte age;
 
+    @Column(name = "calendar_id")
+    private String calendarId;
+
     @OneToOne(
             cascade = CascadeType.ALL,
             mappedBy = "user")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Exam exam;
-
-    @Column(name = "calendar_id")
-    private String calendarId;
 
     @OneToMany(
             cascade = CascadeType.ALL,
