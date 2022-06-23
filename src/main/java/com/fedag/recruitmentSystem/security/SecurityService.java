@@ -8,7 +8,7 @@ import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
-import com.fedag.recruitmentSystem.utilites.MainUtilites;
+import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

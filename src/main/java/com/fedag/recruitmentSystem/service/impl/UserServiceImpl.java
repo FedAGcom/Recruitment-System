@@ -3,8 +3,9 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.UserResponse;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
@@ -22,8 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     public List<UserResponse> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-
+  
     @Override
     public List<UserResponse> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
@@ -87,15 +88,16 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     @Override
     public UserResponse findByEmail(String email) {
         User user = userRepository
-                .findByEmail(email)
-                .orElseThrow(
-                        () -> new ObjectNotFoundException("User with email: " + email + " not found")
-                );
+            .findByEmail(email)
+            .orElseThrow(
+                () -> new ObjectNotFoundException("User with email: " + email + " not found")
+            );
         return userMapper.modelToDto(user);
     }
 
     @Override
-    public void save(UserRequest element) {
+    public void save(UserRequest element) throws EntityIsExistsException {
+        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
@@ -143,7 +145,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
 
         try {
             mailSendler.sendHtmlEmail(user.getEmail(), "Password change", message);
-        } catch (MessagingException e) {
+        } catch(MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }

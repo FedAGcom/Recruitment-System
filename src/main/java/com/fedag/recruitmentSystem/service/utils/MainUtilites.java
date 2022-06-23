@@ -1,4 +1,4 @@
-package com.fedag.recruitmentSystem.utilites;
+package com.fedag.recruitmentSystem.service.utils;
 
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.exception.WrongRoleTypeException;

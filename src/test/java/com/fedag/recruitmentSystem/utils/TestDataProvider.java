@@ -18,7 +18,7 @@ import java.util.List;
 public class TestDataProvider {
   
     public static Resume getTestResume(Long userId, Long experienceId, Long resumeId) {
-        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), Role.USER, "some pass", "some activation code", ActiveStatus.ACTIVE, null,null, null, null, null, null);
+        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), Role.USER, "some pass", "some activation code", ActiveStatus.ACTIVE, null, null, null, null, null, null, null);
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
@@ -39,6 +39,7 @@ public class TestDataProvider {
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
                 resume.getUser().getRole(),
+                resume.getUser().getCalendarId(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));
@@ -59,6 +60,7 @@ public class TestDataProvider {
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
                 resume.getUser().getRole(),
+                resume.getUser().getCalendarId(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));
@@ -79,6 +81,7 @@ public class TestDataProvider {
                 resume.getUser().getEmail(),
                 resume.getUser().getBirthday(),
                 resume.getUser().getRole(),
+                resume.getUser().getCalendarId(),
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));

@@ -3,6 +3,7 @@ package com.fedag.recruitmentSystem.dto.request;
 import java.time.LocalDateTime;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -41,4 +43,12 @@ public class UserUpdateRequest {
 
     @NotNull
     private String password;
+
+    private byte[] image;
+
+    private String imageType;
+    private String himselfDescription;
+    private LevelEducation levelEducation;
+    private String city;
+    private byte age;
 }
