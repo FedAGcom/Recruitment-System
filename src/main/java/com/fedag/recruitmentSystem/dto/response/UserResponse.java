@@ -1,11 +1,13 @@
 package com.fedag.recruitmentSystem.dto.response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
+import com.fedag.recruitmentSystem.enums.Role;
 
 @Data
 @NoArgsConstructor
@@ -21,4 +23,9 @@ public class UserResponse {
     private String calendarId;
     private String activationCode;
     private ActiveStatus activeStatus;
+    private String himselfDescription;
+    private LevelEducation levelEducation;
+    private String city;
+    private byte age;
+
 }
