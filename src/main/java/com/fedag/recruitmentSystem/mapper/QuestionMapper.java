@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.QuestionRequest;
 import com.fedag.recruitmentSystem.dto.request.QuestionUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.QuestionResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.QuestionResponseForAdmin;
 import com.fedag.recruitmentSystem.model.Question;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,20 +19,20 @@ public class QuestionMapper {
 
     private final ModelMapper mapper;
 
-    public QuestionResponse modelToDto(Question question) {
-        return mapper.map(question, QuestionResponse.class);
+    public QuestionResponseForAdmin modelToDto(Question question) {
+        return mapper.map(question, QuestionResponseForAdmin.class);
     }
 
-    public List<QuestionResponse> modelToDto(List<Question> questions) {
+    public List<QuestionResponseForAdmin> modelToDto(List<Question> questions) {
         return questions.stream()
                 .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public Page<QuestionResponse> modelToDto(Page<Question> questions) {
-        return questions.map(new Function<Question, QuestionResponse>() {
+    public Page<QuestionResponseForAdmin> modelToDto(Page<Question> questions) {
+        return questions.map(new Function<Question, QuestionResponseForAdmin>() {
             @Override
-            public QuestionResponse apply(Question question) {
+            public QuestionResponseForAdmin apply(Question question) {
                 return modelToDto(question);
             }
         });
@@ -46,11 +46,11 @@ public class QuestionMapper {
         return mapper.map(dto, Question.class);
     }
 
-    public Question dtoToModel(QuestionResponse response) {
+    public Question dtoToModel(QuestionResponseForAdmin response) {
         return mapper.map(response, Question.class);
     }
 
-    public List<Question> dtoToModel(List<QuestionResponse> responses) {
+    public List<Question> dtoToModel(List<QuestionResponseForAdmin> responses) {
         return responses.stream()
                 .map(this::dtoToModel)
                 .collect(Collectors.toList());

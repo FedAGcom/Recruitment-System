@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ExamRequest;
 import com.fedag.recruitmentSystem.dto.request.ExamUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.ExamResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ExamResponseForAdmin;
 import com.fedag.recruitmentSystem.model.Exam;
 import java.util.List;
 import java.util.function.Function;
@@ -18,22 +18,22 @@ public class ExamMapper {
 
   private final ModelMapper mapper;
 
-  public ExamResponse modelToDto(Exam exam) {
-    return mapper.map(exam, ExamResponse.class);
+  public ExamResponseForAdmin modelToDto(Exam exam) {
+    return mapper.map(exam, ExamResponseForAdmin.class);
   }
 
-  public List<ExamResponse> modelToDto(List<Exam> exam) {
+  public List<ExamResponseForAdmin> modelToDto(List<Exam> exam) {
     return exam
         .stream()
         .map(this::modelToDto)
         .collect(Collectors.toList());
   }
 
-  public Page<ExamResponse> modelToDto(Page<Exam> examPage) {
+  public Page<ExamResponseForAdmin> modelToDto(Page<Exam> examPage) {
     return examPage
-        .map(new Function<Exam, ExamResponse>() {
+        .map(new Function<Exam, ExamResponseForAdmin>() {
           @Override
-          public ExamResponse apply(Exam entity) {
+          public ExamResponseForAdmin apply(Exam entity) {
             return modelToDto(entity);
           }
         });
@@ -47,11 +47,11 @@ public class ExamMapper {
     return mapper.map(dto, Exam.class);
   }
 
-  public Exam dtoToModel(ExamResponse dto) {
+  public Exam dtoToModel(ExamResponseForAdmin dto) {
     return mapper.map(dto, Exam.class);
   }
 
-  public List<Exam> dtoToModel(List<ExamResponse> dto) {
+  public List<Exam> dtoToModel(List<ExamResponseForAdmin> dto) {
     return dto
         .stream()
         .map(this::dtoToModel)

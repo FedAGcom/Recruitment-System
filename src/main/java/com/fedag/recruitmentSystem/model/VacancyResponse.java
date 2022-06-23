@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.VacancyResponsesStatus;
@@ -26,7 +27,7 @@ public class VacancyResponse {
     @Column(name = "message")
     private String message;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Текущий статус")
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

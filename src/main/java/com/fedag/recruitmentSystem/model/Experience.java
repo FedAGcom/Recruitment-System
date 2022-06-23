@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,12 +23,12 @@ public class Experience {
     @Column(name = "description")
     private String description;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Дата начала работы")
     @Column(name = "start_date")
     private LocalDateTime startDate;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Дата окончания работы")
     @Column(name = "end_date")
     private LocalDateTime endDate;

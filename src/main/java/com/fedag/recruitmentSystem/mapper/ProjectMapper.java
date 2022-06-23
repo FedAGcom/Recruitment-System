@@ -2,7 +2,8 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.ProjectRequest;
 import com.fedag.recruitmentSystem.dto.request.ProjectUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.ProjectResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ProjectResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.ProjectResponseForUser;
 import com.fedag.recruitmentSystem.model.Project;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -19,22 +20,22 @@ public class ProjectMapper {
 
     private final ModelMapper mapper;
 
-    public ProjectResponse modelToDto(Project project) {
-        return mapper.map(project, ProjectResponse.class);
+    public ProjectResponseForAdmin modelToDto(Project project) {
+        return mapper.map(project, ProjectResponseForAdmin.class);
     }
 
-    public List<ProjectResponse> modelToDto(List<Project> project) {
+    public List<ProjectResponseForAdmin> modelToDto(List<Project> project) {
         return project
                 .stream()
                 .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public Page<ProjectResponse> modelToDto(Page<Project> projectPage) {
+    public Page<ProjectResponseForAdmin> modelToDto(Page<Project> projectPage) {
         return projectPage
-                .map(new Function<Project, ProjectResponse>() {
+                .map(new Function<Project, ProjectResponseForAdmin>() {
                     @Override
-                    public ProjectResponse apply(Project entity) {
+                    public ProjectResponseForAdmin apply(Project entity) {
                         return modelToDto(entity);
                     }
                 });
@@ -48,14 +49,28 @@ public class ProjectMapper {
         return mapper.map(dto, Project.class);
     }
 
-    public Project dtoToModel(ProjectResponse dto) {
+    public Project dtoToModel(ProjectResponseForAdmin dto) {
         return mapper.map(dto, Project.class);
     }
 
-    public List<Project> dtoToModel(List<ProjectResponse> dto) {
+    public List<Project> dtoToModel(List<ProjectResponseForAdmin> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ProjectResponseForUser> modelToDtoForUser(Page<Project> projectPage) {
+        return projectPage
+                .map(new Function<Project, ProjectResponseForUser>() {
+                    @Override
+                    public ProjectResponseForUser apply(Project entity) {
+                        return modelToDtoForUser(entity);
+                    }
+                });
+    }
+
+    public ProjectResponseForUser modelToDtoForUser(Project project) {
+        return mapper.map(project, ProjectResponseForUser.class);
     }
 }

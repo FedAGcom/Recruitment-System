@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.MessageStatus;
@@ -24,17 +25,17 @@ public class Message {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "От кого сообщение")
     @Column(name = "from_entity_message")
     @Enumerated(EnumType.STRING)
     private FeedbackSentFromEntity entityType;
 
-    @NotBlank
+    @NotNull
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Прочитано или нет")
     @Column(name = "is_read")
     @Enumerated(EnumType.STRING)

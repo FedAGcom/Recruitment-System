@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class UserFeedback {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Оценка")
     @Column(name = "stars")
     private byte stars;
@@ -35,12 +36,12 @@ public class UserFeedback {
     @Column(name = "comment")
     private String comment;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Сущность, которая оставила отзыв")
     @Column(name = "entity_from_id")
     private Long entityFromId;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Тип сущности")
     @Column(name = "entity_from_type")
     @Enumerated(EnumType.STRING)

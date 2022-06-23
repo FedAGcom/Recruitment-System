@@ -3,9 +3,9 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
@@ -14,7 +14,7 @@ import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.UserService;
-import com.fedag.recruitmentSystem.utilites.MainUtilites;
+import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -23,8 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,7 +32,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService<UserResponse, UserRequest, UserUpdateRequest> {
+public class UserServiceImpl implements UserService<UserResponseForAdmin,
+        UserRequest, UserUpdateRequest> {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -51,32 +52,32 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     private final PasswordEncoder encoder;
 
     @Override
-    public List<UserResponse> getAllUsers() {
+    public List<UserResponseForAdmin> getAllUsers() {
         return userMapper.modelToDto(userRepository.findAll());
     }
 
     @Override
-    public Page<UserResponse> getAllUsers(Pageable pageable) {
+    public Page<UserResponseForAdmin> getAllUsers(Pageable pageable) {
         return userMapper.modelToDto(userRepository.findAll(pageable));
     }
 
     @Override
-    public List<UserResponse> getByEntranceExamScore(int score) {
+    public List<UserResponseForAdmin> getByEntranceExamScore(int score) {
         return userMapper.modelToDto(userRepository.findByEntranceExamScore(score));
     }
 
     @Override
-    public List<UserResponse> getByStars(byte stars) {
+    public List<UserResponseForAdmin> getByStars(byte stars) {
         return userMapper.modelToDto(userRepository.findByStars(stars));
     }
-  
+
     @Override
-    public List<UserResponse> getByExperience(String max) {
+    public List<UserResponseForAdmin> getByExperience(String max) {
         return userMapper.modelToDto(userRepository.findByExperience(max));
     }
 
     @Override
-    public UserResponse findById(Long id) {
+    public UserResponseForAdmin findById(Long id) {
         User user = userRepository
                 .findById(id)
                 .orElseThrow(
@@ -86,18 +87,17 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
     }
 
     @Override
-    public UserResponse findByEmail(String email) {
+    public UserResponseForAdmin findByEmail(String email) {
         User user = userRepository
-            .findByEmail(email)
-            .orElseThrow(
-                () -> new ObjectNotFoundException("User with email: " + email + " not found")
-            );
+                .findByEmail(email)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with email: " + email + " not found")
+                );
         return userMapper.modelToDto(user);
     }
 
     @Override
     public void save(UserRequest element) throws EntityIsExistsException {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
@@ -139,13 +139,13 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         }
 
         String link = hostURL + ":" + portURL + changePassURL + userRequest.getId() + "/" +
-                userRequest.getPassword();
+                encoder.encode(userRequest.getPassword());
         String message = String.format("<div>Request to change password</div><div>Please" +
-                " follow the link: <a href=\"%s\">%s</a></div>", link, link);
+                " follow the link: <a href=\"%s\">Confirm</a></div>", link);
 
         try {
             mailSendler.sendHtmlEmail(user.getEmail(), "Password change", message);
-        } catch(MessagingException e) {
+        } catch (MessagingException e) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         User user = userRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("User with id: " + id + " not found")
         );
-        user.setPassword(encoder.encode(password));
+        user.setPassword(password);
         userRepository.save(user);
     }
 
@@ -186,5 +186,35 @@ public class UserServiceImpl implements UserService<UserResponse, UserRequest, U
         User user = userOptional.get();
         user.setActivationCode(null);
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserResponseForUser> getByStarsForUser(byte stars) {
+        return userMapper.modelToDtoForUser(userRepository.findByStars(stars));
+    }
+
+    @Override
+    public List<UserResponseForUser> getByExperienceForUser(String max) {
+        return userMapper.modelToDtoForUser(userRepository.findByExperience(max));
+    }
+
+    @Override
+    public UserResponseForUser findByIdForUser(Long id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("User with id: " + id + " not found")
+                );
+        return userMapper.modelToDtoForUser(user);
+    }
+
+    @Override
+    public List<UserResponseForUser> getByEntranceExamScoreForUser(int score) {
+        return userMapper.modelToDtoForUser(userRepository.findByEntranceExamScore(score));
+    }
+
+    @Override
+    public Page<UserResponseForUser> getAllUsersForUser(Pageable pageable) {
+        return userMapper.modelToDtoForUser(userRepository.findAll(pageable));
     }
 }

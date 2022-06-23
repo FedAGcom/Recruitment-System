@@ -21,9 +21,10 @@ public class UrlConstants {
     public static final String USER_FEEDBACK_URL = "/users/feedbacks";
     public static final String VACANCY_URL = "/vacancies";
     public static final String VACANCY_RESPONSE_URL = "/vacancies/responses";
+    public static final String EDUCATION_URL = "/api/educations";
 
     public static final String EMAIL_ACTIVATION_URL = "/api/activate";
-    public static final String SECURITY_URL = "api/auth";
+    public static final String SECURITY_URL = "/api/auth";
 
     public static final String ID = "/{id}";
 }

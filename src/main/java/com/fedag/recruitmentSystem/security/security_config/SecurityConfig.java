@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.security.security_config;
 
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.security.jwt.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/auth/login").permitAll()
-                .antMatchers("/api/activate/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users", "/api/companies").permitAll()
+                .antMatchers(UrlConstants.SECURITY_URL + "/login").permitAll()
+                .antMatchers(UrlConstants.EMAIL_ACTIVATION_URL + "/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

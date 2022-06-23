@@ -2,59 +2,75 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyFeedbackResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyFeedbackResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.CompanyFeedbackResponseForUser;
 import com.fedag.recruitmentSystem.model.CompanyFeedBack;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @Component
 @RequiredArgsConstructor
 public class CompanyFeedbackMapper {
 
-  private final ModelMapper mapper;
+    private final ModelMapper mapper;
 
-  public CompanyFeedbackResponse modelToDto(CompanyFeedBack companyFeedBack) {
-    return mapper.map(companyFeedBack, CompanyFeedbackResponse.class);
-  }
+    public CompanyFeedbackResponseForAdmin modelToDto(CompanyFeedBack companyFeedBack) {
+        return mapper.map(companyFeedBack, CompanyFeedbackResponseForAdmin.class);
+    }
 
-  public List<CompanyFeedbackResponse> modelToDto(List<CompanyFeedBack> companyFeedBackList) {
-    return companyFeedBackList
-        .stream()
-        .map(this::modelToDto)
-        .collect(Collectors.toList());
-  }
+    public List<CompanyFeedbackResponseForAdmin> modelToDto(List<CompanyFeedBack> companyFeedBackList) {
+        return companyFeedBackList
+                .stream()
+                .map(this::modelToDto)
+                .collect(Collectors.toList());
+    }
 
-  public Page<CompanyFeedbackResponse> modelToDto(Page<CompanyFeedBack> companyFeedBacks) {
-    return companyFeedBacks
-        .map(new Function<CompanyFeedBack, CompanyFeedbackResponse>() {
-          @Override
-          public CompanyFeedbackResponse apply(CompanyFeedBack entity) {
-            return modelToDto(entity);
-          }
-        });
-  }
+    public Page<CompanyFeedbackResponseForAdmin> modelToDto(Page<CompanyFeedBack> companyFeedBacks) {
+        return companyFeedBacks
+                .map(new Function<CompanyFeedBack, CompanyFeedbackResponseForAdmin>() {
+                    @Override
+                    public CompanyFeedbackResponseForAdmin apply(CompanyFeedBack entity) {
+                        return modelToDto(entity);
+                    }
+                });
+    }
 
-  public CompanyFeedBack dtoToModel(CompanyFeedbackRequest dto) {
-    return mapper.map(dto, CompanyFeedBack.class);
-  }
+    public CompanyFeedBack dtoToModel(CompanyFeedbackRequest dto) {
+        return mapper.map(dto, CompanyFeedBack.class);
+    }
 
-  public CompanyFeedBack dtoToModel(CompanyFeedbackUpdateRequest dto) {
-    return mapper.map(dto, CompanyFeedBack.class);
-  }
+    public CompanyFeedBack dtoToModel(CompanyFeedbackUpdateRequest dto) {
+        return mapper.map(dto, CompanyFeedBack.class);
+    }
 
-  public CompanyFeedBack dtoToModel(CompanyFeedbackResponse dto) {
-    return mapper.map(dto, CompanyFeedBack.class);
-  }
+    public CompanyFeedBack dtoToModel(CompanyFeedbackResponseForAdmin dto) {
+        return mapper.map(dto, CompanyFeedBack.class);
+    }
 
-  public List<CompanyFeedBack> dtoToModel(List<CompanyFeedbackResponse> dto) {
-    return dto
-        .stream()
-        .map(this::dtoToModel)
-        .collect(Collectors.toList());
-  }
+    public List<CompanyFeedBack> dtoToModel(List<CompanyFeedbackResponseForAdmin> dto) {
+        return dto
+                .stream()
+                .map(this::dtoToModel)
+                .collect(Collectors.toList());
+    }
+
+    public Page<CompanyFeedbackResponseForUser> modelToDtoForUser(Page<CompanyFeedBack> companyFeedBacks) {
+        return companyFeedBacks
+                .map(new Function<CompanyFeedBack, CompanyFeedbackResponseForUser>() {
+                    @Override
+                    public CompanyFeedbackResponseForUser apply(CompanyFeedBack entity) {
+                        return modelToDtoForUser(entity);
+                    }
+                });
+    }
+
+    public CompanyFeedbackResponseForUser modelToDtoForUser(CompanyFeedBack companyFeedBack) {
+        return mapper.map(companyFeedBack, CompanyFeedbackResponseForUser.class);
+    }
 }

@@ -3,10 +3,9 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
-import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
-import com.fedag.recruitmentSystem.dto.response.CompanyResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.CompanyResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
@@ -14,7 +13,6 @@ import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
-import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +32,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CompanyServiceImpl implements CompanyService<CompanyResponse, CompanyRequest, CompanyUpdateRequest> {
+public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmin,
+        CompanyRequest, CompanyUpdateRequest> {
 
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
     private final MailSendlerService mailSendler;
     private final UserRepository userRepository;
-    
+
     @Value("${host.url}")
     private String hostURL;
     @Value("${server.port}")
@@ -53,7 +52,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     private final PasswordEncoder encoder;
 
     @Override
-    public List<CompanyResponse> getAllCompanies() {
+    public List<CompanyResponseForAdmin> getAllCompanies() {
         return companyRepository
                 .findAll()
                 .stream()
@@ -62,14 +61,14 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
     }
 
     @Override
-    public Page<CompanyResponse> getAllCompanies(Pageable pageable) {
+    public Page<CompanyResponseForAdmin> getAllCompanies(Pageable pageable) {
         return companyRepository
                 .findAll(pageable)
                 .map(companyMapper::toDto);
     }
 
     @Override
-    public CompanyResponse findById(Long id) {
+    public CompanyResponseForAdmin findById(Long id) {
         return companyMapper.toDto(companyRepository
                 .findById(id)
                 .orElseThrow(
@@ -113,14 +112,14 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
                 () -> new ObjectNotFoundException("User with id: " + companyRequest.getId() +
                         " not found")
         );
-        if(company.getPassword().equals(companyRequest.getPassword())) {
+        if (company.getPassword().equals(companyRequest.getPassword())) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Password is the same");
         }
 
         String link = hostURL + ":" + portURL + changePassURL + companyRequest.getId() + "/" +
-                companyRequest.getPassword();
+                encoder.encode(companyRequest.getPassword());
         String message = String.format("<div>Request to change password</div>" +
-                "<div>Please follow the link: <a href=\"%s\">%s</a></div>", link, link);
+                "<div>Please follow the link: <a href=\"%s\">Confirm</a></div>", link);
 
         try {
             mailSendler.sendHtmlEmail(company.getEmail(), "Password change", message);
@@ -140,7 +139,6 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
 
     @Override
     public void update(CompanyUpdateRequest element) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         Company company = companyMapper.toEntity(element);
         company.setPassword(encoder.encode(company.getPassword()));
         companyRepository.save(company);
@@ -165,5 +163,22 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponse, Compa
                 );
         company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
         companyRepository.save(company);
+    }
+
+    @Override
+    public Page<CompanyResponseForUser> getAllCompaniesForUser(Pageable pageable) {
+        return companyRepository
+                .findAll(pageable)
+                .map(companyMapper::toDtoForUser);
+    }
+
+    @Override
+    public CompanyResponseForUser findByIdForUser(Long id) {
+        return companyMapper.toDtoForUser(companyRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Company with id: " + id +
+                                " not found")
+                ));
     }
 }

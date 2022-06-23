@@ -13,6 +13,6 @@ public class EducationRequest {
     private String name;
     private String faculty;
     private String specialty;
-    private String age;
-    private User user;
+    private int age;
+    private Long userId;
 }

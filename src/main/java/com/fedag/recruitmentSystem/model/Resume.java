@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,13 @@ public class Resume {
     @Column(name = "resume_name")
     private String resumeName;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус поиска (Да/Нет)")
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private ActiveStatus status;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Дата размещения")
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
