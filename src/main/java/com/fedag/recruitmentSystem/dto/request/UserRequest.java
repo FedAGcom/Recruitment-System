@@ -1,6 +1,7 @@
 package com.fedag.recruitmentSystem.dto.request;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,10 +39,18 @@ public class UserRequest {
     private String password;
 
     @NotNull
+    private String calendarId;
+
+    @NotNull
     private ActiveStatus activeStatus;
 
     private byte[] image;
 
     private String imageType;
+
+    private String himselfDescription;
+    private LevelEducation levelEducation;
+    private String city;
+    private byte age;
 
 }

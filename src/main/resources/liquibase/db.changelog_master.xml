@@ -5,23 +5,33 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
 
     <!--changeSets-->
-    <include file="db_changelog/v1.0/v_1.1_create_enum_types.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.2_create_table_users.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.3_create_table_entrance_exams.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.4_create_table_user_feedback.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.5_create_table_resume.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.6_create_table_experience.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.7_create_table_skills.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.8_create_table_resume_skill_link.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/v_1.9_create_table_companies.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_enum_types.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_users.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_entrance_exams.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_user_feedback.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_resume.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_experience.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_skills.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_resume_skill_link.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_companies.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_company_feedback.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_vacancies.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_vacancies_skill_link.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_vacancy_responses.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_messages.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_projects.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/create_table_user_project_link.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/fill_all_tables.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v2.0/v_2.8_new_values_to_enum_role_type.sql" relativeToChangelogFile="true"/>
 
-    <include file="db_changelog/v2.0/v_2.0_create_table_company_feedback.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.1_create_table_vacancies.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.2_create_table_vacancies_skill_link.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.3_create_table_vacancy_responses.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.4_create_table_messages.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.5_fill_all_tables.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.6_create_table_projects.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.7_create_table_user_project_link.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/v_2.8_fill_tables_project_and_project_link.sql" relativeToChangelogFile="true"/>
+    <changeSet id="1655287408372-1" author="grits">
+        <addColumn tableName="users">
+            <column name="calendar_id" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1655287468697-1" author="grits">
+        <addColumn tableName="companies">
+            <column name="calendar_id" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

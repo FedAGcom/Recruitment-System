@@ -14,6 +14,7 @@ import javax.validation.constraints.Null;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyRequest {
+  
     @Null
     private Long id;
 
@@ -32,6 +33,9 @@ public class CompanyRequest {
 
     @NotNull
     private String password;
+  
+    @NotNull
+    private String calendarId;
 
     @NotNull
     private ActiveStatus activeStatus;

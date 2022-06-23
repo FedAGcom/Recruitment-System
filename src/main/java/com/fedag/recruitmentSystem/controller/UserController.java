@@ -1,8 +1,10 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -102,6 +104,19 @@ public class UserController {
                 HttpStatus.OK); //redirect /api/success-registration
     }
 
+    @PostMapping("/pass/change")
+    public ResponseEntity<?> changeUserPassword(@Valid @RequestBody UserChangePasswordRequest user) {
+        try {
+            userService.changePassword(user);
+        } catch (ResponseStatusException e) {
+            return new ResponseEntity<>(e.getReason(),
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Request to user password change has been added successfully." +
+                " Please check user email to confirm the change.",
+                HttpStatus.OK);
+    }
+
     @Operation(summary = "Изменение пользователя", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Пользователь изменен",
@@ -130,8 +145,14 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
-        userService.deleteById(id);
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        UserResponse user = userService.findById(id);
+        if(user.getRole().equals(Role.ADMIN_INACTIVE)
+        || user.getRole().equals(Role.USER_INACTIVE) ) {
+            return new ResponseEntity<>("User already in inactive state.", HttpStatus.OK);
+        }
+        userService.disableById(id);
+        return new ResponseEntity<>("User set to inactive state successfully.", HttpStatus.OK);
     }
 
     @Operation(summary = "Сортировка списка пользователей по рейтингу",
@@ -157,7 +178,7 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/filter/exp={max}")
-    public List<UserResponse> findByExperience(@PathVariable(name = "max") int max) { //если max 0, то общий опыт. если 1, то общий опыт
+    public List<UserResponse> findByExperience(@PathVariable(name = "max") String max) { //если max то максимальный опыт. если sum, то общий опыт
         return userService.getByExperience(max);
     }
 }
