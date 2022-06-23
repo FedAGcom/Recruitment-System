@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompilerRequest {
 
-  @JsonIgnore
   private String clientId;
-  @JsonIgnore
   private String clientSecret;
   private String script;
 
