@@ -38,7 +38,8 @@ public class VacancyResponseControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
-    public Page<VacancyResponseResponseForAdmin> getAllVacancyResponse(@PageableDefault(size = 5) Pageable pageable) {
+    public Page<VacancyResponseResponseForAdmin> getAllVacancyResponse(
+            @PageableDefault(size = 5) Pageable pageable) {
         return vacancyResponseService.getAllVacanciesResponses(pageable);
     }
 
@@ -77,9 +78,10 @@ public class VacancyResponseControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
-    public void updateVacancyResponse(@PathVariable Long id, @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
-      vacancyResponse.setId(id);
-      vacancyResponseService.update(vacancyResponse);
+    public void updateVacancyResponse(@PathVariable Long id,
+                                      @RequestBody VacancyResponseUpdateRequest vacancyResponse) {
+        vacancyResponse.setId(id);
+        vacancyResponseService.update(vacancyResponse);
     }
 
     @Operation(summary = "Удаление отклика", security = @SecurityRequirement(name = "bearerAuth"))
@@ -105,8 +107,8 @@ public class VacancyResponseControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/by_user_id" + UrlConstants.ID)
-    public Page<VacancyResponseResponseForAdmin> getAllVacancyResponseByUserId(@PageableDefault(size = 5) Pageable pageable,
-                                                                               @PathVariable Long id) {
+    public Page<VacancyResponseResponseForAdmin> getAllVacancyResponseByUserId(
+            @PageableDefault(size = 5) Pageable pageable, @PathVariable Long id) {
         return vacancyResponseService.getAllVacanciesResponsesByUserId(pageable, id);
     }
 }

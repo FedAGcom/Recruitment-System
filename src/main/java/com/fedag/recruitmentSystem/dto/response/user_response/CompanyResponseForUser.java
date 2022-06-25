@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.response.user_response;
 
-import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyResponseForUser {
 
-  private String companyName;
-  private String email;
-  private String location;
+    private String companyName;
+    private String email;
+    private String location;
 
 }

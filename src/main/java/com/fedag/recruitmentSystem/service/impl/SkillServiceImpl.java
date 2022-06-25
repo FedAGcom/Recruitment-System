@@ -46,7 +46,8 @@ public class SkillServiceImpl implements SkillService<SkillResponseForAdmin,
                 (skillRepository
                         .findById(id)
                         .orElseThrow(
-                                () -> new ObjectNotFoundException("Skill with id: " + id + " not found")
+                                () -> new ObjectNotFoundException("Skill with id: " +
+                                        id + " not found")
                         ));
     }
 

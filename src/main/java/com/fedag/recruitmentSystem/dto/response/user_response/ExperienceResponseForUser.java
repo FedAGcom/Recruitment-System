@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ExperienceResponseForUser {
 
-
-
     private String description;
 
     private LocalDateTime StartDate;

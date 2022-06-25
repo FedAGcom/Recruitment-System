@@ -10,12 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyResponseForAdmin {
 
-  private Long id;
-  private String companyName;
-  private String email;
-  private String location;
-  private Role role;
-  private String calendarId;
-  private String activationCode;
-  private String password;
+    private Long id;
+    private String companyName;
+    private String email;
+    private String location;
+    private Role role;
+    private String calendarId;
+    private String activationCode;
+    private String password;
 }

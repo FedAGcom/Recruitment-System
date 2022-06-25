@@ -1,9 +1,9 @@
-package com.fedag.recruitmentSystem.controller;
+package com.fedag.recruitmentSystem.controller.admin_controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;
@@ -23,9 +23,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @RestController
@@ -34,7 +38,8 @@ import java.util.List;
 @Tag(name = "Контроллер пользователей для админа", description = "Работа с пользователями")
 public class UserControllerForAdmin {
 
-    @Schema(name = "Сервис пользователей", description = "Содержит имплементацию методов для работы с репозиторием")
+    @Schema(name = "Сервис пользователей",
+            description = "Содержит имплементацию методов для работы с репозиторием")
     private final UserServiceImpl userService;
 
     @Operation(summary = "Получение списка пользователей", security = @SecurityRequirement(name = "bearerAuth"))
@@ -85,8 +90,17 @@ public class UserControllerForAdmin {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PostMapping
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping(consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> addNewUser(@RequestPart MultipartFile file,
+                                        @Valid @RequestPart UserRequest user) throws IOException {
+        if (!file.isEmpty()) {
+            user.setImage(file.getBytes());
+            user.setImageType(file.getContentType());
+        } else {
+            user.setImage(Files.readAllBytes(Paths.get("src/main/resources/deafaultUserImage.jpg")));
+            user.setImageType("jpg");
+        }
         try {
             userService.save(user);
         } catch (ResponseStatusException e) {
@@ -130,7 +144,15 @@ public class UserControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
-    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
+    public void updateUser(@PathVariable Long id, @RequestPart MultipartFile file,
+                           @Valid @RequestPart UserUpdateRequest user) throws IOException {
+        if (!file.isEmpty()) {
+            user.setImage(file.getBytes());
+            user.setImageType(file.getContentType());
+        } else {
+            user.setImage(Files.readAllBytes(Paths.get("src/main/resources/deafaultUserImage.jpg")));
+            user.setImageType("jpg");
+        }
         user.setId(id);
         userService.update(user);
     }
@@ -164,7 +186,8 @@ public class UserControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/filter/stars")
-    public List<UserResponseForAdmin> findByStars(@RequestParam(defaultValue = "0", required = false) byte stars) {
+    public List<UserResponseForAdmin> findByStars(@RequestParam(defaultValue = "0",
+            required = false) byte stars) {
         return userService.getByStars(stars);
     }
 
@@ -180,5 +203,15 @@ public class UserControllerForAdmin {
     @GetMapping("/filter/exp={max}")
     public List<UserResponseForAdmin> findByExperience(@PathVariable(name = "max") String max) { //если max то максимальный опыт. если sum, то общий опыт
         return userService.getByExperience(max);
+    }
+
+
+    //Тестовый контроллер для проверки работоспособности image
+    @GetMapping("/test-image" + UrlConstants.ID)
+    public String testImage(@PathVariable Long id) { //если max то максимальный опыт. если sum, то общий опыт
+        UserResponseForAdmin user = userService.findById(id);
+        String image = user.getImage();
+        String imageType = user.getImageType();
+        return "<img src='data:" + imageType + ";base64," + image + "'/>";
     }
 }

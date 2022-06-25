@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class ResumeResponseForUser {
 
-
     private String resumeName;
 
     private ActiveStatus status;

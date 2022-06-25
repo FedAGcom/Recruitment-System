@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.EducationRequest;
 import com.fedag.recruitmentSystem.dto.request.EducationUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.EducationResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.EducationResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.EducationServiceImpl;

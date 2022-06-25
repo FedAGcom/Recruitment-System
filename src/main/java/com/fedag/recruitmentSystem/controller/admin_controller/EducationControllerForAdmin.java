@@ -26,7 +26,8 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Контроллер образования для админа", description = "Работа с образованием пользователя")
 public class EducationControllerForAdmin {
 
-    @Schema(name = "Сервис образования", description = "Содержит имплементацию методов для работы с репозиторием")
+    @Schema(name = "Сервис образования",
+            description = "Содержит имплементацию методов для работы с репозиторием")
     private final EducationServiceImpl educationService;
 
     @Operation(summary = "Получение мест учёбы по id", security = @SecurityRequirement(name = "bearerAuth"))

@@ -26,10 +26,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Контроллер ключевых навыков для админа", description = "Работа с ключевыми навыками")
 public class SkillControllerForAdmin {
 
-    @Schema(name = "Сервис ключевых навыков", description = "Содержит имплементацию методов для работы с репозиторием")
+    @Schema(name = "Сервис ключевых навыков",
+            description = "Содержит имплементацию методов для работы с репозиторием")
     private final SkillServiceImpl skillService;
 
-    @Operation(summary = "Получение списка ключевых навыков", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Получение списка ключевых навыков",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Список загружен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -81,7 +83,6 @@ public class SkillControllerForAdmin {
         skillService.save(skillRequest);
     }
 
-
     @Operation(summary = "Изменение ключевого навыка", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Навык изменен",
@@ -92,7 +93,7 @@ public class SkillControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody SkillUpdateRequest skillUpdateRequest) {
-      skillUpdateRequest.setId(id);
-      skillService.update(skillUpdateRequest);
-  }
+        skillUpdateRequest.setId(id);
+        skillService.update(skillUpdateRequest);
+    }
 }

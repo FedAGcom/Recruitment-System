@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,12 +80,13 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
         Company company = companyMapper.toEntity(element);
         Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
         if (companyFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exists");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
+                    "Company with this email exists");
         }
         if (userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList())
                 .contains(company.getEmail())) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists. Please, " +
-                    "create new email for new role");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
+                    "User with this email exists. Please, create new email for new role");
         }
         company.setPassword(encoder.encode(company.getPassword()));
         company.setActivationCode(UUID.randomUUID().toString());

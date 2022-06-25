@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.VacancyResponseRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.VacancyResponseResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.VacancyResponseResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.VacancyResponseServiceImpl;
@@ -78,8 +77,8 @@ public class VacancyResponseControllerForUser {
     })
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/by_user_id" + UrlConstants.ID)
-    public Page<VacancyResponseResponseForUser> getAllVacancyResponseByUserId(@PageableDefault(size = 5) Pageable pageable,
-                                                                               @PathVariable Long id) {
+    public Page<VacancyResponseResponseForUser> getAllVacancyResponseByUserId(
+            @PageableDefault(size = 5) Pageable pageable, @PathVariable Long id) {
         return vacancyResponseService.getAllVacanciesResponsesByUserIdForUser(pageable, id);
     }
 }

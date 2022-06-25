@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyChangePasswordRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.CompanyResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.CompanyServiceImpl;
@@ -60,7 +59,6 @@ public class CompanyControllerForUser {
         return companyService.findByIdForUser(id);
     }
 
-
     @Operation(summary = "Изменение пароля компании", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания изменена",
@@ -83,5 +81,4 @@ public class CompanyControllerForUser {
                 " Please check company email to confirm the change.",
                 HttpStatus.OK);
     }
-
 }

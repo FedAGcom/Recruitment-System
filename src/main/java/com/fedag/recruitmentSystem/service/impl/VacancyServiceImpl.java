@@ -90,7 +90,8 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponseForAdmi
         List<Event> event = calendar.events().list(calendarId).execute().getItems();
 
         return event.stream()
-                .map(e -> "Header: " + e.getSummary() + " | Start time: " + e.getStart().getDateTime() + " | Description:" + e.getDescription())
+                .map(e -> "Header: " + e.getSummary() + " | Start time: " +
+                        e.getStart().getDateTime() + " | Description:" + e.getDescription())
                 .collect(Collectors.toList());
     }
 
@@ -103,7 +104,8 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponseForAdmi
         Calendar calendar = GoogleApi.getCalendar();
         List<Event> events = calendar.events().list(calendarId).execute().getItems();
         if (events.stream().anyMatch(e -> e.getSummary().equals(eventSummary))) {
-            Event event = events.stream().filter(e -> e.getSummary().equals(eventSummary)).findFirst().get();
+            Event event = events.stream().filter(e -> e.getSummary().equals(eventSummary))
+                    .findFirst().get();
 
             if (Optional.ofNullable(event.getAttendees()).isPresent()) {
                 throw new EventAttendeeAlreadyExists();
@@ -169,5 +171,4 @@ public class VacancyServiceImpl implements VacancyService<VacancyResponseForAdmi
         return vacancyRepository.findByCompanyId(pageable, id)
                 .map(vacancyMapper::toDtoForUser);
     }
-
 }

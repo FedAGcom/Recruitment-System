@@ -13,13 +13,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class VacancyResponseForUser {
 
-
-  private String header;
-  private String description;
-  private int salary;
-  private String experience;
-  private ActiveStatus status;
-  private LocalDateTime dateCreated;
-  private Long companyId;
+    private String header;
+    private String description;
+    private int salary;
+    private String experience;
+    private ActiveStatus status;
+    private LocalDateTime dateCreated;
+    private Long companyId;
 
 }

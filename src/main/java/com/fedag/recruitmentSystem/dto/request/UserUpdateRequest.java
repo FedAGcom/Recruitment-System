@@ -1,8 +1,5 @@
 package com.fedag.recruitmentSystem.dto.request;
 
-import java.time.LocalDateTime;
-
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
@@ -34,7 +31,7 @@ public class UserUpdateRequest {
 
     @NotNull
     private LocalDateTime birthday;
-  
+
     @NotNull
     private String calendarId;
 

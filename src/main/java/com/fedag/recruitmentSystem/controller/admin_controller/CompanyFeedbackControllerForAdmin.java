@@ -77,9 +77,9 @@ public class CompanyFeedbackControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
-      companyFeedBack.setId(id);
-      companyFeedBackService.update(companyFeedBack);
-   }
+        companyFeedBack.setId(id);
+        companyFeedBackService.update(companyFeedBack);
+    }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

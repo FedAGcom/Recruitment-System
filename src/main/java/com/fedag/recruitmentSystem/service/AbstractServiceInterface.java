@@ -1,7 +1,5 @@
 package com.fedag.recruitmentSystem.service;
 
-import java.io.UnsupportedEncodingException;
-
 public interface AbstractServiceInterface<T, S, U> {
 
     T findById(Long id);

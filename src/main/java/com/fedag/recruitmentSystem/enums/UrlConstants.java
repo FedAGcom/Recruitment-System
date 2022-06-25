@@ -5,7 +5,6 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class UrlConstants {
 
-
     public static final String MAIN_URL_USER = "/api/user";
     public static final String MAIN_URL_ADMIN = "/api/admin";
     public static final String COMPANY_URL = "/companies";

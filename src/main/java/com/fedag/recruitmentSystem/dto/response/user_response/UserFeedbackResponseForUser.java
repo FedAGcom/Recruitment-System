@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserFeedbackResponseForUser {
 
-
     private byte stars;
     private String comment;
     private Long entityFromId;

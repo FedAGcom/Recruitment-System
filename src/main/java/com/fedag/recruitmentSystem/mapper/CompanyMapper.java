@@ -13,21 +13,21 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CompanyMapper {
 
-  private final ModelMapper mapper;
+    private final ModelMapper mapper;
 
-  public CompanyResponseForAdmin toDto(Company company) {
-    return mapper.map(company, CompanyResponseForAdmin.class);
-  }
+    public CompanyResponseForAdmin toDto(Company company) {
+        return mapper.map(company, CompanyResponseForAdmin.class);
+    }
 
-  public CompanyResponseForUser toDtoForUser(Company company) {
-    return mapper.map(company, CompanyResponseForUser.class);
-  }
+    public CompanyResponseForUser toDtoForUser(Company company) {
+        return mapper.map(company, CompanyResponseForUser.class);
+    }
 
-  public Company toEntity(CompanyRequest companyRequest) {
-    return mapper.map(companyRequest, Company.class);
-  }
+    public Company toEntity(CompanyRequest companyRequest) {
+        return mapper.map(companyRequest, Company.class);
+    }
 
-  public Company toEntity(CompanyUpdateRequest companyUpdateRequest) {
-    return mapper.map(companyUpdateRequest, Company.class);
-  }
+    public Company toEntity(CompanyUpdateRequest companyUpdateRequest) {
+        return mapper.map(companyUpdateRequest, Company.class);
+    }
 }

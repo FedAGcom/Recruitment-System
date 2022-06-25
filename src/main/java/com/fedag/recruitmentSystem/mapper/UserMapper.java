@@ -2,7 +2,7 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.model.User;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +29,6 @@ public class UserMapper {
         mapper.createTypeMap(User.class, UserResponseForAdmin.class)
                 .addMappings(m -> m.skip(UserResponseForAdmin::setImage))
                 .setPostConverter(toDtoConverter());
-
-        mapper.createTypeMap(User.class, UserResponseForUser.class)
-                .addMappings(m -> m.skip(UserResponseForUser::setImage))
-                .setPostConverter(toDtoConverterForUser());
     }
 
     private Converter<User, UserResponseForAdmin> toDtoConverter() {
@@ -57,27 +53,6 @@ public class UserMapper {
         destination.setImage(base64Encoded);
     }
 
-    private Converter<User, UserResponseForUser> toDtoConverterForUser() {
-        return context -> {
-            User source = context.getSource();
-            UserResponseForUser destination = context.getDestination();
-            mapSpecificFieldsForUser(source, destination);
-            return context.getDestination();
-        };
-    }
-
-    private void mapSpecificFieldsForUser(User source, UserResponseForUser destination) {
-        String base64Encoded = null;
-        if (source.getImage() != null) {
-            byte[] encodeBase64 = Base64.encode(source.getImage());
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("Не поддерживаемый тип для кодирования картинки");
-            }
-        }
-        destination.setImage(base64Encoded);
-    }
 
     public UserResponseForAdmin modelToDto(User user) {
         return mapper.map(user, UserResponseForAdmin.class);

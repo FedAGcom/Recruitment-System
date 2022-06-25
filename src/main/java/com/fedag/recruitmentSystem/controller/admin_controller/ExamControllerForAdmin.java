@@ -77,8 +77,8 @@ public class ExamControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateExam(@PathVariable Long id, @RequestBody ExamUpdateRequest exam) {
-      exam.setId(id);
-      examService.update(exam);
+        exam.setId(id);
+        examService.update(exam);
     }
 
 

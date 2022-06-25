@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.request;
 
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import javax.validation.constraints.Null;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyRequest {
-  
+
     @Null
     private Long id;
 
@@ -33,7 +32,7 @@ public class CompanyRequest {
 
     @NotNull
     private String password;
-  
+
     @NotNull
     private String calendarId;
 }

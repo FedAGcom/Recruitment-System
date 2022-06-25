@@ -78,8 +78,8 @@ public class MessageControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateMessage(@PathVariable Long id, @RequestBody MessageUpdateRequest messageResponse) {
-      messageResponse.setId(id);
-      messageService.update(messageResponse);
+        messageResponse.setId(id);
+        messageService.update(messageResponse);
     }
 
 

@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.UserServiceImpl;

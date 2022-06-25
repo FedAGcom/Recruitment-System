@@ -87,11 +87,11 @@ public class ExperienceServiceImpl implements ExperienceService<ExperienceRespon
 
     @Override
     public Page<ExperienceResponseForAdmin> getAllExperienceByUserId(Pageable pageable, Long id) {
-        return experienceMapper.modelToDto(experienceRepository.findByUserId(pageable, id));
+        return experienceMapper.modelToDto(experienceRepository.findByResumeId(pageable, id));
     }
 
     @Override
     public Page<ExperienceResponseForUser> getAllExperienceByUserIdForUser(Pageable pageable, Long id) {
-        return experienceMapper.modelToDtoForUser(experienceRepository.findByUserId(pageable, id));
+        return experienceMapper.modelToDtoForUser(experienceRepository.findByResumeId(pageable, id));
     }
 }

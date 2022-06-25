@@ -2,8 +2,6 @@ package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponseForAdmin;
-import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.ExperienceResponseForUser;
 import com.fedag.recruitmentSystem.dto.response.user_response.ResumeResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
@@ -34,7 +32,6 @@ public class ResumeControllerForUser {
     @Schema(name = "Сервис резюме", description = "Содержит имплементацию методов для работы с репозиторием")
     private final ResumeServiceImpl resumeService;
 
-
     @Operation(summary = "Получение резюме по позиции", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме получено согласно позиции",
@@ -63,7 +60,8 @@ public class ResumeControllerForUser {
         return resumeService.getAllResumesForUser(pageable);
     }
 
-    @Operation(summary = "Поиск определенного списка резюме", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Поиск определенного списка резюме",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме получено",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
@@ -73,7 +71,7 @@ public class ResumeControllerForUser {
     @PreAuthorize("hasAuthority('COMPANY')")
     @GetMapping("/search")
     public Page<ResumeResponseForUser> getAllResumesByTextFilter(@RequestParam("text") String text,
-                                                                  @PageableDefault(size = 15) Pageable pageable) {
+                                                                 @PageableDefault(size = 15) Pageable pageable) {
         return resumeService.findByTextFilterForUser(text, pageable);
     }
 
@@ -116,7 +114,6 @@ public class ResumeControllerForUser {
         resumeService.save(resume);
     }
 
-
     @Operation(summary = "Изменение резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме изменено",
@@ -127,10 +124,9 @@ public class ResumeControllerForUser {
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping(UrlConstants.ID)
     public void updateResume(@PathVariable Long id, @RequestBody ResumeUpdateRequest resume) {
-      resume.setId(id);
-      resumeService.update(resume);
+        resume.setId(id);
+        resumeService.update(resume);
     }
-
 
     @Operation(summary = "Удаление резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -144,7 +140,6 @@ public class ResumeControllerForUser {
     public void deleteById(@PathVariable Long id) {
         resumeService.deleteById(id);
     }
-
 
     @Operation(summary = "Фильтрация резюме по дате", security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('COMPANY')")

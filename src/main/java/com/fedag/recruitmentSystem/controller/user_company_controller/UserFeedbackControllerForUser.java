@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.UserFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.UserFeedbackResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserFeedbackResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.UserFeedbackServiceImpl;
@@ -79,8 +78,8 @@ public class UserFeedbackControllerForUser {
     @PreAuthorize("hasAnyAuthority('COMPANY','USER')")
     @PutMapping(UrlConstants.ID)
     public void updateUserFeedback(@PathVariable Long id, @RequestBody UserFeedbackUpdateRequest userFeedback) {
-      userFeedback.setId(id);
-      userFeedbackService.update(userFeedback);
+        userFeedback.setId(id);
+        userFeedbackService.update(userFeedback);
     }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))

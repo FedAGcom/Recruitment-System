@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class VacancyUpdateRequest {
 
-  private Long id;
-  private String header;
-  private String description;
-  private int salary;
-  private String experience;
-  private ActiveStatus status;
-  private LocalDateTime dateCreated;
-  private Long companyId;
+    private Long id;
+    private String header;
+    private String description;
+    private int salary;
+    private String experience;
+    private ActiveStatus status;
+    private LocalDateTime dateCreated;
+    private Long companyId;
 }

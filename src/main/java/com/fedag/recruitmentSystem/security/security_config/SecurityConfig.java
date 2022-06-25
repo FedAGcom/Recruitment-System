@@ -4,7 +4,6 @@ import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.security.jwt.JwtConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,6 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(UrlConstants.SECURITY_URL + "/login").permitAll()
                 .antMatchers(UrlConstants.EMAIL_ACTIVATION_URL + "/**").permitAll()
+                .antMatchers(UrlConstants.MAIN_URL_ADMIN
+                        + UrlConstants.USER_URL + "/test-image/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

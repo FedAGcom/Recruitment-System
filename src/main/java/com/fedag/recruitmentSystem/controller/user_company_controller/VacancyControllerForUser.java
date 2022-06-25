@@ -119,7 +119,8 @@ public class VacancyControllerForUser {
      * @description Google Calendar API methods below:
      */
     @SneakyThrows
-    @Operation(summary = "Получение всех собеседований в календаре", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Получение всех собеседований в календаре",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAnyAuthority('COMPANY','USER')")
     @GetMapping(UrlConstants.ID + "/events")
     public List<String> findCalendarEvents(@PathVariable String id) {
@@ -129,7 +130,8 @@ public class VacancyControllerForUser {
     }
 
     @SneakyThrows
-    @Operation(summary = "Создание собеседования в календаре", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Создание собеседования в календаре",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('COMPANY')")
     @PostMapping(UrlConstants.ID + "/events")
     public void createCalendarEvents(
@@ -153,7 +155,7 @@ public class VacancyControllerForUser {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/by_user_id" + UrlConstants.ID)
     public Page<VacancyResponseForUser> getAllVacanciesByUserId(@PageableDefault(size = 5) Pageable pageable,
-                                                                 @PathVariable Long id) {
+                                                                @PathVariable Long id) {
         return vacancyService.getAllVacanciesByCompanyIdForUser(pageable, id);
     }
 }

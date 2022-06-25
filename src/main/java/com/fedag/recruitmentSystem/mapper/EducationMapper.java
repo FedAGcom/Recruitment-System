@@ -2,20 +2,16 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.EducationRequest;
 import com.fedag.recruitmentSystem.dto.request.EducationUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.admin_response.EducationResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.EducationResponseForUser;
 import com.fedag.recruitmentSystem.model.Education;
-import com.fedag.recruitmentSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -43,7 +39,7 @@ public class EducationMapper {
     }
 
     private void mapSpecificFields(Education source, EducationResponseForAdmin destination) {
-       destination.setUser(source.getUser().getId());
+        destination.setUser(source.getUser().getId());
     }
 
     public EducationResponseForAdmin modelToDto(Education education) {

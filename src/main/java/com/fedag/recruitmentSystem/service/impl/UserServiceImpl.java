@@ -3,7 +3,7 @@ package com.fedag.recruitmentSystem.service.impl;
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +48,7 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
     private String activationURL;
     @Value("${change.user.pass.url}")
     private String changePassURL;
+
     private final PasswordEncoder encoder;
 
     @Override
@@ -102,18 +102,20 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
 
         Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
         if (userFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
+                    "User with this email exists");
         }
 
         if (companyRepository.findAll().stream().map(Company::getEmail).collect(Collectors.toList())
                 .contains(user.getEmail())) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exist. Please, " +
-                    "create new email for new role.");
+            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
+                    "Company with this email exist. Please, create new email for new role.");
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setActivationCode(UUID.randomUUID().toString());
         userRepository.save(user);
+
 
         String link = String.format("%s:%s%suser/%s", hostURL, portURL, activationURL,
                 user.getActivationCode());
@@ -132,7 +134,8 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
     @Override
     public void changePassword(UserChangePasswordRequest userRequest) throws EntityIsExistsException {
         User user = userRepository.findById(userRequest.getId()).orElseThrow(
-                () -> new ObjectNotFoundException("User with id: " + userRequest.getId() + " not found")
+                () -> new ObjectNotFoundException("User with id: " + userRequest.getId() +
+                        " not found")
         );
         if (user.getPassword().equals(userRequest.getPassword())) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Password is the same");
@@ -161,7 +164,6 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
 
     @Override
     public void update(UserUpdateRequest element) {
-        PasswordEncoder encoder = new BCryptPasswordEncoder(12);
         User user = userMapper.dtoToModel(element);
         user.setPassword(encoder.encode(user.getPassword()));
         userRepository.save(user);

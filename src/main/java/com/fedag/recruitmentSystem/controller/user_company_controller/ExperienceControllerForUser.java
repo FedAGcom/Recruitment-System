@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
 import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.ExperienceResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ExperienceServiceImpl;
@@ -67,10 +66,9 @@ public class ExperienceControllerForUser {
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping(UrlConstants.ID)
     public void updateExperience(@PathVariable Long id, @RequestBody ExperienceUpdateRequest experience) {
-      experience.setId(id);
-      experienceService.update(experience);
+        experience.setId(id);
+        experienceService.update(experience);
     }
-
 
     @Operation(summary = "Удаление опыта работы", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -96,7 +94,7 @@ public class ExperienceControllerForUser {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/by_user_id" + UrlConstants.ID)
     public Page<ExperienceResponseForUser> getAllResumesByUserId(@PageableDefault(size = 5) Pageable pageable,
-                                                                  @PathVariable Long id) {
+                                                                 @PathVariable Long id) {
         return experienceService.getAllExperienceByUserIdForUser(pageable, id);
     }
 }

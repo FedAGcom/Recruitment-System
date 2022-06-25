@@ -1,8 +1,8 @@
 package com.fedag.recruitmentSystem.controller.admin_controller;
 
+import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponseForAdmin;
-import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
@@ -61,7 +61,8 @@ public class ResumeControllerForAdmin {
         return resumeService.getAllResumes(pageable);
     }
 
-    @Operation(summary = "Поиск определенного списка резюме", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Поиск определенного списка резюме",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @PreAuthorize("hasAuthority('ADMIN')")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Резюме получено",
@@ -125,10 +126,9 @@ public class ResumeControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateResume(@PathVariable Long id, @RequestBody ResumeUpdateRequest resume) {
-      resume.setId(id);
-      resumeService.update(resume);
+        resume.setId(id);
+        resumeService.update(resume);
     }
-
 
     @Operation(summary = "Удаление резюме", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

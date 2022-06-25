@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.controller.user_company_controller;
 
-import com.fedag.recruitmentSystem.dto.response.admin_response.ProjectResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.ProjectResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ProjectServiceImpl;
@@ -17,7 +16,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor

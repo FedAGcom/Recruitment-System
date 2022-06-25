@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
 
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

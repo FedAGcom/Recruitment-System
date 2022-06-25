@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SkillResponseForUser {
 
-  private String name;
+    private String name;
 }

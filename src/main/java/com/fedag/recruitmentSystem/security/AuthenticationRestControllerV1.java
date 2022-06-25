@@ -49,8 +49,8 @@ public class AuthenticationRestControllerV1 {
     })
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
-        if(!securityService.isUserInActiveState(request.getEmail())
-         &&!securityService.isCompanyInActiveState(request.getEmail())) {
+        if (!securityService.isUserInActiveState(request.getEmail())
+                && !securityService.isCompanyInActiveState(request.getEmail())) {
             return securityService.responseToReactivateAccount(request.getEmail());
         }
 

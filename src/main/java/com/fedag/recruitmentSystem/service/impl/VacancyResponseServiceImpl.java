@@ -39,7 +39,8 @@ public class VacancyResponseServiceImpl implements VacancyResponseService<Vacanc
         VacancyResponse vacancyResponse = vacancyResponseRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new ObjectNotFoundException("VacancyResponse with id: " + id + " not found")
+                        () -> new ObjectNotFoundException("VacancyResponse with id: " +
+                                id + " not found")
                 );
         return vacancyResponseMapper.modelToDto(vacancyResponse);
     }
@@ -66,7 +67,8 @@ public class VacancyResponseServiceImpl implements VacancyResponseService<Vacanc
         VacancyResponse vacancyResponse = vacancyResponseRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new ObjectNotFoundException("VacancyResponse with id: " + id + " not found")
+                        () -> new ObjectNotFoundException("VacancyResponse with id: " +
+                                id + " not found")
                 );
         return vacancyResponseMapper.modelToDtoForUser(vacancyResponse);
     }
@@ -74,7 +76,7 @@ public class VacancyResponseServiceImpl implements VacancyResponseService<Vacanc
     @Override
     public Page<VacancyResponseResponseForAdmin> getAllVacanciesResponsesByUserId(
             Pageable pageable, Long id) {
-       return vacancyResponseMapper.modelToDto(vacancyResponseRepository.findByUserId(pageable, id));
+        return vacancyResponseMapper.modelToDto(vacancyResponseRepository.findByUserId(pageable, id));
     }
 
     @Override

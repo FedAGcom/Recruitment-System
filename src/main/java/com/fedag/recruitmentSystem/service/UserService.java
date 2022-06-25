@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service;
 
 import com.fedag.recruitmentSystem.dto.request.UserChangePasswordRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

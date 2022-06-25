@@ -43,7 +43,8 @@ public class QuestionControllerForAdmin {
         return id;
     }
 
-    @Operation(summary = "Получение списка вопросов по заголовку", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Получение списка вопросов по заголовку",
+            security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Вопрос получен",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),

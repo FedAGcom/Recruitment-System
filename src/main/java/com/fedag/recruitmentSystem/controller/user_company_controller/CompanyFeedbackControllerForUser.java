@@ -2,7 +2,6 @@ package com.fedag.recruitmentSystem.controller.user_company_controller;
 
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackRequest;
 import com.fedag.recruitmentSystem.dto.request.CompanyFeedbackUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyFeedbackResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.CompanyFeedbackResponseForUser;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.CompanyFeedbackServiceImpl;
@@ -78,9 +77,9 @@ public class CompanyFeedbackControllerForUser {
     @PreAuthorize("hasAuthority('USER')")
     @PutMapping(UrlConstants.ID)
     public void updateVacancy(@PathVariable Long id, @RequestBody CompanyFeedbackUpdateRequest companyFeedBack) {
-      companyFeedBack.setId(id);
-      companyFeedBackService.update(companyFeedBack);
-   }
+        companyFeedBack.setId(id);
+        companyFeedBackService.update(companyFeedBack);
+    }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

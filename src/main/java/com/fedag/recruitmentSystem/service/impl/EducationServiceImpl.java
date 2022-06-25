@@ -7,7 +7,6 @@ import com.fedag.recruitmentSystem.dto.response.user_response.EducationResponseF
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.EducationMapper;
 import com.fedag.recruitmentSystem.model.Education;
-import com.fedag.recruitmentSystem.model.Exam;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.EducationRepository;
 import com.fedag.recruitmentSystem.service.EducationService;
@@ -51,14 +50,6 @@ public class EducationServiceImpl implements EducationService<EducationResponseF
 
     @Override
     public void save(EducationRequest element) {
-//        Education education = educationMapper.dtoToModel(element);
-//        Optional<User> user = Optional.ofNullable(education.getUser());
-//        user.ifPresent(u -> {
-//            if(u.getId()!=null)
-//                education.setUser(u);
-//        });
-//        educationRepository.save(education);
-
         Education education = educationMapper.dtoToModel(element);
         educationRepository.save(education);
     }
@@ -68,7 +59,7 @@ public class EducationServiceImpl implements EducationService<EducationResponseF
         Education education = educationMapper.dtoToModel(element);
         Optional<User> user = Optional.ofNullable(education.getUser());
         user.ifPresent(u -> {
-            if(u.getId()!=null)
+            if (u.getId() != null)
                 education.setUser(u);
         });
         educationRepository.save(education);

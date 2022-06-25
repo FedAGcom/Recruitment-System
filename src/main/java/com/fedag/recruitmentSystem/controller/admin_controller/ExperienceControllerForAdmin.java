@@ -3,7 +3,6 @@ package com.fedag.recruitmentSystem.controller.admin_controller;
 import com.fedag.recruitmentSystem.dto.request.ExperienceRequest;
 import com.fedag.recruitmentSystem.dto.request.ExperienceUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.admin_response.ExperienceResponseForAdmin;
-import com.fedag.recruitmentSystem.dto.response.admin_response.VacancyResponseForAdmin;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.service.impl.ExperienceServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,7 +26,8 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Контроллер опыта работы для админа", description = "Работа с опытом работы")
 public class ExperienceControllerForAdmin {
 
-    @Schema(name = "Сервис опыта работы", description = "Содержит имплементацию методов для работы с репозиторием")
+    @Schema(name = "Сервис опыта работы",
+            description = "Содержит имплементацию методов для работы с репозиторием")
     private final ExperienceServiceImpl experienceService;
 
     @Operation(summary = "Получение списка мест работы", security = @SecurityRequirement(name = "bearerAuth"))
@@ -80,8 +80,8 @@ public class ExperienceControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateExperience(@PathVariable Long id, @RequestBody ExperienceUpdateRequest experience) {
-      experience.setId(id);
-      experienceService.update(experience);
+        experience.setId(id);
+        experienceService.update(experience);
     }
 
 

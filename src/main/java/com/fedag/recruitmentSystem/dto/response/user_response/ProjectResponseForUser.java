@@ -11,7 +11,6 @@ import java.util.Date;
 @AllArgsConstructor
 public class ProjectResponseForUser {
 
-
     private String projectName;
     private String description;
     private String requirement;

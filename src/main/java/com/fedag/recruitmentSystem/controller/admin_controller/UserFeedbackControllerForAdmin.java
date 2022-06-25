@@ -68,7 +68,6 @@ public class UserFeedbackControllerForAdmin {
         userFeedbackService.save(userFeedback);
     }
 
-
     @Operation(summary = "Измение отзыва", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Отзыв изменен",
@@ -79,8 +78,8 @@ public class UserFeedbackControllerForAdmin {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping(UrlConstants.ID)
     public void updateUserFeedback(@PathVariable Long id, @RequestBody UserFeedbackUpdateRequest userFeedback) {
-      userFeedback.setId(id);
-      userFeedbackService.update(userFeedback);
+        userFeedback.setId(id);
+        userFeedbackService.update(userFeedback);
     }
 
     @Operation(summary = "Удаление отзыва", security = @SecurityRequirement(name = "bearerAuth"))
