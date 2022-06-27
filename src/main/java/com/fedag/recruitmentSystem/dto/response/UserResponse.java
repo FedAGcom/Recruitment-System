@@ -1,12 +1,12 @@
 package com.fedag.recruitmentSystem.dto.response;
 
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
+import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
-import com.fedag.recruitmentSystem.enums.Role;
 
 @Data
 @NoArgsConstructor
