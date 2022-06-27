@@ -20,9 +20,7 @@ public interface UserService<T, S, U> extends AbstractServiceInterface<T, S, U> 
 
   List<UserResponse> getByStars(byte stars);
 
-  List<UserResponse> getByExperience(int max);
-
-  boolean activateUser(String code);
+  List<UserResponse> getByExperience(String max);
 
   void changePassword(UserChangePasswordRequest user);
 

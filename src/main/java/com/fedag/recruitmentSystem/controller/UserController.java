@@ -22,8 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
+
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -71,7 +74,7 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('READ')")
     @GetMapping("/{id}")
-    public UserResponse getUser(@PathVariable Long id) {
+    public UserResponse getUser(@PathVariable Long id) throws IOException {
         return userService.findById(id);
     }
 
@@ -82,8 +85,14 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @PostMapping
-    public ResponseEntity<?> addNewUser(@Valid @RequestBody UserRequest user) {
+    @PostMapping(consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<?> addNewUser(@RequestPart MultipartFile file,
+                                        @Valid @RequestPart UserRequest user) throws IOException {
+        if (!file.isEmpty()) {
+            user.setImage(file.getBytes());
+            user.setImageType(file.getContentType());
+            System.out.println(user.getImageType());
+        }
         try {
             userService.save(user);
         } catch (ResponseStatusException e) {
@@ -117,7 +126,12 @@ public class UserController {
     })
     @PreAuthorize("hasAuthority('WRITE')")
     @PutMapping("/{id}")
-    public void updateUser(@PathVariable Long id, @Valid @RequestBody UserUpdateRequest user) {
+    public void updateUser(@PathVariable Long id, @RequestPart MultipartFile file,
+                           @Valid @RequestPart UserUpdateRequest user) throws IOException {
+        if (!file.isEmpty()) {
+            user.setImage(file.getBytes());
+            user.setImageType(file.getContentType());
+        }
         user.setId(id);
         userService.update(user);
     }

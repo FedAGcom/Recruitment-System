@@ -19,10 +19,10 @@
     <include file="db_changelog/v1.0/create_table_vacancies_skill_link.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/create_table_vacancy_responses.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/create_table_messages.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v1.0/fill_all_tables.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/create_table_projects.sql" relativeToChangelogFile="true"/>
     <include file="db_changelog/v1.0/create_table_user_project_link.sql" relativeToChangelogFile="true"/>
-    <include file="db_changelog/v2.0/new_values_to_enum_role_type.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v1.0/fill_all_tables.sql" relativeToChangelogFile="true"/>
+    <include file="db_changelog/v2.0/v_2.8_new_values_to_enum_role_type.sql" relativeToChangelogFile="true"/>
 
     <changeSet id="1655287408372-1" author="grits">
         <addColumn tableName="users">
