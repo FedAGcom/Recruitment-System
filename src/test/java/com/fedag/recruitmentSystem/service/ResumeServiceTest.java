@@ -1,7 +1,7 @@
 package com.fedag.recruitmentSystem.service;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExperienceMapper;
@@ -73,10 +73,10 @@ class ResumeServiceTest {
     void itShouldFindResumeById() {
         Long resumeId = 1L;
         Resume mockResume = TestDataProvider.getTestResume(1L, 1L, resumeId);
-        ResumeResponse mockResponse = TestDataProvider.getTestResumeResponse(mockResume);
+        ResumeResponseForAdmin mockResponse = TestDataProvider.getTestResumeResponse(mockResume);
         BDDMockito.given(resumeRepository.findById(resumeId)).willReturn(java.util.Optional.of(mockResume));
         BDDMockito.given(resumeMapper.modelToDto(mockResume)).willReturn(mockResponse);
-        ResumeResponse resultResume = resumeService.findById(resumeId);
+        ResumeResponseForAdmin resultResume = resumeService.findById(resumeId);
         assertThat(resultResume)
                 .isNotNull()
                 .usingRecursiveComparison()
@@ -96,13 +96,13 @@ class ResumeServiceTest {
 
     @ParameterizedTest(name = "test {index}: expected resume names = {1} resume list data = {0}")
     @MethodSource("dataForTest")
-    void itShouldFindAllResumes(List<Resume> resumes, List<ResumeResponse> resumeResponses, List<String> expected) {
+    void itShouldFindAllResumes(List<Resume> resumes, List<ResumeResponseForAdmin> resumeResponsForAdmins, List<String> expected) {
         BDDMockito.given(resumeRepository.findAll()).willReturn(resumes);
-        BDDMockito.given(resumeMapper.modelToDto(resumes)).willReturn(resumeResponses);
-        List<ResumeResponse> actualPagesResponse = resumeService.getAllResumes();
+        BDDMockito.given(resumeMapper.modelToDto(resumes)).willReturn(resumeResponsForAdmins);
+        List<ResumeResponseForAdmin> actualPagesResponse = resumeService.getAllResumes();
         List<String> resumeNames = actualPagesResponse
                 .stream()
-                .map(ResumeResponse::getResumeName)
+                .map(ResumeResponseForAdmin::getResumeName)
                 .collect(Collectors.toList());
         assertThat(resumeNames)
                 .usingRecursiveComparison()
@@ -111,16 +111,16 @@ class ResumeServiceTest {
 
     @ParameterizedTest(name = "test {index}: expected resume names = {1} resume list data = {0}")
     @MethodSource("dataForTest")
-    void itShouldFindPagebleResumes(List<Resume> resumes, List<ResumeResponse> resumeResponses, List<String> expected) {
+    void itShouldFindPagebleResumes(List<Resume> resumes, List<ResumeResponseForAdmin> resumeResponsForAdmins, List<String> expected) {
         int limit = 5;
         Page<Resume> mockedPages = new PageImpl<>(resumes);
-        Page<ResumeResponse> mockedPagesResponse = new PageImpl<>(resumeResponses);
+        Page<ResumeResponseForAdmin> mockedPagesResponse = new PageImpl<>(resumeResponsForAdmins);
         BDDMockito.given(resumeRepository.findAll(PageRequest.of(0, limit))).willReturn(mockedPages);
         BDDMockito.given(resumeMapper.modelToDto(mockedPages)).willReturn(mockedPagesResponse);
-        Page<ResumeResponse> actualPagesResponse = resumeService.getAllResumes(PageRequest.of(0, limit));
+        Page<ResumeResponseForAdmin> actualPagesResponse = resumeService.getAllResumes(PageRequest.of(0, limit));
         List<String> resumeNames = actualPagesResponse
                 .get()
-                .map(ResumeResponse::getResumeName)
+                .map(ResumeResponseForAdmin::getResumeName)
                 .collect(Collectors.toList());
         assertThat(resumeNames)
                 .usingRecursiveComparison()
@@ -136,11 +136,11 @@ class ResumeServiceTest {
 
     @Test
     void testFindResumeByPosition() {
-        List<ResumeResponse> resumeList = new ArrayList<>();
+        List<ResumeResponseForAdmin> resumeList = new ArrayList<>();
         Pageable pageable = Mockito.mock(Pageable.class);
-        resumeList.add(new ResumeResponse(1L, "Java developer", ActiveStatus.ACTIVE
+        resumeList.add(new ResumeResponseForAdmin(1L, "Java developer", ActiveStatus.ACTIVE
                 , LocalDateTime.now(),null, null));
-        Page<ResumeResponse> resumePage = new PageImpl<>(resumeList, pageable, resumeList.size());
+        Page<ResumeResponseForAdmin> resumePage = new PageImpl<>(resumeList, pageable, resumeList.size());
         Mockito.when(resumeService.findByTextFilter("Java developer", pageable)).thenReturn(resumePage);
         assertEquals(resumeService.findByTextFilter("Java developer", pageable), resumePage);
     }  
@@ -153,7 +153,7 @@ class ResumeServiceTest {
                 TestDataProvider.getTestResume(3L, 3L, 3L)
         );
 
-        List<ResumeResponse> resumeResponsesArrOne = List.of(
+        List<ResumeResponseForAdmin> resumeResponsesArrOneForAdmin = List.of(
          TestDataProvider.getTestResumeResponse(resumesArrOne.get(0)),
          TestDataProvider.getTestResumeResponse(resumesArrOne.get(1)),
          TestDataProvider.getTestResumeResponse(resumesArrOne.get(2))
@@ -167,7 +167,7 @@ class ResumeServiceTest {
                 TestDataProvider.getTestResume(3L, 3L, 3L)
         );
 
-        List<ResumeResponse> resumeResponsesArrTwo = List.of(
+        List<ResumeResponseForAdmin> resumeResponsesArrTwoForAdmin = List.of(
                 TestDataProvider.getTestResumeResponse(resumesArrOne.get(0)),
                 TestDataProvider.getTestResumeResponse(resumesArrOne.get(1)),
                 TestDataProvider.getTestResumeResponse(resumesArrOne.get(2))
@@ -176,8 +176,8 @@ class ResumeServiceTest {
         List<String> expectedTwo = List.of("Ivan CV", "Ivan CV", "Ivan CV");
 
         return Stream.of(
-                Arguments.of(resumesArrOne, resumeResponsesArrOne, expectedOne),
-                Arguments.of(resumesArrTwo, resumeResponsesArrTwo, expectedTwo)
+                Arguments.of(resumesArrOne, resumeResponsesArrOneForAdmin, expectedOne),
+                Arguments.of(resumesArrTwo, resumeResponsesArrTwoForAdmin, expectedTwo)
         );
     }
 }

@@ -1,8 +1,9 @@
 package com.fedag.recruitmentSystem.controller;
 
+import com.fedag.recruitmentSystem.controller.admin_controller.ResumeControllerForAdmin;
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
 import com.fedag.recruitmentSystem.model.Resume;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import com.fedag.recruitmentSystem.utils.TestDataProvider;
@@ -29,14 +30,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ResumeController.class)
+@WebMvcTest(ResumeControllerForAdmin.class)
 class ResumeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
-    private ResumeController controller;
+    private ResumeControllerForAdmin controller;
 
     @MockBean
     private ResumeServiceImpl resumeService;
@@ -48,9 +49,9 @@ class ResumeControllerTest {
 
     @ParameterizedTest(name = "test {index}: students from service = {0} expected = {1}")
     @MethodSource("dataForTest")
-    void getAllResumes(List<ResumeResponse> resumes, List<String> expected) throws Exception {
+    void getAllResumes(List<ResumeResponseForAdmin> resumes, List<String> expected) throws Exception {
         int limit = 5;
-        Page<ResumeResponse> mockedPages = new PageImpl<>(resumes);
+        Page<ResumeResponseForAdmin> mockedPages = new PageImpl<>(resumes);
         Mockito.when(resumeService.getAllResumes(PageRequest.of(0, limit))).thenReturn(mockedPages);
         mockMvc.perform(get("/api/resumes"))
                 .andDo(print())
@@ -64,7 +65,7 @@ class ResumeControllerTest {
     @Test
     void getById() throws Exception {
         Long resumeId = 1L;
-        ResumeResponse mockResume = TestDataProvider.getTestResumeResponse(TestDataProvider.getTestResume(1L, 1L, 1L));
+        ResumeResponseForAdmin mockResume = TestDataProvider.getTestResumeResponse(TestDataProvider.getTestResume(1L, 1L, 1L));
         Mockito.when(resumeService.findById(resumeId)).thenReturn(mockResume);
         mockMvc.perform(get("/api/resumes/" + resumeId))
                 .andDo(print())

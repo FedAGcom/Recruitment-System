@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.request;
 
-import com.fedag.recruitmentSystem.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +12,6 @@ public class EducationUpdateRequest {
     private String name;
     private String faculty;
     private String specialty;
-    private String age;
-    private User user;
+    private int age;
+    private Long userId;
 }

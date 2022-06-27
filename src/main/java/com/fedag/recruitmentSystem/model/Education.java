@@ -32,12 +32,11 @@ public class Education {
     @Column(name = "specialty")
     private String specialty;
 
-    @NotBlank
     @Schema(description = "Год окончания обучения")
     @Column(name = "age")
-    private String age;
+    private int age;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;             // ?????
+    private User user;
 }

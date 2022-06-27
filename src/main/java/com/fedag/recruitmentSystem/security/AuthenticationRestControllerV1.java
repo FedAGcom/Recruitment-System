@@ -1,5 +1,6 @@
 package com.fedag.recruitmentSystem.security;
 
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/auth")
+@RequestMapping(UrlConstants.SECURITY_URL)
 @Tag(name = "Контроллер безопасности", description = "Работа с безопасностью")
 public class AuthenticationRestControllerV1 {
 
@@ -48,8 +49,8 @@ public class AuthenticationRestControllerV1 {
     })
     @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
-        if(!securityService.isUserInActiveState(request.getEmail())
-         &&!securityService.isCompanyInActiveState(request.getEmail())) {
+        if (!securityService.isUserInActiveState(request.getEmail())
+                && !securityService.isCompanyInActiveState(request.getEmail())) {
             return securityService.responseToReactivateAccount(request.getEmail());
         }
 

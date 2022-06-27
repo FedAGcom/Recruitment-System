@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class Vacancy {
     @Column(name = "description")
     private String description;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Заработная плата")
     @Column(name = "salary")
     private int salary;
@@ -43,13 +44,13 @@ public class Vacancy {
     @Column(name = "experience")
     private String experience;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Статус")
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ActiveStatus status;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Дата размещения")
     @Column(name = "date_created")
     private LocalDateTime dateCreated;

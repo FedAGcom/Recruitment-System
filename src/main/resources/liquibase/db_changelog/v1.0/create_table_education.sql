@@ -7,6 +7,6 @@ CREATE TABLE education
     name varchar(128) NOT NULL,
     faculty varchar(128),
     specialty varchar(128),
-    age smallint NOT NULL,
+    age int NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

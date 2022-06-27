@@ -8,7 +8,6 @@ CREATE TABLE companies
     location varchar(128) NOT NULL,
     role enum_role_type DEFAULT 'USER' NOT NULL,
     password varchar(128),
-    activation_code varchar(60),
-    active_status enum_active_status_type DEFAULT 'ACTIVE' NOT NULL
+    activation_code varchar(60)
 );
 
