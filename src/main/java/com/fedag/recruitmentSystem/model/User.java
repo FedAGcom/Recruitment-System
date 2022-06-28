@@ -5,6 +5,7 @@ import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
@@ -19,6 +20,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "users")
 public class User {

@@ -7,6 +7,7 @@ import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.ExperienceMapper;
 import com.fedag.recruitmentSystem.mapper.ResumeMapper;
 import com.fedag.recruitmentSystem.model.Resume;
+import com.fedag.recruitmentSystem.repository.ExperienceRepository;
 import com.fedag.recruitmentSystem.repository.ResumeRepository;
 import com.fedag.recruitmentSystem.service.impl.ResumeServiceImpl;
 import com.fedag.recruitmentSystem.utils.TestDataProvider;
@@ -39,6 +40,9 @@ class ResumeServiceTest {
     private ResumeRepository resumeRepository;
 
     @Mock
+    private ExperienceRepository experienceRepository;
+
+    @Mock
     private ResumeMapper resumeMapper;
 
     @Mock
@@ -51,7 +55,7 @@ class ResumeServiceTest {
     @BeforeEach
     void setUp() {
         autoClosable = MockitoAnnotations.openMocks(this);
-        resumeService = new ResumeServiceImpl(resumeRepository, resumeMapper, experienceMapper);
+        resumeService = new ResumeServiceImpl(resumeRepository, experienceRepository, resumeMapper, experienceMapper);
     }
 
     @AfterEach

@@ -25,11 +25,11 @@
     (2,1,'USER',4,'красава'),
     (1,3,'USER',4,' не красава');
 
-    INSERT INTO resume(id, resume_name, status, user_id, date_created)
+    INSERT INTO resume(resume_name, status, user_id, date_created)
     VALUES
-    (1,'Java junior', 'ACTIVE',1, '2020-10-12'),
-    (2,'Java junior', 'ACTIVE',2, '2020-10-12'),
-    (3,'C++ junior', 'INACTIVE',3, '2020-10-12');
+    ('Java junior', 'ACTIVE',1, '2020-10-12'),
+    ('Java junior', 'ACTIVE',2, '2020-10-12'),
+    ('C++ junior', 'INACTIVE',3, '2020-10-12');
 
     INSERT INTO experience(resume_id, description, start_date, end_date)
     VALUES
