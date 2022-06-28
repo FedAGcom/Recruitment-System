@@ -1,21 +1,38 @@
 version: "3.9"
 
 services:
-  postgres:
-    image: postgres:latest
+  rs_app:
+    image: nickirk/recruitment-system
+    restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 8080:8080
+    depends_on:
+      - database-elasticsearch
+      - database-postgres
+
+  database-postgres:
+    image: postgres:14
+    container_name: postgres
+    restart: always
     environment:
-      - POSTGRES_DB=rs-db
+      - POSTGRES_DB=recruitment_system
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.2.0
+  database-elasticsearch:
+    image: elasticsearch:8.2.0
     container_name: elasticsearch
-    restart: unless-stopped
+    restart: always
     ports:
       - 9200:9200
       - 9300:9300
     environment:
+      - ELASTIC_PASSWORD=elastic
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
