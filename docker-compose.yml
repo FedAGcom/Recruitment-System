@@ -2,26 +2,28 @@ version: "3.9"
 
 services:
   rs_app:
-    build: .
+    image: nickirk/recruitment-system
     restart: always
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 8080:8080
     depends_on:
-      - postgres
-      - elasticsearch
+      - database-elasticsearch
+      - database-postgres
 
-  postgres:
+  database-postgres:
     image: postgres:14
     container_name: postgres
     restart: always
     environment:
       - POSTGRES_DB=recruitment_system
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - 5432:5432
 
-  elasticsearch:
+  database-elasticsearch:
     image: elasticsearch:8.2.0
     container_name: elasticsearch
     restart: always
@@ -29,7 +31,7 @@ services:
       - 9200:9200
       - 9300:9300
     environment:
-      - ELASTIC_PASSWORD=root
+      - ELASTIC_PASSWORD=elastic
       - discovery.type=single-node
       - xpack.security.enabled=true
       - xpack.security.http.ssl.enabled=false
