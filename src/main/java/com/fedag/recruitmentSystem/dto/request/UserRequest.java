@@ -1,6 +1,5 @@
 package com.fedag.recruitmentSystem.dto.request;
 
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import lombok.AllArgsConstructor;
@@ -9,14 +8,13 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequest {
-    @Null
+
     private Long id;
 
     @NotNull
@@ -40,9 +38,6 @@ public class UserRequest {
 
     @NotNull
     private String calendarId;
-
-    @NotNull
-    private ActiveStatus activeStatus;
 
     private byte[] image;
 

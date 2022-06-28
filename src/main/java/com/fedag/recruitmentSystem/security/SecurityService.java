@@ -10,11 +10,14 @@ import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
 import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import javax.mail.MessagingException;
 import java.util.Optional;
 
 @Service
@@ -35,7 +38,7 @@ public class SecurityService {
 
     public boolean isUserInActiveState(String email) {
         User user = userRepository.findByEmail(email).orElse(null);
-        if(user==null) {
+        if (user == null) {
             return false;
         }
         return !user.getRole().equals(Role.ADMIN_INACTIVE)
@@ -43,11 +46,11 @@ public class SecurityService {
     }
 
     public boolean isCompanyInActiveState(String email) {
-       Company company = companyRepository.findByEmail(email).orElse(null);
-       if(company==null) {
-           return false;
-       }
-       return !company.getRole().equals(Role.ADMIN_INACTIVE)
+        Company company = companyRepository.findByEmail(email).orElse(null);
+        if (company == null) {
+            return false;
+        }
+        return !company.getRole().equals(Role.ADMIN_INACTIVE)
                 && !company.getRole().equals(Role.USER_INACTIVE);
     }
 
@@ -78,25 +81,35 @@ public class SecurityService {
     }
 
     public void sentMessage(String name, String email, String activationCode, String entity) {
-        String message = String.format("Hello, %s \n" +
-                        "Welcome to FedAG. Please, visit next link: " +
-                        "%s:%s/api/activate/%s",
-                hostURL, portURL, name, activationCode);
-        mailSendler.send(email, "Activation code", message);
+        String link = String.format("%s:%s%s%s/%s", hostURL, portURL, activationURL, entity, activationCode);
+        String message = String.format("<h1>Hello, %s</h1> \n" +
+                        "<div>Welcome to FedAG!</div>" +
+                        "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
+                name, link, link);
+        try {
+            mailSendler.sendHtmlEmail(email, "Activation code", message);
+        } catch (MessagingException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Activation is failed");
+        }
     }
 
     public ResponseEntity<?> responseToReactivateAccount(String email) {
-
-        String message = String.format("Your account is disabled.\n" +
-                        "Please follow the link to restore it: " +
-                        "%s:%s/api/activate/restore/%s", hostURL, portURL, email);
-        mailSendler.send(email, "Restore account", message);
-        return new ResponseEntity<>("Account is disabled. Check your email to enable it.", HttpStatus.FORBIDDEN);
+        String link = String.format("%s:%s/api/activate/restore/%s", hostURL, portURL, email);
+        String message = String.format("<div>Your account is disabled.\n" +
+                "Please follow the link to restore it:</div>" +
+                "<a href=%s>%s</a>", link, link);
+        try {
+            mailSendler.sendHtmlEmail(email, "Restore account", message);
+        } catch (MessagingException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Restore is failed");
+        }
+        return new ResponseEntity<>("Account is disabled. Check your email to enable it.",
+                HttpStatus.FORBIDDEN);
     }
 
     public ResponseEntity<?> reactivateAccount(String email) {
         Optional<Company> optionalCompany = companyRepository.findByEmail(email);
-        if(optionalCompany.isPresent()) {
+        if (optionalCompany.isPresent()) {
             Company company = optionalCompany.get();
             company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
             companyRepository.save(company);

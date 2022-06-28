@@ -2,7 +2,8 @@ package com.fedag.recruitmentSystem.mapper;
 
 import com.fedag.recruitmentSystem.dto.request.UserRequest;
 import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.model.User;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -23,22 +24,52 @@ public class UserMapper {
 
     private final ModelMapper mapper;
 
-    public UserResponse modelToDto(User user) {
-        return mapper.map(user, UserResponse.class);
+    @PostConstruct
+    public void setupMapper() {
+        mapper.createTypeMap(User.class, UserResponseForAdmin.class)
+                .addMappings(m -> m.skip(UserResponseForAdmin::setImage))
+                .setPostConverter(toDtoConverter());
     }
 
-    public List<UserResponse> modelToDto(List<User> user) {
+    private Converter<User, UserResponseForAdmin> toDtoConverter() {
+        return context -> {
+            User source = context.getSource();
+            UserResponseForAdmin destination = context.getDestination();
+            mapSpecificFields(source, destination);
+            return context.getDestination();
+        };
+    }
+
+    private void mapSpecificFields(User source, UserResponseForAdmin destination) {
+        String base64Encoded = null;
+        if (source.getImage() != null) {
+            byte[] encodeBase64 = Base64.encode(source.getImage());
+            try {
+                base64Encoded = new String(encodeBase64, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException("Не поддерживаемый тип для кодирования картинки");
+            }
+        }
+        destination.setImage(base64Encoded);
+    }
+
+
+    public UserResponseForAdmin modelToDto(User user) {
+        return mapper.map(user, UserResponseForAdmin.class);
+    }
+
+    public List<UserResponseForAdmin> modelToDto(List<User> user) {
         return user
                 .stream()
                 .map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 
-    public Page<UserResponse> modelToDto(Page<User> userPage) {
+    public Page<UserResponseForAdmin> modelToDto(Page<User> userPage) {
         return userPage
-                .map(new Function<User, UserResponse>() {
+                .map(new Function<User, UserResponseForAdmin>() {
                     @Override
-                    public UserResponse apply(User entity) {
+                    public UserResponseForAdmin apply(User entity) {
                         return modelToDto(entity);
                     }
                 });
@@ -52,43 +83,35 @@ public class UserMapper {
         return mapper.map(dto, User.class);
     }
 
-    public User dtoToModel(UserResponse dto) {
+    public User dtoToModel(UserResponseForAdmin dto) {
         return mapper.map(dto, User.class);
     }
 
-    public List<User> dtoToModel(List<UserResponse> dto) {
+    public List<User> dtoToModel(List<UserResponseForAdmin> dto) {
         return dto
                 .stream()
                 .map(this::dtoToModel)
                 .collect(Collectors.toList());
     }
 
-    @PostConstruct
-    public void setupMapper() {
-        mapper.createTypeMap(User.class, UserResponse.class)
-                .addMappings(m -> m.skip(UserResponse::setImage)).setPostConverter(toDtoConverter());
+    public UserResponseForUser modelToDtoForUser(User user) {
+        return mapper.map(user, UserResponseForUser.class);
     }
 
-    private Converter<User, UserResponse> toDtoConverter() {
-        return context -> {
-            User source = context.getSource();
-            UserResponse destination = context.getDestination();
-            mapSpecificFields(source, destination);
-            return context.getDestination();
-        };
+    public Page<UserResponseForUser> modelToDtoForUser(Page<User> userPage) {
+        return userPage
+                .map(new Function<User, UserResponseForUser>() {
+                    @Override
+                    public UserResponseForUser apply(User entity) {
+                        return modelToDtoForUser(entity);
+                    }
+                });
     }
 
-    private void mapSpecificFields(User source, UserResponse destination) {
-        String base64Encoded = null;
-        if (source.getImage() != null) {
-            byte[] encodeBase64 = Base64.encode(source.getImage());
-            try {
-                base64Encoded = new String(encodeBase64, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("Не поддерживаемый тип для кодирования картинки");
-            }
-        }
-        destination.setImage(base64Encoded);
+    public List<UserResponseForUser> modelToDtoForUser(List<User> user) {
+        return user
+                .stream()
+                .map(this::modelToDtoForUser)
+                .collect(Collectors.toList());
     }
 }
-

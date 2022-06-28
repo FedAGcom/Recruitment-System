@@ -2,9 +2,9 @@ package com.fedag.recruitmentSystem.utils;
 
 import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponse;
-import com.fedag.recruitmentSystem.dto.response.ResumeResponse;
-import com.fedag.recruitmentSystem.dto.response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponse;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.Experience;
@@ -25,15 +25,15 @@ public class TestDataProvider {
         return new Resume(resumeId, "Ivan CV", ActiveStatus.ACTIVE, LocalDateTime.now(), experiences, skills, user);
     }
 
-    public static ResumeResponse getTestResumeResponse(Resume resume) {
-        ResumeResponse resumeResponse = new ResumeResponse();
-        resumeResponse.setId(resume.getId());
-        resumeResponse.setResumeName(resume.getResumeName());
-        resumeResponse.setDateCreated(resume.getDateCreated());
-        List<ExperienceShortResponse> experiences = new ArrayList<>();
-        experiences.add(new ExperienceShortResponse(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
-        resumeResponse.setExperiences(experiences);
-        resumeResponse.setUser(new UserResponse(resume.getUser().getId(),
+    public static ResumeResponseForAdmin getTestResumeResponse(Resume resume) {
+        ResumeResponseForAdmin resumeResponseForAdmin = new ResumeResponseForAdmin();
+        resumeResponseForAdmin.setId(resume.getId());
+        resumeResponseForAdmin.setResumeName(resume.getResumeName());
+        resumeResponseForAdmin.setDateCreated(resume.getDateCreated());
+        List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
+        experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
+        resumeResponseForAdmin.setExperiences(experiences);
+        resumeResponseForAdmin.setUser(new UserResponse(resume.getUser().getId(),
                 resume.getUser().getFirstname(),
                 resume.getUser().getLastname(),
                 resume.getUser().getEmail(),
@@ -43,7 +43,7 @@ public class TestDataProvider {
                 resume.getUser().getActivationCode(),
                 resume.getUser().getActiveStatus()
         ));
-        return resumeResponse;
+        return resumeResponseForAdmin;
     }
 
     public static ResumeRequest getTestResumeRequest(Resume resume) {
@@ -51,8 +51,8 @@ public class TestDataProvider {
         resumeRequest.setId(resume.getId());
         resumeRequest.setResumeName(resume.getResumeName());
         resumeRequest.setDateCreated(resume.getDateCreated());
-        List<ExperienceShortResponse> experiences = new ArrayList<>();
-        experiences.add(new ExperienceShortResponse(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
+        List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
+        experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
         resumeRequest.setExperiences(experiences);
         resumeRequest.setUser(new UserResponse(resume.getUser().getId(),
                 resume.getUser().getFirstname(),
@@ -72,8 +72,8 @@ public class TestDataProvider {
         resumeUpdateRequest.setId(resume.getId());
         resumeUpdateRequest.setResumeName(resume.getResumeName());
         resumeUpdateRequest.setDateCreated(resume.getDateCreated());
-        List<ExperienceShortResponse> experiences = new ArrayList<>();
-        experiences.add(new ExperienceShortResponse(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
+        List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
+        experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
         resumeUpdateRequest.setExperiences(experiences);
         resumeUpdateRequest.setUser(new UserResponse(resume.getUser().getId(),
                 resume.getUser().getFirstname(),

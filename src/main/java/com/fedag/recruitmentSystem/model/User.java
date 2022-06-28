@@ -1,7 +1,6 @@
 package com.fedag.recruitmentSystem.model;
 
 
-import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.LevelEducation;
 import com.fedag.recruitmentSystem.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,6 +48,7 @@ public class User {
     @Column(name = "birthday")
     private LocalDateTime birthday;
 
+    @NotNull
     @Schema(description = "Роль")
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
@@ -62,11 +62,6 @@ public class User {
     @Schema(description = "Код активации")
     @Column(name = "activation_code")
     private String activationCode;
-
-    @Schema(description = "Статус")
-    @Column(name = "active_status")
-    @Enumerated(EnumType.STRING)
-    private ActiveStatus activeStatus;
 
     @Schema(description = "Фотография пользователя")
     @Column(name = "image")
@@ -90,7 +85,7 @@ public class User {
     @Column(name = "city")
     private String city;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Возраст")
     @Column(name = "age")
     private byte age;

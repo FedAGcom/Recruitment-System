@@ -2,7 +2,8 @@ package com.fedag.recruitmentSystem.service.impl;
 
 import com.fedag.recruitmentSystem.dto.request.EducationRequest;
 import com.fedag.recruitmentSystem.dto.request.EducationUpdateRequest;
-import com.fedag.recruitmentSystem.dto.response.EducationResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.EducationResponseForAdmin;
+import com.fedag.recruitmentSystem.dto.response.user_response.EducationResponseForUser;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.EducationMapper;
 import com.fedag.recruitmentSystem.model.Education;
@@ -21,23 +22,24 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class EducationServiceImpl implements EducationService<EducationResponse, EducationRequest, EducationUpdateRequest> {
+public class EducationServiceImpl implements EducationService<EducationResponseForAdmin,
+        EducationRequest, EducationUpdateRequest> {
 
     private final EducationRepository educationRepository;
     private final EducationMapper educationMapper;
 
     @Override
-    public List<EducationResponse> getAllEducation() {
+    public List<EducationResponseForAdmin> getAllEducation() {
         return educationMapper.modelToDto(educationRepository.findAll());
     }
 
     @Override
-    public Page<EducationResponse> getAllEducation(Pageable pageable) {
+    public Page<EducationResponseForAdmin> getAllEducation(Pageable pageable) {
         return educationMapper.modelToDto(educationRepository.findAll(pageable));
     }
 
     @Override
-    public EducationResponse findById(Long id) {
+    public EducationResponseForAdmin findById(Long id) {
         Education education = educationRepository
                 .findById(id)
                 .orElseThrow(
@@ -49,11 +51,6 @@ public class EducationServiceImpl implements EducationService<EducationResponse,
     @Override
     public void save(EducationRequest element) {
         Education education = educationMapper.dtoToModel(element);
-        Optional<User> user = Optional.ofNullable(education.getUser());
-        user.ifPresent(u -> {
-            if(u.getId()!=null)
-                education.setUser(u);
-        });
         educationRepository.save(education);
     }
 
@@ -62,7 +59,7 @@ public class EducationServiceImpl implements EducationService<EducationResponse,
         Education education = educationMapper.dtoToModel(element);
         Optional<User> user = Optional.ofNullable(education.getUser());
         user.ifPresent(u -> {
-            if(u.getId()!=null)
+            if (u.getId() != null)
                 education.setUser(u);
         });
         educationRepository.save(education);
@@ -71,5 +68,15 @@ public class EducationServiceImpl implements EducationService<EducationResponse,
     @Override
     public void deleteById(Long id) {
         educationRepository.deleteById(id);
+    }
+
+    @Override
+    public EducationResponseForUser findByIdForUser(Long id) {
+        Education education = educationRepository
+                .findById(id)
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Education with id: " + id + " not found!")
+                );
+        return educationMapper.modelToDtoForUser(education);
     }
 }

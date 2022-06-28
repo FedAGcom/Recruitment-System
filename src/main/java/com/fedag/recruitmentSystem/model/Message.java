@@ -1,16 +1,15 @@
 package com.fedag.recruitmentSystem.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fedag.recruitmentSystem.enums.MessageStatus;
 import com.fedag.recruitmentSystem.enums.FeedbackSentFromEntity;
+import com.fedag.recruitmentSystem.enums.MessageStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,17 +23,17 @@ public class Message {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "От кого сообщение")
     @Column(name = "from_entity_message")
     @Enumerated(EnumType.STRING)
     private FeedbackSentFromEntity entityType;
 
-    @NotBlank
+    @NotNull
     @Column(name = "date_created")
     private LocalDateTime dateCreated;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Прочитано или нет")
     @Column(name = "is_read")
     @Enumerated(EnumType.STRING)

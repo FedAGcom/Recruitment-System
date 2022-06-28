@@ -1,14 +1,15 @@
 package com.fedag.recruitmentSystem.model;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fedag.recruitmentSystem.enums.VacancyResponsesStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class VacancyResponse {
     @Column(name = "message")
     private String message;
 
-    @NotBlank
+    @NotNull
     @Schema(description = "Текущий статус")
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

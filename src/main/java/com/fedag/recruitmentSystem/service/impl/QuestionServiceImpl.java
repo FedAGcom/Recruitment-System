@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fedag.recruitmentSystem.model.Question;
 import com.fedag.recruitmentSystem.service.QuestionService;
-import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
@@ -16,20 +16,26 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
+import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
     private final static String INDEX_NAME = "question";
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestHighLevelClient esClient;
+
+    public QuestionServiceImpl(RestHighLevelClient esClient) {
+        this.esClient = esClient;
+        initDB();
+    }
 
     @Override
     public void addQuestion(String id, String title, String question, String answer, String correct) {
@@ -94,6 +100,29 @@ public class QuestionServiceImpl implements QuestionService {
             DeleteResponse deleteResponse = esClient.delete(deleteRequest, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @SneakyThrows
+    public void initDB(){
+        FileReader fileReader = new FileReader("questions.json");
+        JSONParser jsonParser = new JSONParser();
+
+        JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);
+
+        JSONArray questions = (JSONArray) jsonObject.get("questions");
+
+        Iterator i = questions.iterator();
+
+        while (i.hasNext()){
+            JSONObject innerObj = (JSONObject) i.next();
+            JSONObject title = (JSONObject) innerObj.get("title");
+            JSONObject question = (JSONObject) innerObj.get("question");
+            JSONObject answer = (JSONObject) innerObj.get("answer");
+            JSONObject correct = (JSONObject) innerObj.get("correct");
+            String id = UUID.randomUUID().toString();
+
+            addQuestion(id, title.get("type").toString(), question.get("type").toString(), answer.get("type").toString(), correct.get("type").toString());
         }
     }
 }
