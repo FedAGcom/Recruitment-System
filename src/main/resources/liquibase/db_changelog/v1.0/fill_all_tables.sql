@@ -1,16 +1,23 @@
 --liquibase formatted sql
 --changeset Artem:fill-all-tables
-    INSERT INTO users(id, first_name, last_name, email, birthday, role, password)
+    INSERT INTO users(id, first_name, last_name, email, birthday, role,
+                      password, himself_description, level, city, age)
     VALUES
-    (1,'Ivan','Ivanov','ivanov@mail.ru', '1993-10-12', 'ADMIN', '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu'),
-    (2,'Petr','Petrov','petrov@mail.ru', '1994-11-17', 'USER', '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu'),
-    (3,'Aleksandr','Aleksandrov','aleksandrov@mail.ru', '1990-01-12', 'USER', '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu');
+    (1,'Ivan','Ivanov','ivanov@mail.ru', '1993-10-12', 'ADMIN',
+     '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description1', 'MEDIUM',
+     'SPB', 20),
+    (2,'Petr','Petrov','petrov@mail.ru', '1994-11-17', 'USER',
+     '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description2', 'MEDIUM',
+     'SPB', 20),
+    (3,'Aleksandr','Aleksandrov','aleksandrov@mail.ru', '1990-01-12', 'USER',
+     '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description1', 'MEDIUM',
+     'SPB', 20);
 
-    INSERT INTO entrance_exams(user_id , score)
+    INSERT INTO entrance_exams(user_id , score, language)
     VALUES
-    (1,80),
-    (2,30),
-    (3,90);
+    (1,80, 'Java'),
+    (2,30, 'Java'),
+    (3,90, 'Java');
 
     INSERT INTO user_feedback(user_to_id, entity_from_id, entity_from_type, stars, comment)
     VALUES
@@ -79,9 +86,9 @@
     INSERT INTO vacancy_responses(vacancy_id, user_id, message, status)
     VALUES
 	(1,1,'Ждем вас на Восстания в 17-00', 'INVITE'),
-    (1,2,NULL, 'NOT_VIEWED'),
+    (1,2,'Добрый день', 'NOT_VIEWED'),
     (2,3,'Вы нам не подходите', 'REFUSAL'),
-    (3,2,NULL, 'VIEWED');
+    (3,2,'Добрый день', 'VIEWED');
 
     INSERT INTO messages(user_id, company_id, from_entity_message, date_created, is_read, message)
     VALUES
@@ -102,3 +109,9 @@
     (1,2),
     (2,2);
 
+    INSERT INTO education(user_id, name, faculty, specialty, age)
+    VALUES
+    (1,'МГУ', 'Информационных технологий','Инженер', 2018),
+    (1,'МПУ', 'Математический','Математик', 2021),
+    (2,'СПбГЭУ', 'Экономики и информатики','Экономист', 2019),
+    (3,'ПТУ', 'Роботостроительный','Робот', 2020);
