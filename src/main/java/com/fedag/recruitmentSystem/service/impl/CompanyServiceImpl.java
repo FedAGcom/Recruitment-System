@@ -6,12 +6,15 @@ import com.fedag.recruitmentSystem.dto.request.CompanyUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.CompanyResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.EmailCodeType;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.EmailCode;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import com.fedag.recruitmentSystem.repository.EmailCodeRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.service.CompanyService;
 import com.fedag.recruitmentSystem.service.utils.MainUtilites;
@@ -38,6 +41,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
     private final CompanyMapper companyMapper;
     private final MailSendlerService mailSendler;
     private final UserRepository userRepository;
+    private final EmailCodeRepository emailCodeRepository;
 
     @Value("${host.url}")
     private String hostURL;
@@ -78,22 +82,29 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
     @Override
     public void save(CompanyRequest element) {
         Company company = companyMapper.toEntity(element);
-        Optional<Company> companyFromDB = companyRepository.findByEmail(company.getEmail());
-        if (companyFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
-                    "Company with this email exists");
-        }
-        if (userRepository.findAll().stream().map(User::getEmail).collect(Collectors.toList())
-                .contains(company.getEmail())) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
-                    "User with this email exists. Please, create new email for new role");
-        }
+        EmailCode emailCode = new EmailCode();
+
+        companyRepository.findByEmail(company.getEmail()).
+                ifPresent(s -> {
+                    throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exists");
+                });
+
+        userRepository.findByEmail(company.getEmail()).
+                ifPresent(s -> {
+                    throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists. Please, create new email for new role");
+                });
+
         company.setPassword(encoder.encode(company.getPassword()));
-        company.setActivationCode(UUID.randomUUID().toString());
+        company.setRole(MainUtilites.switchRoleToInactive(company.getRole()));
         companyRepository.save(company);
 
+        emailCode.setEmail(company.getEmail());
+        emailCode.setCode(UUID.randomUUID().toString());
+        emailCode.setType(EmailCodeType.ACTIVATION);
+        emailCodeRepository.save(emailCode);
+
         String link = String.format("%s:%s%scompany/%s", hostURL, portURL, activationURL,
-                company.getActivationCode());
+                emailCode.getCode());
         String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div>" +
                         "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
                 company.getName(),
@@ -139,20 +150,28 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
 
     @Override
     public void update(CompanyUpdateRequest element) {
+        Company companyDB = companyRepository.findById(element.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("Company with id: " + element.getId() + " not found"));
         Company company = companyMapper.toEntity(element);
-        company.setPassword(encoder.encode(company.getPassword()));
+        company.setPassword(companyDB.getPassword()); //company.setPassword(encoder.encode(companyDB.getPassword()));
         companyRepository.save(company);
     }
 
     @Override
     public void activateCompany(String code) {
-        Optional<Company> companyOptional = companyRepository.findByActivationCode(code);
-        if (!companyOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
-        }
-        Company company = companyOptional.get();
-        company.setActivationCode(null);
+        EmailCode emailCode = emailCodeRepository.findActivationByCode(code)
+                .orElseThrow(
+                        () -> new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation failed, no activation code found")
+                );
+
+        Company company = companyRepository.findByEmail(emailCode.getEmail())
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Company with email: " + emailCode.getEmail() + " not found")
+                );
+
+        company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
         companyRepository.save(company);
+        emailCodeRepository.delete(emailCode);
     }
 
     @Override

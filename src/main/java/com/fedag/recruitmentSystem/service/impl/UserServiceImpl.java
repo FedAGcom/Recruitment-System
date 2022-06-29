@@ -6,13 +6,19 @@ import com.fedag.recruitmentSystem.dto.request.UserUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.user_response.UserResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.EmailCodeType;
+import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.UserMapper;
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.EmailCode;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import com.fedag.recruitmentSystem.repository.EmailCodeRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
+import com.fedag.recruitmentSystem.security.SecurityUser;
+import com.fedag.recruitmentSystem.security.UserDetailsServiceImpl;
 import com.fedag.recruitmentSystem.service.UserService;
 import com.fedag.recruitmentSystem.service.utils.MainUtilites;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +45,7 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final MailSendlerService mailSendler;
+    private final EmailCodeRepository emailCodeRepository;
 
     private final CompanyRepository companyRepository;
     @Value("${host.url}")
@@ -99,26 +108,29 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
     @Override
     public void save(UserRequest element) throws EntityIsExistsException {
         User user = userMapper.dtoToModel(element);
+        EmailCode emailCode = new EmailCode();
 
-        Optional<User> userFromDB = userRepository.findByEmail(user.getEmail());
-        if (userFromDB.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
-                    "User with this email exists");
-        }
+        userRepository.findByEmail(user.getEmail()).
+                ifPresent(s -> {
+                    throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "User with this email exists");
+                });
 
-        if (companyRepository.findAll().stream().map(Company::getEmail).collect(Collectors.toList())
-                .contains(user.getEmail())) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST,
-                    "Company with this email exist. Please, create new email for new role.");
-        }
+        companyRepository.findByEmail(user.getEmail()).
+                ifPresent(s -> {
+                    throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Company with this email exists. Please, create new email for new role.");
+                });
 
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setActivationCode(UUID.randomUUID().toString());
+        user.setRole(MainUtilites.switchRoleToInactive(user.getRole()));
         userRepository.save(user);
 
+        emailCode.setEmail(user.getEmail());
+        emailCode.setCode(UUID.randomUUID().toString());
+        emailCode.setType(EmailCodeType.ACTIVATION);
+        emailCodeRepository.save(emailCode);
 
         String link = String.format("%s:%s%suser/%s", hostURL, portURL, activationURL,
-                user.getActivationCode());
+                emailCode.getCode());
         String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div>" +
                         "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
                 user.getFirstname(),
@@ -164,8 +176,10 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
 
     @Override
     public void update(UserUpdateRequest element) {
+        User userDB = userRepository.findById(element.getId())
+                .orElseThrow(() -> new ObjectNotFoundException("User with id: " + element.getId() + " not found"));
         User user = userMapper.dtoToModel(element);
-        user.setPassword(encoder.encode(user.getPassword()));
+        user.setPassword(userDB.getPassword()); //user.setPassword(encoder.encode(userDB.getPassword()));
         userRepository.save(user);
     }
 
@@ -181,13 +195,19 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
 
     @Override
     public void activateUser(String code) {
-        Optional<User> userOptional = userRepository.findByActivationCode(code);
-        if (!userOptional.isPresent()) {
-            throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation is failed");
-        }
-        User user = userOptional.get();
-        user.setActivationCode(null);
+        EmailCode emailCode = emailCodeRepository.findActivationByCode(code)
+           .orElseThrow(
+               () -> new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Activation failed, no activation code found")
+           );
+
+        User user = userRepository.findByEmail(emailCode.getEmail())
+           .orElseThrow(
+                () -> new ObjectNotFoundException("User with email: " + emailCode.getEmail() + " not found")
+           );
+
+        user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
         userRepository.save(user);
+        emailCodeRepository.delete(emailCode);
     }
 
     @Override

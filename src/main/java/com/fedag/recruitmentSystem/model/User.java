@@ -61,10 +61,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Schema(description = "Код активации")
-    @Column(name = "activation_code")
-    private String activationCode;
-
     @Schema(description = "Фотография пользователя")
     @Column(name = "image")
     private byte[] image;

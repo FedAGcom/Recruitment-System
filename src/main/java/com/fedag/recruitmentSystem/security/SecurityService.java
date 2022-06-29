@@ -3,8 +3,10 @@ package com.fedag.recruitmentSystem.security;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.Company;
+import com.fedag.recruitmentSystem.model.EmailCode;
 import com.fedag.recruitmentSystem.model.User;
 import com.fedag.recruitmentSystem.repository.CompanyRepository;
+import com.fedag.recruitmentSystem.repository.EmailCodeRepository;
 import com.fedag.recruitmentSystem.repository.UserRepository;
 import com.fedag.recruitmentSystem.security.jwt.JwtTokenProvider;
 import com.fedag.recruitmentSystem.security.security_exception.ActivationException;
@@ -16,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.mail.MessagingException;
 import java.util.Optional;
 
@@ -28,13 +29,14 @@ public class SecurityService {
     private String hostURL;
     @Value("${server.port}")
     private String portURL;
-    private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final CompanyRepository companyRepository;
-    private final MailSendlerService mailSendler;
     @Value("${activation.url}")
     private String activationURL;
 
+    private final UserRepository userRepository;
+    private final CompanyRepository companyRepository;
+    private final EmailCodeRepository emailCodeRepository;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final MailSendlerService mailSendler;
 
     public boolean isUserInActiveState(String email) {
         User user = userRepository.findByEmail(email).orElse(null);
@@ -54,30 +56,29 @@ public class SecurityService {
                 && !company.getRole().equals(Role.USER_INACTIVE);
     }
 
+    public void checkActivation(String name, String entity, String email) {
+        emailCodeRepository.findActivationByEmail(email)
+                .ifPresent(s -> {
+                    sentMessage(name, email, s.getCode(), entity);
+                    throw new ActivationException("Email not confirm. " +
+                            "A letter has been re-sent to your email address.");
+                });
+    }
+
     public String definitionToken(String email) {
-        String token;
-        Optional<Company> optionalCompany = companyRepository.findByEmail(email);
-        if (optionalCompany.isPresent()) {
-            Company company = optionalCompany.get();
-            token = jwtTokenProvider.createToken(email, company.getRole().name());
-            if (company.getActivationCode() != null) {
-                sentMessage(company.getName(), company.getEmail(), company.getActivationCode(),
-                        "company");
-                throw new ActivationException("Email not confirm. " +
-                        "A letter has been re-sent to your email address.");
-            }
-        } else {
+        final String[] token = new String[1];
+        companyRepository.findByEmail(email).ifPresentOrElse(
+          c -> {
+            token[0] = jwtTokenProvider.createToken(email, c.getRole().name());
+            checkActivation(c.getName(), "company", c.getEmail());
+          },
+          () -> {
             User user = userRepository.findByEmail(email).orElseThrow(
-                    () -> new UsernameNotFoundException("User doesn't exists"));
-            if (user.getActivationCode() != null) {
-                sentMessage(user.getFirstname(), user.getEmail(), user.getActivationCode(),
-                        "user");
-                throw new ActivationException("Email not confirm. " +
-                        "A letter has been re-sent to your email address");
-            }
-            token = jwtTokenProvider.createToken(email, user.getRole().name());
-        }
-        return token;
+                      () -> new UsernameNotFoundException("User doesn't exists"));
+            checkActivation(user.getFirstname(), "user", user.getEmail());
+            token[0] = jwtTokenProvider.createToken(email, user.getRole().name());
+          });
+        return token[0];
     }
 
     public void sentMessage(String name, String email, String activationCode, String entity) {

@@ -26,7 +26,6 @@ public class TestDataProvider {
                 .birthday(LocalDateTime.now().minusYears(30))
                 .role(Role.USER)
                 .password("some pass")
-                .activationCode("some activation code")
                 .build();
     }
 
@@ -39,7 +38,6 @@ public class TestDataProvider {
                 .birthday(LocalDateTime.now().minusYears(30))
                 .role(Role.USER)
                 .password("some pass")
-                .activationCode("some activation code")
                 .build();
     }
   
