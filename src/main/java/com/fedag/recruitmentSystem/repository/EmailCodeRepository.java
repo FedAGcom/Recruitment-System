@@ -23,4 +23,19 @@ public interface EmailCodeRepository extends JpaRepository<EmailCode, EmailCodeI
             "and v.type = 'ACTIVATION' ",
             nativeQuery = true)
     Optional<EmailCode> findActivationByEmail(@Param("email") String email);
+
+    @Query(value = "select email, code, type " +
+            "from email_code v " +
+            "where v.code = :code " +
+            "and v.type = 'PASS_CHANGE' ",
+            nativeQuery = true)
+    Optional<EmailCode> findPassChangeByCode(@Param("code") String code);
+
+    @Query(value = "select email, code, type " +
+            "from email_code v " +
+            "where v.email = :email " +
+            "and v.type = 'PASS_CHANGE' ",
+            nativeQuery = true)
+    Optional<EmailCode> findPassChangeByEmail(@Param("email") String email);
+
 }

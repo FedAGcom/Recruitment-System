@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(UrlConstants.SECURITY_URL + "/login").permitAll()
-                .antMatchers(UrlConstants.EMAIL_ACTIVATION_URL + "/**").permitAll()
+                .antMatchers(UrlConstants.ACTIVATION_URL + "**").permitAll()
                 .antMatchers(UrlConstants.MAIN_URL_ADMIN
                         + UrlConstants.USER_URL + "/test-image/*").permitAll()
                 .anyRequest()

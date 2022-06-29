@@ -2,6 +2,7 @@ package com.fedag.recruitmentSystem.security;
 
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.Role;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.EmailCode;
 import com.fedag.recruitmentSystem.model.User;
@@ -25,13 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SecurityService {
 
-    @Value("${host.url}")
-    private String hostURL;
-    @Value("${server.port}")
-    private String portURL;
-    @Value("${activation.url}")
-    private String activationURL;
-
+    @Value("${server.port}") private String portURL;
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final EmailCodeRepository emailCodeRepository;
@@ -82,7 +77,7 @@ public class SecurityService {
     }
 
     public void sentMessage(String name, String email, String activationCode, String entity) {
-        String link = String.format("%s:%s%s%s/%s", hostURL, portURL, activationURL, entity, activationCode);
+        String link = String.format("%s:%s%s%s/%s", UrlConstants.HOST_URL, portURL, UrlConstants.ACTIVATION_URL, entity, activationCode);
         String message = String.format("<h1>Hello, %s</h1> \n" +
                         "<div>Welcome to FedAG!</div>" +
                         "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
@@ -95,7 +90,7 @@ public class SecurityService {
     }
 
     public ResponseEntity<?> responseToReactivateAccount(String email) {
-        String link = String.format("%s:%s/api/activate/restore/%s", hostURL, portURL, email);
+        String link = String.format("%s:%s/api/activate/restore/%s", UrlConstants.HOST_URL, portURL, email);
         String message = String.format("<div>Your account is disabled.\n" +
                 "Please follow the link to restore it:</div>" +
                 "<a href=%s>%s</a>", link, link);

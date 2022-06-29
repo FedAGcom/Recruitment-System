@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class UrlConstants {
-
+    public static final String HOST_URL = "http://localhost";
     public static final String MAIN_URL_USER = "/api/user";
     public static final String MAIN_URL_ADMIN = "/api/admin";
     public static final String COMPANY_URL = "/companies";
@@ -21,9 +21,9 @@ public class UrlConstants {
     public static final String VACANCY_URL = "/vacancies";
     public static final String VACANCY_RESPONSE_URL = "/vacancies/responses";
     public static final String EDUCATION_URL = "/api/educations";
-
-    public static final String EMAIL_ACTIVATION_URL = "/api/activate";
+    public static final String ACTIVATION_URL = "/api/activate/";
+    public static final String CHANGE_USER_PASS_URL = "/api/activate/user/password/";
+    public static final String CHANGE_COMPANY_PASS_URL = "/api/activate/company/password/";
     public static final String SECURITY_URL = "/api/auth";
-
     public static final String ID = "/{id}";
 }

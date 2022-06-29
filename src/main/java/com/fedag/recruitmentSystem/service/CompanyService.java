@@ -17,7 +17,7 @@ public interface CompanyService<T, S, U> extends AbstractServiceInterface<T, S, 
 
     void changePassword(CompanyChangePasswordRequest company);
 
-    void confirmPasswordChange(Long id, String password);
+    void confirmPasswordChange(String password);
 
     Page<CompanyResponseForUser> getAllCompaniesForUser(Pageable pageable);
 

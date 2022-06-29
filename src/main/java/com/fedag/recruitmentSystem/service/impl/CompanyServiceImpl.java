@@ -7,6 +7,7 @@ import com.fedag.recruitmentSystem.dto.response.admin_response.CompanyResponseFo
 import com.fedag.recruitmentSystem.dto.response.user_response.CompanyResponseForUser;
 import com.fedag.recruitmentSystem.email.MailSendlerService;
 import com.fedag.recruitmentSystem.enums.EmailCodeType;
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
 import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.mapper.CompanyMapper;
@@ -25,10 +26,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import javax.mail.MessagingException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,21 +36,12 @@ import java.util.stream.Collectors;
 public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmin,
         CompanyRequest, CompanyUpdateRequest> {
 
+    @Value("${server.port}") private String portURL;
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
     private final MailSendlerService mailSendler;
     private final UserRepository userRepository;
     private final EmailCodeRepository emailCodeRepository;
-
-    @Value("${host.url}")
-    private String hostURL;
-    @Value("${server.port}")
-    private String portURL;
-
-    @Value("${activation.url}")
-    private String activationURL;
-    @Value("${change.company.pass.url}")
-    private String changePassURL;
     private final PasswordEncoder encoder;
 
     @Override
@@ -103,7 +93,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
         emailCode.setType(EmailCodeType.ACTIVATION);
         emailCodeRepository.save(emailCode);
 
-        String link = String.format("%s:%s%scompany/%s", hostURL, portURL, activationURL,
+        String link = String.format("%s:%s%scompany/%s", UrlConstants.HOST_URL, portURL, UrlConstants.ACTIVATION_URL,
                 emailCode.getCode());
         String message = String.format("<h1>Hello, %s</h1><div>Welcome to FedAG!</div>" +
                         "<div>To activate your account, follow the link:</div><a href=%s>%s</a>",
@@ -126,12 +116,14 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
         if (company.getPassword().equals(companyRequest.getPassword())) {
             throw new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Password is the same");
         }
-
-        String link = hostURL + ":" + portURL + changePassURL + companyRequest.getId() + "/" +
-                encoder.encode(companyRequest.getPassword());
+        EmailCode emailCode = new EmailCode();
+        emailCode.setEmail(company.getEmail());
+        emailCode.setCode(companyRequest.getPassword());
+        emailCode.setType(EmailCodeType.PASS_CHANGE);
+        emailCodeRepository.save(emailCode);
+        String link = UrlConstants.HOST_URL + ":" + portURL + UrlConstants.CHANGE_COMPANY_PASS_URL + emailCode.getCode();
         String message = String.format("<div>Request to change password</div>" +
                 "<div>Please follow the link: <a href=\"%s\">Confirm</a></div>", link);
-
         try {
             mailSendler.sendHtmlEmail(company.getEmail(), "Password change", message);
         } catch (MessagingException e) {
@@ -140,10 +132,15 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
     }
 
     @Override
-    public void confirmPasswordChange(Long id, String password) {
-        Company company = companyRepository.findById(id).orElseThrow(
-                () -> new ObjectNotFoundException("User with id: " + id + " not found")
-        );
+    public void confirmPasswordChange(String password) {
+        EmailCode emailCode = emailCodeRepository.findPassChangeByCode(password)
+                .orElseThrow(
+                        () -> new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Change pass failed, no code found")
+                );
+        Company company = companyRepository.findByEmail(emailCode.getEmail())
+                .orElseThrow(
+                        () -> new ObjectNotFoundException("Company with email: " + emailCode.getEmail() + " not found")
+                );
         company.setPassword(password);
         companyRepository.save(company);
     }
