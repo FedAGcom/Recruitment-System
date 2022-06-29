@@ -1,7 +1,9 @@
 package com.fedag.recruitmentSystem.jira;
 
+import com.fedag.recruitmentSystem.enums.UrlConstants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/jira")
+@RequestMapping(value = UrlConstants.MAIN_URL_ADMIN + UrlConstants.JIRA_URL)
 @Tag(name = "Jira контроллер для админа", description = "Работа с Jira")
 public class JiraControllerForAdmin {
 
+    @Schema(name = "Jira клиент", description = "Содержит имплементацию методов для работы с jira")
     private final MyJiraClient myJiraClient;
 
     @Operation(summary = "Получение списка задач пользователя",
@@ -31,10 +36,7 @@ public class JiraControllerForAdmin {
     })
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public String getAllIssueByUserEmail() {
-//        MyJiraClient myJiraClient = new MyJiraClient("larisavoytsekh65@mail.ru",
-//                "xO9cibtpeWsvCBxPlYvWE8E7", "https://barsuk.atlassian.net");
-       String s = myJiraClient.getAllIssueByUserEmail();
-       return s;
+    public List<IssueDto> getAllIssueByUserEmail() {
+        return myJiraClient.getAllIssueByUserEmail();
     }
 }
