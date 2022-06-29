@@ -26,4 +26,6 @@ public class UrlConstants {
     public static final String SECURITY_URL = "/api/auth";
 
     public static final String ID = "/{id}";
+
+    public static final String TEST_FORM_URL = "/testform";
 }
