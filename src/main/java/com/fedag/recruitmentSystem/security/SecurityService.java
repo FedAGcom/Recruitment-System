@@ -1,8 +1,11 @@
 package com.fedag.recruitmentSystem.security;
 
 import com.fedag.recruitmentSystem.email.MailSendlerService;
+import com.fedag.recruitmentSystem.enums.EmailCodeType;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.enums.UrlConstants;
+import com.fedag.recruitmentSystem.exception.EntityIsExistsException;
+import com.fedag.recruitmentSystem.exception.ObjectNotFoundException;
 import com.fedag.recruitmentSystem.model.Company;
 import com.fedag.recruitmentSystem.model.EmailCode;
 import com.fedag.recruitmentSystem.model.User;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import javax.mail.MessagingException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +94,13 @@ public class SecurityService {
     }
 
     public ResponseEntity<?> responseToReactivateAccount(String email) {
-        String link = String.format("%s:%s/api/activate/restore/%s", UrlConstants.HOST_URL, portURL, email);
+        EmailCode emailCode = new EmailCode();
+        emailCode.setEmail(email);
+        emailCode.setCode(UUID.randomUUID().toString());
+        emailCode.setType(EmailCodeType.REACTIVATION);
+        emailCodeRepository.save(emailCode);
+
+        String link = String.format("%s:%s/api/activate/restore/%s", UrlConstants.HOST_URL, portURL, emailCode.getCode());
         String message = String.format("<div>Your account is disabled.\n" +
                 "Please follow the link to restore it:</div>" +
                 "<a href=%s>%s</a>", link, link);
@@ -103,19 +113,27 @@ public class SecurityService {
                 HttpStatus.FORBIDDEN);
     }
 
-    public ResponseEntity<?> reactivateAccount(String email) {
-        Optional<Company> optionalCompany = companyRepository.findByEmail(email);
-        if (optionalCompany.isPresent()) {
-            Company company = optionalCompany.get();
-            company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
-            companyRepository.save(company);
-            return new ResponseEntity<>("Company set to active state successfully.", HttpStatus.OK);
-        } else {
-            User user = userRepository.findByEmail(email).orElseThrow(
-                    () -> new UsernameNotFoundException("User doesn't exists"));
-            user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
-            userRepository.save(user);
-            return new ResponseEntity<>("User set to active state successfully.", HttpStatus.OK);
-        }
+    public ResponseEntity<?> reactivateAccount(String code) {
+        ResponseEntity<?>[] responseEntity = new ResponseEntity<?>[1];
+        EmailCode emailCode = emailCodeRepository.findRestoreByCode(code)
+                .orElseThrow(
+                        () -> new EntityIsExistsException(HttpStatus.BAD_REQUEST, "Restore account failed, no code found")
+                );
+        companyRepository.findByEmail(emailCode.getEmail()).ifPresentOrElse(
+                company -> {
+                    company.setRole(MainUtilites.switchRoleToOpposite(company.getRole()));
+                    companyRepository.save(company);
+                    emailCodeRepository.delete(emailCode);
+                    responseEntity[0] = new ResponseEntity<>("Company set to active state successfully.", HttpStatus.OK);
+                },
+                () -> {
+                    User user = userRepository.findByEmail(emailCode.getEmail())
+                       .orElseThrow(() -> new ObjectNotFoundException("Restore account failed, no user or company with email: " + emailCode.getEmail() + " found"));
+                    user.setRole(MainUtilites.switchRoleToOpposite(user.getRole()));
+                    userRepository.save(user);
+                    emailCodeRepository.delete(emailCode);
+                    responseEntity[0] = new ResponseEntity<>("User set to active state successfully.", HttpStatus.OK);
+                });
+        return responseEntity[0];
     }
 }

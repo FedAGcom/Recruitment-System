@@ -143,6 +143,7 @@ public class CompanyServiceImpl implements CompanyService<CompanyResponseForAdmi
                 );
         company.setPassword(password);
         companyRepository.save(company);
+        emailCodeRepository.delete(emailCode);
     }
 
     @Override

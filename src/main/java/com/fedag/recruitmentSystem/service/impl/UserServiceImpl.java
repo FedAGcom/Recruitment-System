@@ -161,6 +161,7 @@ public class UserServiceImpl implements UserService<UserResponseForAdmin,
                 );
         user.setPassword(password);
         userRepository.save(user);
+        emailCodeRepository.delete(emailCode);
     }
 
     @Override

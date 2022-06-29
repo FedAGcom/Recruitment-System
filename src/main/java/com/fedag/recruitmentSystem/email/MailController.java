@@ -112,8 +112,8 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/restore/{email}")
-    public ResponseEntity<?> accountRestore(@PathVariable String email) {
-        return securityService.reactivateAccount(email);
+    @GetMapping("/restore/{code}")
+    public ResponseEntity<?> accountRestore(@PathVariable String code) {
+        return securityService.reactivateAccount(code);
     }
 }
