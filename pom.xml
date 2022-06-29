@@ -118,7 +118,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-    </dependencies>
+      <dependency>
+          <groupId>com.atlassian.jira</groupId>
+          <artifactId>jira-rest-java-client-core</artifactId>
+          <version>5.2.0</version>
+      </dependency>
+      <dependency>
+          <groupId>io.atlassian.fugue</groupId>
+          <artifactId>fugue</artifactId>
+          <version>5.0.0</version>
+          <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>com.atlassian.fugue</groupId>
+          <artifactId>fugue</artifactId>
+          <version>2.6.2</version>
+      </dependency>
+  </dependencies>
 
 
     <build>
@@ -165,6 +181,10 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>atlassian-public</id>
+            <url>https://packages.atlassian.com/maven/repository/public</url>
         </repository>
     </repositories>
     <pluginRepositories>
