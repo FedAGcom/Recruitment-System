@@ -143,7 +143,7 @@ class ResumeServiceTest {
         Page<ResumeResponseForAdmin> resumePage = new PageImpl<>(resumeList, pageable, resumeList.size());
         Mockito.when(resumeService.findByTextFilter("Java developer", pageable)).thenReturn(resumePage);
         assertEquals(resumeService.findByTextFilter("Java developer", pageable), resumePage);
-    }  
+    }
 
     static Stream<Arguments> dataForTest() {
         // set one
