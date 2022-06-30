@@ -53,10 +53,6 @@ public class Company {
     @Column(name = "calendar_id")
     private String calendarId;
 
-    @Schema(description = "Код активации")
-    @Column(name = "activation_code")
-    private String activationCode;
-
     @OneToMany(
             cascade = CascadeType.ALL,
             mappedBy = "company")

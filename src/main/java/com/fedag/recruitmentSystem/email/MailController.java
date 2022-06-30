@@ -24,7 +24,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(UrlConstants.EMAIL_ACTIVATION_URL)
+@RequestMapping(UrlConstants.ACTIVATION_URL)
 @Tag(name = "Контроллер для активации по email", description = "Работа с почтой")
 public class MailController {
 
@@ -77,30 +77,30 @@ public class MailController {
         }
     }
 
-    @Operation(summary = "Подтверждение пароля пользователя")
+    @Operation(summary = "Изменение пароля пользователя")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/user/password" + UrlConstants.ID + "/{password}")
-    public ResponseEntity<?> confirmUserPasswordChange(@PathVariable Long id, @PathVariable String password) {
-        userService.confirmPasswordChange(id, password);
+    @GetMapping("/user/password/{password}")
+    public ResponseEntity<?> confirmUserPasswordChange(@PathVariable String password) {
+        userService.confirmPasswordChange(password);
         return new ResponseEntity<>("Password has been changed successfully.",
                 HttpStatus.OK);
     }
 
-    @Operation(summary = "Подтверждение пароля компании")
+    @Operation(summary = "Изменение пароля компании")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Компания зашел в учетную запись",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/company/password" + UrlConstants.ID + "/{password}")
-    public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable Long id, @PathVariable String password) {
-        companyService.confirmPasswordChange(id, password);
+    @GetMapping("/company/password/{password}")
+    public ResponseEntity<?> confirmCompanyPasswordChange(@PathVariable String password) {
+        companyService.confirmPasswordChange(password);
         return new ResponseEntity<>("Password has been changed successfully.",
                 HttpStatus.OK);
     }
@@ -112,8 +112,8 @@ public class MailController {
             @ApiResponse(responseCode = "500", description = "Внутренняя ошибка сервера",
                     content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE)})
     })
-    @GetMapping("/restore/{email}")
-    public ResponseEntity<?> accountRestore(@PathVariable String email) {
-        return securityService.reactivateAccount(email);
+    @GetMapping("/restore/{code}")
+    public ResponseEntity<?> accountRestore(@PathVariable String code) {
+        return securityService.reactivateAccount(code);
     }
 }

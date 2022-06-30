@@ -18,6 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Bean
+    protected PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
 
     private final JwtConfigurer jwtConfigurer;
 
@@ -34,7 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(UrlConstants.SECURITY_URL + "/login").permitAll()
-                .antMatchers(UrlConstants.EMAIL_ACTIVATION_URL + "/**").permitAll()
+                .antMatchers(UrlConstants.SECURITY_URL + "/login/code").permitAll()
+                .antMatchers(UrlConstants.SECURITY_URL + "/login/otp").permitAll()
+                .antMatchers(UrlConstants.ACTIVATION_URL + "**").permitAll()
                 .antMatchers(UrlConstants.MAIN_URL_ADMIN
                         + UrlConstants.USER_URL + "/test-image/*").permitAll()
                 .anyRequest()
@@ -56,16 +68,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/v3/api-docs/**",
                 "/swagger-ui/**");
     }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
-    @Bean
-    protected PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(12);
-    }
-
 }

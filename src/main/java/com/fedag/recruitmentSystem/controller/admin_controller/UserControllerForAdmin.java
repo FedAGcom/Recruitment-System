@@ -205,7 +205,6 @@ public class UserControllerForAdmin {
         return userService.getByExperience(max);
     }
 
-
     //Тестовый контроллер для проверки работоспособности image
     @GetMapping("/test-image" + UrlConstants.ID)
     public String testImage(@PathVariable Long id) { //если max то максимальный опыт. если sum, то общий опыт

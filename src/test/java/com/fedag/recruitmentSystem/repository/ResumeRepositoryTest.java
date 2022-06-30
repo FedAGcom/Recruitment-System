@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static com.fedag.recruitmentSystem.utils.TestDataProvider.getTestUser;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest(
@@ -33,8 +35,7 @@ class ResumeRepositoryTest {
     void itShouldFindResumeById() {
         Long userId = 1L;
         String experienceDescription = "Java developing";
-
-        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), Role.USER, "some pass", "some activation code", ActiveStatus.ACTIVE, null, null, null, null, null, null, null);
+        User user = getTestUser(userId);
         Experience experience = new Experience(null, experienceDescription, LocalDateTime.now().minusYears(2), LocalDateTime.now(), null);
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();

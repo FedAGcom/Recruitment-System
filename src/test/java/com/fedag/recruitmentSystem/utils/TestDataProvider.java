@@ -4,7 +4,7 @@ import com.fedag.recruitmentSystem.dto.request.ResumeRequest;
 import com.fedag.recruitmentSystem.dto.request.ResumeUpdateRequest;
 import com.fedag.recruitmentSystem.dto.response.ExperienceShortResponseForAdmin;
 import com.fedag.recruitmentSystem.dto.response.admin_response.ResumeResponseForAdmin;
-import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponse;
+import com.fedag.recruitmentSystem.dto.response.admin_response.UserResponseForAdmin;
 import com.fedag.recruitmentSystem.enums.ActiveStatus;
 import com.fedag.recruitmentSystem.enums.Role;
 import com.fedag.recruitmentSystem.model.Experience;
@@ -16,9 +16,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestDataProvider {
+
+    public static User getTestUser() {
+        return User.builder()
+                .id(1L)
+                .firstname("Ivan")
+                .lastname("Petrov")
+                .email("Ivan@gmail.com")
+                .birthday(LocalDateTime.now().minusYears(30))
+                .role(Role.USER)
+                .password("some pass")
+                .build();
+    }
+
+    public static User getTestUser(Long userId) {
+        return User.builder()
+                .id(userId)
+                .firstname("Ivan")
+                .lastname("Petrov")
+                .email("Ivan@gmail.com")
+                .birthday(LocalDateTime.now().minusYears(30))
+                .role(Role.USER)
+                .password("some pass")
+                .build();
+    }
   
     public static Resume getTestResume(Long userId, Long experienceId, Long resumeId) {
-        User user = new User(userId, "Ivan", "Petrov", "Ivan@gmail.com", LocalDateTime.now().minusYears(30), Role.USER, "some pass", "some activation code", ActiveStatus.ACTIVE, null, null, null, null, null, null, null);
+        User user = getTestUser();
         List<Experience> experiences = new ArrayList<>();
         List<Skill> skills = new ArrayList<>();
         experiences.add(new Experience(experienceId,"Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now(), null));
@@ -33,16 +57,7 @@ public class TestDataProvider {
         List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
         experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
         resumeResponseForAdmin.setExperiences(experiences);
-        resumeResponseForAdmin.setUser(new UserResponse(resume.getUser().getId(),
-                resume.getUser().getFirstname(),
-                resume.getUser().getLastname(),
-                resume.getUser().getEmail(),
-                resume.getUser().getBirthday(),
-                resume.getUser().getRole(),
-                resume.getUser().getCalendarId(),
-                resume.getUser().getActivationCode(),
-                resume.getUser().getActiveStatus()
-        ));
+        resumeResponseForAdmin.setUserId(resume.getUser().getId());
         return resumeResponseForAdmin;
     }
 
@@ -54,16 +69,7 @@ public class TestDataProvider {
         List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
         experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
         resumeRequest.setExperiences(experiences);
-        resumeRequest.setUser(new UserResponse(resume.getUser().getId(),
-                resume.getUser().getFirstname(),
-                resume.getUser().getLastname(),
-                resume.getUser().getEmail(),
-                resume.getUser().getBirthday(),
-                resume.getUser().getRole(),
-                resume.getUser().getCalendarId(),
-                resume.getUser().getActivationCode(),
-                resume.getUser().getActiveStatus()
-        ));
+        resumeRequest.setUserId(resume.getUser().getId());
         return resumeRequest;
     }
 
@@ -75,16 +81,7 @@ public class TestDataProvider {
         List<ExperienceShortResponseForAdmin> experiences = new ArrayList<>();
         experiences.add(new ExperienceShortResponseForAdmin(resume.getExperiences().get(0).getId(), "Java developing", LocalDateTime.now().minusYears(2), LocalDateTime.now()));
         resumeUpdateRequest.setExperiences(experiences);
-        resumeUpdateRequest.setUser(new UserResponse(resume.getUser().getId(),
-                resume.getUser().getFirstname(),
-                resume.getUser().getLastname(),
-                resume.getUser().getEmail(),
-                resume.getUser().getBirthday(),
-                resume.getUser().getRole(),
-                resume.getUser().getCalendarId(),
-                resume.getUser().getActivationCode(),
-                resume.getUser().getActiveStatus()
-        ));
+        resumeUpdateRequest.setUserId(resume.getUser().getId());
         return resumeUpdateRequest;
     }
 }

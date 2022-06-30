@@ -23,4 +23,23 @@ public class MainUtilites {
                 throw new WrongRoleTypeException("invalid role type");
         }
     }
+
+    public static Role switchRoleToInactive(Role role) {
+        switch(role) {
+            case ADMIN:
+                return Role.ADMIN_INACTIVE;
+            case USER:
+                return Role.USER_INACTIVE;
+            case COMPANY:
+                return Role.COMPANY_INACTIVE;
+            case USER_INACTIVE:
+                return role;
+            case ADMIN_INACTIVE:
+                return role;
+            case COMPANY_INACTIVE:
+                return role;
+            default:
+                throw new WrongRoleTypeException("invalid role type");
+        }
+    }
 }

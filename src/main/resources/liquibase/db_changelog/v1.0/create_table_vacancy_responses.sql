@@ -5,7 +5,7 @@ CREATE TABLE vacancy_responses
     id bigserial PRIMARY KEY,
     vacancy_id bigint NOT NULL,
     user_id bigint NOT NULL,
-    message text NOT NULL,,
+    message text NOT NULL,
     status enum_vacancy_responses_status_type NOT NULL,
     UNIQUE (vacancy_id, user_id),
     FOREIGN KEY (vacancy_id) REFERENCES vacancies(id),
