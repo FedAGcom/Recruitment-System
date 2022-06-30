@@ -19,6 +19,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.io.FileReader;
@@ -32,9 +33,9 @@ public class QuestionServiceImpl implements QuestionService {
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestHighLevelClient esClient;
 
-    public QuestionServiceImpl(RestHighLevelClient esClient) {
+    public QuestionServiceImpl(@Qualifier("client") RestHighLevelClient esClient) {
         this.esClient = esClient;
-        initDB();
+        //initDB();
     }
 
     @Override
@@ -105,7 +106,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @SneakyThrows
     public void initDB(){
-        FileReader fileReader = new FileReader("questions.json");
+        FileReader fileReader = new FileReader("src\\main\\resources\\questions.json");
         JSONParser jsonParser = new JSONParser();
 
         JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);

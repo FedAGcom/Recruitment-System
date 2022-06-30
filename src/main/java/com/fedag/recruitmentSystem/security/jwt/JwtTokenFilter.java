@@ -27,14 +27,14 @@ public class JwtTokenFilter extends GenericFilterBean {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
         String token = jwtTokenProvider.resolveToken((HttpServletRequest) servletRequest);
-        //Если токен начинается с Bearer мы его удаляем
-        if (token != null && token.startsWith("Bearer")) {
+
+        if(token != null && token.startsWith("Bearer")) {
             token = token.substring(7);
         }
         try {
-            if (token != null && jwtTokenProvider.validateToken(token)) {
+            if(token != null && jwtTokenProvider.validateToken(token)) {
                 Authentication authentication = jwtTokenProvider.getAuthentication(token);
-                if (authentication != null) {
+                if(authentication != null) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }

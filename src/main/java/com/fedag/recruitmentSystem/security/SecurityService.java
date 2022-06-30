@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import javax.mail.MessagingException;
-import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -135,5 +135,31 @@ public class SecurityService {
                     responseEntity[0] = new ResponseEntity<>("User set to active state successfully.", HttpStatus.OK);
                 });
         return responseEntity[0];
+    }
+
+    private String generateCode() {
+        Random rand = new Random();
+        return String.format("%04d", rand.nextInt(10000));
+    }
+
+    public ResponseEntity<?> responseToLoginCode(String email) {
+        emailCodeRepository.findLoginCodeByEmail(email)
+           .ifPresent(s -> {
+               throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Login code already sent");
+           });
+        EmailCode emailCode = new EmailCode();
+        emailCode.setEmail(email);
+        emailCode.setCode(generateCode());
+        emailCode.setType(EmailCodeType.DIGITS_CODE);
+        emailCodeRepository.save(emailCode);
+
+        String message = String.format("<div>Your code to login is %s</div>", emailCode.getCode());
+        try {
+            mailSendler.sendHtmlEmail(email, "Login code", message);
+        } catch (MessagingException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Send login code failed");
+        }
+        return new ResponseEntity<>("Auth code sent. Please check your email.",
+                HttpStatus.OK);
     }
 }

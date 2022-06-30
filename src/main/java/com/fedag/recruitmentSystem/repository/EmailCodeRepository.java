@@ -33,16 +33,23 @@ public interface EmailCodeRepository extends JpaRepository<EmailCode, EmailCodeI
 
     @Query(value = "select email, code, type " +
             "from email_code v " +
-            "where v.email = :email " +
-            "and v.type = 'PASS_CHANGE' ",
-            nativeQuery = true)
-    Optional<EmailCode> findPassChangeByEmail(@Param("email") String email);
-
-    @Query(value = "select email, code, type " +
-            "from email_code v " +
             "where v.code = :code " +
             "and v.type = 'REACTIVATION' ",
             nativeQuery = true)
     Optional<EmailCode> findRestoreByCode(@Param("code") String code);
+
+    @Query(value = "select email, code, type " +
+            "from email_code v " +
+            "where v.email = :email " +
+            "and v.type = 'DIGITS_CODE' ",
+            nativeQuery = true)
+    Optional<EmailCode> findLoginCodeByEmail(@Param("email") String email);
+
+    @Query(value = "select email, code, type " +
+            "from email_code v " +
+            "where v.code = :code " +
+            "and v.type = 'DIGITS_CODE' ",
+            nativeQuery = true)
+    Optional<EmailCode> findLoginCodeByCode(@Param("code") String code);
 
 }

@@ -25,5 +25,7 @@ public class UrlConstants {
     public static final String CHANGE_USER_PASS_URL = "/api/activate/user/password/";
     public static final String CHANGE_COMPANY_PASS_URL = "/api/activate/company/password/";
     public static final String SECURITY_URL = "/api/auth";
+    public static final String LOGIN_URL = "/login";
+    public static final String OTP_URL = "/login/otp";
     public static final String ID = "/{id}";
 }
