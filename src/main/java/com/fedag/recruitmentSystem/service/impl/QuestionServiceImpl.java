@@ -35,7 +35,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     public QuestionServiceImpl(@Qualifier("client") RestHighLevelClient esClient) {
         this.esClient = esClient;
-        //initDB();
+        initDB();
     }
 
     @Override
