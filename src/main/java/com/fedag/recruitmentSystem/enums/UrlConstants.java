@@ -21,6 +21,7 @@ public class UrlConstants {
     public static final String VACANCY_URL = "/vacancies";
     public static final String VACANCY_RESPONSE_URL = "/vacancies/responses";
     public static final String EDUCATION_URL = "/api/educations";
+    public static final String JIRA_URL = "/jira";
 
     public static final String EMAIL_ACTIVATION_URL = "/api/activate";
     public static final String SECURITY_URL = "/api/auth";
