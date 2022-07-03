@@ -14,7 +14,7 @@ public class ElasticsearchConfig {
     public RestHighLevelClient client() {
         ClientConfiguration clientConfiguration
                 = ClientConfiguration.builder()
-                .connectedTo("localhost:9200")
+                .connectedTo("host.docker.internal:9200")
                 .build();
 
         return RestClients.create(clientConfiguration).rest();

@@ -28,7 +28,7 @@ import java.util.*;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-    private final static String INDEX_NAME = "question";
+    private final static String INDEX_NAME = "questions";
     private final ObjectMapper mapper = new ObjectMapper();
     private final RestHighLevelClient esClient;
 
@@ -105,7 +105,8 @@ public class QuestionServiceImpl implements QuestionService {
 
     @SneakyThrows
     public void initDB(){
-        FileReader fileReader = new FileReader("questions.json");
+        FileReader fileReader = new FileReader("src/main/resources/questions.json");
+        //FileReader fileReader = new FileReader(String.valueOf(getClass().getClassLoader().getResource("questions.json")));
         JSONParser jsonParser = new JSONParser();
 
         JSONObject jsonObject = (JSONObject) jsonParser.parse(fileReader);

@@ -5,19 +5,19 @@
     VALUES
     (1,'Ivan','Ivanov','ivanov@mail.ru', '1993-10-12', 'ADMIN',
      '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description1', 'MEDIUM',
-     'SPB', '20'),
+     'SPB', 21),
     (2,'Petr','Petrov','petrov@mail.ru', '1994-11-17', 'USER',
      '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description2', 'MEDIUM',
-     'SPB', '20'),
+     'SPB', 22),
     (3,'Aleksandr','Aleksandrov','aleksandrov@mail.ru', '1990-01-12', 'USER',
      '$2a$12$l8sYbdm3nKsjob2m1Xbddec.M2nTVzKnvHROAVAWr0N44OkhkyMnu', 'some_description1', 'MEDIUM',
-     'SPB', '20');
+     'SPB', 20);
 
-    INSERT INTO entrance_exams(user_id , score)
+    INSERT INTO entrance_exams(user_id , score, language)
     VALUES
-    (1,80),
-    (2,30),
-    (3,90);
+    (1,80, 'Java'),
+    (2,30, 'Java'),
+    (3,90, 'Java');
 
     INSERT INTO user_feedback(user_to_id, entity_from_id, entity_from_type, stars, comment)
     VALUES
@@ -108,4 +108,9 @@
     (1,1),
     (1,2),
     (2,2);
+
+    INSERT INTO education(user_id, name, faculty, specialty, age)
+    VALUES
+    (2,'СПбГЭУ', 'Информатики', 'Инженер', 2020),
+    (3,'МГУ', 'Информатики и экономики', 'Экономист', 2021);
 

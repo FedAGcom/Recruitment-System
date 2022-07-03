@@ -15,6 +15,6 @@ CREATE TABLE users
     himself_description text NOT NULL,
     level varchar(128) NOT NULL,
     city varchar(128) NOT NULL,
-    age varchar NOT NULL
+    age smallint NOT NULL
 );
 

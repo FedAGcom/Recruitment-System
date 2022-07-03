@@ -1,5 +1,5 @@
 spring:
   # PostgreSQL
   datasource:
-    url: jdbc:postgresql://host.docker.internal:5432/rs-db
+    url: jdbc:postgresql://host.docker.internal:5432/recruitment_system
     driver-class-name: org.postgresql.Driver
